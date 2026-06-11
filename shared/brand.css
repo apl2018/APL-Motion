@@ -1,0 +1,15 @@
+/* APL Motion — 공통 디자인 토큰 (코칭/측정 모드 공유)
+   P1 단계: 런처 셸에 우선 적용. 추후 coach/measure 헤더·버튼 색도 이 토큰으로 수렴. */
+:root{
+  --bg:#09090f;
+  --card:#111122;
+  --card2:#181830;
+  --border:rgba(255,255,255,.1);
+  --txt:#e8e8f2;
+  --txt2:rgba(255,255,255,.5);
+  --accent:#3b82f6;        /* APL Motion 메인 컬러 (블루) */
+  --coach:#22c55e;         /* 코칭 모드 강조색 (그린) */
+  --measure:#06b6d4;       /* 측정 모드 강조색 (시안) */
+  --gold:#FFD700;          /* 프리미엄 */
+}
+*{box-sizing:border-box}
