@@ -121,18 +121,19 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
 .h-mc{font-size:14px;font-weight:600;color:var(--txt2);letter-spacing:0.5px}
 .h-title{font-size:15px;font-weight:700;color:var(--txt);letter-spacing:0.3px}
 #hdr-right{display:flex;align-items:center;gap:8px}
-#mdl-status{display:flex;align-items:center;gap:4px;font-size:9px;color:var(--txt2);line-height:1.15}
+#mdl-status{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--txt2);line-height:1}
 .mdot{width:7px;height:7px;border-radius:50%;background:var(--yellow);transition:background .3s}
 .mdot.ok{background:var(--green)}.mdot.err{background:var(--crit)}
-#btn-flip-hdr{background:transparent;border:1px solid var(--border);
-  border-radius:8px;color:var(--txt2);font-size:16px;padding:4px 8px;cursor:pointer;line-height:1}
+#btn-flip-hdr{background:rgba(255,255,255,.08);border:1px solid var(--border);
+  border-radius:8px;color:var(--txt2);font-size:16px;padding:0;cursor:pointer;line-height:1;
+  min-width:34px;min-height:34px;display:inline-flex;align-items:center;justify-content:center}
 #btn-flip-hdr:active{opacity:.6}
 
 /* LANG PICKER */
 #lang-wrap{position:relative}
-#btn-lang{background:transparent;border:1px solid var(--border);border-radius:8px;
-  color:var(--txt2);font-size:11px;font-weight:700;padding:4px 8px;cursor:pointer;
-  line-height:1.6;white-space:nowrap}
+#btn-lang{background:rgba(255,255,255,.08);border:1px solid var(--border);border-radius:8px;
+  color:var(--txt2);font-size:11px;font-weight:700;padding:0 8px;cursor:pointer;
+  min-height:34px;line-height:1;white-space:nowrap}
 #btn-lang:active{opacity:.6}
 #lang-picker{position:absolute;top:calc(100% + 6px);right:0;
   background:var(--card);border:1px solid var(--border);border-radius:12px;
@@ -261,8 +262,9 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
 
 /* ATHLETE NAME INPUT */
 
-#btn-data-open{background:transparent;border:none;font-size:18px;cursor:pointer;
-  padding:4px;line-height:1;opacity:.8}
+#btn-data-open{background:rgba(255,255,255,.08);border:1px solid var(--border);border-radius:8px;
+  color:var(--txt2);font-size:16px;cursor:pointer;padding:0;line-height:1;
+  min-width:34px;min-height:34px;display:inline-flex;align-items:center;justify-content:center}
 #btn-data-open:active{opacity:.5}
 /* IMAGE NAME MODAL */
 #rename-modal{position:fixed;inset:0;background:rgba(0,0,0,.72);
@@ -489,7 +491,7 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
     <div class="h-brand">
       <div class="h-brand-txt" style="flex-direction:row;align-items:center;gap:6px">
         <a href="#" title="홈(런처로)" onclick="goHome();return false" style="text-decoration:none;cursor:pointer;display:block"><svg viewBox="58 0 200 68" height="32" role="img" aria-label="APL Motion 홈" style="display:block"><text x="160" y="44" text-anchor="middle" font-family="'Inter',-apple-system,sans-serif" font-size="34"><tspan font-weight="800" fill="#ffffff">APL </tspan><tspan font-weight="500" fill="#9cc2ff">Motion</tspan></text><path d="M70 54 Q160 51 250 54 L250 58.5 Q160 47.5 70 58.5 Z" fill="#6aa3ff"/><circle cx="250" cy="56.25" r="3.4" fill="#22d3ee"/></svg></a>
-        <div class="h-mc" style="font-size:11px"><span id="mode-badge">코칭 2D</span> <span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v55</span></div>
+        <div class="h-mc" style="font-size:11px"><span id="mode-badge">코칭 2D</span> <span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v56</span></div>
       </div>
     </div>
     <div id="hdr-right">
@@ -510,7 +512,7 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
       <button id="btn-flip-hdr" title="카메라 전환">🔄</button>
       <div id="mdl-status">
         <div class="mdot" id="mdot"></div>
-        <div id="mdl-txt" style="white-space:pre-line;text-align:center;line-height:1.15">로딩 중</div>
+        <div id="mdl-txt" style="line-height:1">AI</div>
       </div>
     </div>
   </div>
@@ -4177,7 +4179,7 @@ async function restartCamera(){
 // ── APPLY LANGUAGE ────────────────────────────────────────────────────────────
 function applyLang(){
   const L=TX[CL];
-  $('btn-lang').textContent=L.flag+' '+L.label+' 🌐';
+  $('btn-lang').textContent=L.flag+' '+L.label;
   {const mb=$('mode-badge');if(mb)mb.textContent=(CL==='ko'?'코칭 2D':'Coaching 2D');}
   document.querySelectorAll('.lpopt').forEach(el=>el.classList.toggle('active',el.dataset.lang===CL));
   document.querySelectorAll('.dirbtn').forEach(b=>{
@@ -4205,9 +4207,7 @@ function applyLang(){
   $('fp-prev').textContent=L.fp_prev;
   $('fp-next').textContent=L.fp_next;
   $('fp-save').textContent=L.fp_save;
-  if($('mdot').classList.contains('ok'))$('mdl-txt').textContent=L.model_ready;
-  else if($('mdot').classList.contains('err'))$('mdl-txt').textContent=L.model_fail;
-  else $('mdl-txt').textContent=L.mdl_loading;
+  $('mdl-txt').textContent='AI'; // 상태는 점(mdot) 색으로 표시
   // [Work45] 추가 번역 항목
   const ljt=$('lbl-joints');if(ljt)ljt.textContent=L.sec_joints||'분析 관절 선택';
   const brf=$('btn-ref-file');if(brf)brf.textContent=L.btn_ref_file||'📁 파일'; // [Work47]
@@ -5025,7 +5025,7 @@ async function init(){
     $('i-msg').textContent='카메라 오류. 새로고침 해주세요.';
   }
 
-  $('mdl-txt').textContent=TX[CL].mdl_loading||'로딩 중';
+  $('mdl-txt').textContent='AI';
   try{
     S.det=await poseDetection.createDetector(
       poseDetection.SupportedModels.MoveNet,
@@ -5033,13 +5033,13 @@ async function init(){
     );
     if(vid.readyState>=2)await S.det.estimatePoses(vid,{maxPoses:1});
     S.ready=true;
-    $('mdot').classList.add('ok');$('mdl-txt').textContent=TX[CL].model_ready;
+    $('mdot').classList.add('ok');$('mdl-txt').textContent='AI';
     $('btn-main').disabled=false;
     $('init').classList.add('gone');
     setTimeout(checkCameraHealth,400);
   }catch(e){
     console.error('Model:',e);
-    $('mdot').classList.add('err');$('mdl-txt').textContent=TX[CL].model_fail;
+    $('mdot').classList.add('err');$('mdl-txt').textContent='AI';
     $('init').classList.add('gone');
     const rb=document.createElement('div');
     rb.style.cssText='position:fixed;bottom:30px;left:50%;transform:translateX(-50%);z-index:9999;background:#E53935;color:#fff;padding:14px 32px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer';
