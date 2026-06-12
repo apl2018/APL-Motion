@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>APL Motion — Inter PNG 내보내기</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;800&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Inter',-apple-system,sans-serif;background:#0f1830;color:#e8e8f2;margin:0;padding:24px;line-height:1.6}
+  h1{font-size:20px} .muted{color:#9aa4b2;font-size:13px}
+  .row{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+  button{background:#2f6df0;color:#fff;border:none;border-radius:10px;padding:11px 16px;font-size:14px;cursor:pointer;font-family:inherit}
+  button:active{opacity:.7}
+  .prev{background:#fff;border-radius:12px;padding:14px;display:inline-block;margin:6px}
+  .prevd{background:#0f1830;border:1px solid #2a3650;border-radius:12px;padding:14px;display:inline-block;margin:6px}
+  canvas{display:block;max-width:100%}
+  code{background:#1b2440;padding:2px 6px;border-radius:5px}
+</style>
+</head>
+<body>
+<h1>APL Motion — Inter 폰트 PNG 내보내기</h1>
+<p class="muted">이 페이지를 <b>크롬/엣지에서 열면</b> Inter 폰트로 정확히 렌더링됩니다. 아래 버튼으로 PNG를 내려받으세요.<br>
+(상표 출원용 워드마크 + 앱/스토어 아이콘. 파일은 다운로드 폴더에 저장됩니다.)</p>
+
+<div class="row">
+  <button onclick="dl('wm-black')">⬇ 워드마크 흑백 (상표용)</button>
+  <button onclick="dl('wm-color')">⬇ 워드마크 컬러</button>
+  <button onclick="dl('ic-512')">⬇ 아이콘 512</button>
+  <button onclick="dl('ic-1024')">⬇ 아이콘 1024 (앱스토어)</button>
+  <button onclick="dl('ic-192')">⬇ 아이콘 192</button>
+</div>
+
+<div>
+  <div class="prev"><canvas id="wm-black"></canvas></div>
+  <div class="prev"><canvas id="wm-color"></canvas></div>
+</div>
+<div>
+  <div class="prevd"><canvas id="ic-512" style="width:140px"></canvas></div>
+</div>
+
+<canvas id="ic-1024" style="display:none"></canvas>
+<canvas id="ic-192" style="display:none"></canvas>
+
+<script>
+function taperedArc(ctx, sx, ex, cy, endH, cenH, arch){
+  const N=90, top=[], bot=[];
+  for(let i=0;i<=N;i++){
+    const t=i/N, x=sx+(ex-sx)*t;
+    const h=cenH+(endH-cenH)*Math.pow(2*t-1,2);
+    const yc=cy-arch*(1-Math.pow(2*t-1,2));
+    top.push([x,yc-h]); bot.push([x,yc+h]);
+  }
+  ctx.beginPath(); ctx.moveTo(top[0][0],top[0][1]);
+  for(const p of top) ctx.lineTo(p[0],p[1]);
+  for(let i=bot.length-1;i>=0;i--) ctx.lineTo(bot[i][0],bot[i][1]);
+  ctx.closePath();
+}
+
+function wordmark(cv, cApl, cMot, cArc, cDot, bg){
+  const fs=240, S=1, ctx=cv.getContext('2d');
+  ctx.font=`800 ${fs}px Inter`; const wApl=ctx.measureText('APL').width;
+  ctx.font=`500 ${fs}px Inter`; const wMot=ctx.measureText('Motion').width;
+  const gap=fs*0.20, total=wApl+gap+wMot, margin=fs*0.45;
+  const asc=fs*0.74, dsc=fs*0.05;
+  const arcGap=fs*0.16, endH=fs*0.048, arch=fs*0.05, cenH=fs*0.006;
+  const W=Math.ceil(total+margin*2);
+  const H=Math.ceil(margin+asc+arcGap+endH*2+margin*0.5);
+  cv.width=W; cv.height=H;
+  if(bg){ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);}
+  const baseline=margin+asc, x0=margin;
+  ctx.textBaseline='alphabetic'; ctx.textAlign='left';
+  ctx.font=`800 ${fs}px Inter`; ctx.fillStyle=cApl; ctx.fillText('APL', x0, baseline);
+  ctx.font=`500 ${fs}px Inter`; ctx.fillStyle=cMot; ctx.fillText('Motion', x0+wApl+gap, baseline);
+  const cy=baseline+dsc+arcGap;
+  ctx.fillStyle=cArc; taperedArc(ctx, x0+6, x0+total-6, cy, endH, cenH, arch); ctx.fill();
+  ctx.fillStyle=cDot; ctx.beginPath(); ctx.arc(x0+total-6, cy, endH*1.5, 0, 7); ctx.fill();
+}
+
+function icon(cv, size){
+  const ctx=cv.getContext('2d'); cv.width=size; cv.height=size; const s=size/512;
+  // 둥근 사각 배경
+  const r=112*s; ctx.fillStyle='#0f1830';
+  ctx.beginPath();
+  ctx.moveTo(r,0); ctx.arcTo(size,0,size,size,r); ctx.arcTo(size,size,0,size,r);
+  ctx.arcTo(0,size,0,0,r); ctx.arcTo(0,0,size,0,r); ctx.closePath(); ctx.fill();
+  ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+  ctx.font=`800 ${150*s}px Inter`; ctx.fillStyle='#ffffff'; ctx.fillText('APL', size/2, 276*s);
+  ctx.font=`500 ${48*s}px Inter`; ctx.fillStyle='#9cc2ff';
+  // letter-spacing
+  const txt='Motion', ls=10*s; let tot=0; const ws=[...txt].map(c=>{const w=ctx.measureText(c).width;tot+=w+ls;return w;}); tot-=ls;
+  let cx=size/2-tot/2;
+  for(let i=0;i<txt.length;i++){ctx.textAlign='left';ctx.fillText(txt[i],cx,344*s);cx+=ws[i]+ls;}
+}
+
+function render(){
+  wordmark(document.getElementById('wm-black'), '#111','#111','#111','#111', '#fff');
+  wordmark(document.getElementById('wm-color'), '#1f3a5f','#2f6df0','#2f6df0','#06b6d4', '#fff');
+  icon(document.getElementById('ic-512'),512);
+  icon(document.getElementById('ic-1024'),1024);
+  icon(document.getElementById('ic-192'),192);
+}
+function dl(id){
+  const cv=document.getElementById(id);
+  cv.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);
+    a.download='APLMotion_'+id+'.png';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000);},'image/png');
+}
+document.fonts.load('800 240px Inter').then(()=>document.fonts.load('500 240px Inter')).then(()=>{
+  document.fonts.ready.then(()=>{render();});
+});
+</script>
+</body>
+</html>

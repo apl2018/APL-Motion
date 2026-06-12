@@ -7,13 +7,15 @@
 <title>APL Motion</title>
 <link rel="stylesheet" href="./shared/brand.css">
 <link rel="manifest" href="./manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="./assets/icon_apl_motion.svg">
 <link rel="icon" type="image/png" sizes="192x192" href="./assets/icon-192.png">
 <link rel="apple-touch-icon" href="./assets/icon-apple-180.png">
 <meta name="theme-color" content="#09090f">
 <style>
   html,body{margin:0;padding:0}
-  body{background:var(--bg);color:var(--txt);font-family:-apple-system,'Helvetica Neue',sans-serif;
+  body{background:var(--bg);color:var(--txt);font-family:'Inter',-apple-system,'Helvetica Neue',sans-serif;
        min-height:100svh;display:flex;flex-direction:column;-webkit-tap-highlight-color:transparent}
   header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px}
   .logo{font-weight:900;font-size:20px;letter-spacing:.3px}
@@ -59,7 +61,7 @@
 <header>
   <div class="logo-wrap" style="display:flex;align-items:center;gap:6px">
     <svg viewBox="0 0 320 68" height="24" role="img" aria-label="APL Motion" style="display:block">
-      <text x="160" y="44" text-anchor="middle" font-family="-apple-system,'Helvetica Neue',Arial,sans-serif" font-size="34"><tspan font-weight="800" fill="#ffffff">APL </tspan><tspan font-weight="500" fill="#9cc2ff">Motion</tspan></text>
+      <text x="160" y="44" text-anchor="middle" font-family="'Inter',-apple-system,sans-serif" font-size="34"><tspan font-weight="800" fill="#ffffff">APL </tspan><tspan font-weight="500" fill="#9cc2ff">Motion</tspan></text>
       <path d="M70 54 Q160 51 250 54 L250 58.5 Q160 47.5 70 58.5 Z" fill="#6aa3ff"/>
       <circle cx="250" cy="56.25" r="3.4" fill="#22d3ee"/>
     </svg>
@@ -126,7 +128,7 @@
 <script type="module">
 import { Prefs, unlock } from './shared/common.js';
 
-const SHELL_VER = 'v2';
+const SHELL_VER = 'v3';
 const $ = id => document.getElementById(id);
 
 // ── 다국어 ──

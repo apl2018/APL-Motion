@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>APL Motion Coach 3D</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#09090f;--card:#111122;--card2:#181830;--border:rgba(255,255,255,.1);
@@ -15,7 +17,7 @@
   --purple:#a855f7;--orange:#f97316;--cyan:#06b6d4;--sport:#3b82f6;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:var(--txt);font-family:-apple-system,'Helvetica Neue',sans-serif;
+body{background:var(--bg);color:var(--txt);font-family:'Inter',-apple-system,'Helvetica Neue',sans-serif;
   height:100svh;display:flex;flex-direction:column;overflow:hidden;
   touch-action:manipulation} /* 더블탭 줌 방지 (iOS 10+) */
 header{display:flex;align-items:center;justify-content:space-between;
@@ -172,7 +174,7 @@ video{touch-action:none} /* 더블탭 줌 방지: video 요소는 iOS에서 자�
 <body>
 <header>
   <div>
-    <svg viewBox="0 0 320 68" height="15" role="img" aria-label="APL Motion" style="display:inline-block;vertical-align:middle"><text x="160" y="44" text-anchor="middle" font-family="-apple-system,'Helvetica Neue',Arial,sans-serif" font-size="34"><tspan font-weight="800" fill="#ffffff">APL </tspan><tspan font-weight="500" fill="#9cc2ff">Motion</tspan></text><path d="M70 54 Q160 51 250 54 L250 58.5 Q160 47.5 70 58.5 Z" fill="#6aa3ff"/><circle cx="250" cy="56.25" r="3.4" fill="#22d3ee"/></svg><span class="accent" style="font-size:9px;margin-left:4px;color:var(--sport);vertical-align:middle">측정 3D</span>
+    <svg viewBox="0 0 320 68" height="15" role="img" aria-label="APL Motion" style="display:inline-block;vertical-align:middle"><text x="160" y="44" text-anchor="middle" font-family="'Inter',-apple-system,sans-serif" font-size="34"><tspan font-weight="800" fill="#ffffff">APL </tspan><tspan font-weight="500" fill="#9cc2ff">Motion</tspan></text><path d="M70 54 Q160 51 250 54 L250 58.5 Q160 47.5 70 58.5 Z" fill="#6aa3ff"/><circle cx="250" cy="56.25" r="3.4" fill="#22d3ee"/></svg><span class="accent" style="font-size:9px;margin-left:4px;color:var(--sport);vertical-align:middle">측정 3D</span>
     <span class="h-ver">v84</span>
   </div>
   <div class="h-right">
