@@ -42,6 +42,8 @@
   footer{padding:14px 18px 22px;color:var(--txt2);font-size:11px;text-align:center;line-height:1.6}
   .sports{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:6px}
   .sp{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:7px;padding:3px 9px;font-size:11px;color:var(--txt2)}
+  .sp b{color:var(--txt);font-weight:800;letter-spacing:.3px}
+  .sp .sub{font-size:9px;opacity:.7;margin-left:3px}
   /* 프리미엄 모달 */
   #prm-modal{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:600;display:none;align-items:center;justify-content:center;padding:20px}
   #prm-modal.on{display:flex}
@@ -60,7 +62,7 @@
 <body>
 <header>
   <div class="logo-wrap" style="display:flex;align-items:center;gap:6px">
-    <svg viewBox="0 0 320 68" height="24" role="img" aria-label="APL Motion" style="display:block">
+    <svg viewBox="0 0 320 68" height="44" role="img" aria-label="APL Motion" style="display:block">
       <text x="160" y="44" text-anchor="middle" font-family="'Inter',-apple-system,sans-serif" font-size="34"><tspan font-weight="800" fill="#ffffff">APL </tspan><tspan font-weight="500" fill="#9cc2ff">Motion</tspan></text>
       <path d="M70 54 Q160 51 250 54 L250 58.5 Q160 47.5 70 58.5 Z" fill="#6aa3ff"/>
       <circle cx="250" cy="56.25" r="3.4" fill="#22d3ee"/>
@@ -96,19 +98,14 @@
 </main>
 
 <footer>
-  <div class="sports">
-    <span class="sp">SPL 피겨·스케이팅</span>
-    <span class="sp">GPL 골프</span>
-    <span class="sp">BPL 야구·농구</span>
-    <span class="sp">TPL 테니스</span>
-  </div>
+  <div class="sports" id="sports"></div>
   <div id="foot-note">APL Motion · Athlete Performance Lab</div>
   <div style="margin-top:8px;font-size:10px;opacity:.7">
-    <a href="./privacy.html" style="color:var(--txt2)">개인정보처리방침</a>
+    <a href="./privacy.html" id="foot-privacy" style="color:var(--txt2)">개인정보처리방침</a>
     <span style="opacity:.5"> · </span>
-    <span>© 2024–2026 주식회사 에이피엘</span>
+    <span id="foot-copy">© 2024–2026 주식회사 에이피엘</span>
   </div>
-  <div style="margin-top:4px;font-size:9px;opacity:.45">스포츠 퍼포먼스 분석·코칭 보조 도구 (의료기기 아님)</div>
+  <div id="foot-note2" style="margin-top:4px;font-size:9px;opacity:.45">스포츠 퍼포먼스 분석·코칭 보조 도구 (의료기기 아님)</div>
 </footer>
 
 <!-- 프리미엄 잠금 해제 -->
@@ -128,7 +125,7 @@
 <script type="module">
 import { Prefs, unlock } from './shared/common.js';
 
-const SHELL_VER = 'v3';
+const SHELL_VER = 'v4';
 const $ = id => document.getElementById(id);
 
 // ── 다국어 ──
@@ -136,12 +133,25 @@ const T = {
   ko:{ tagline:'목적에 맞는 모드를 선택하세요',
        coachT:'실시간 코칭', coachD:'자세 교정 · 시작/끝 자세 음성 피드백 — 가볍고 빠른 실시간 분석',
        measureT:'정밀 측정', measureD:'점프 높이 · X-factor · 회전속도 · 관절각 — 결정적 정밀 측정 & 비교 분석',
-       lang:'KO', prmDesc:'프리미엄 기능(전체 종목 · 정밀/비교 분석)은\n프리미엄 전용입니다. 비밀번호를 입력하세요.' },
+       lang:'KO', prmDesc:'프리미엄 기능(전체 종목 · 정밀/비교 분석)은\n프리미엄 전용입니다. 비밀번호를 입력하세요.',
+       privacy:'개인정보처리방침', copy:'© 2024–2026 주식회사 에이피엘',
+       note:'스포츠 퍼포먼스 분석·코칭 보조 도구 (의료기기 아님)' },
   en:{ tagline:'Choose the mode for your goal',
        coachT:'Live Coaching', coachD:'Posture correction · start/end pose voice feedback — light & fast real-time',
        measureT:'Precise Measure', measureD:'Jump height · X-factor · rotation speed · joint angles — deterministic measure & compare',
-       lang:'EN', prmDesc:'Premium features (all sports · precise/compare) are premium-only.\nEnter the password.' },
+       lang:'EN', prmDesc:'Premium features (all sports · precise/compare) are premium-only.\nEnter the password.',
+       privacy:'Privacy Policy', copy:'© 2024–2026 APL Inc.',
+       note:'Sports performance analysis & coaching aid (not a medical device)' },
 };
+
+// ── 종목 ──
+const SPORTS = [
+  { code:'SPL', ko:'스케이팅·스키·스노보드', en:'Skating · Ski · Snowboard' },
+  { code:'GPL', ko:'골프', en:'Golf' },
+  { code:'BPL', ko:'야구·농구', en:'Baseball · Basketball' },
+  { code:'TPL', ko:'테니스', en:'Tennis' },
+  { code:'VPL', ko:'배구', en:'Volleyball' },
+];
 
 function applyLang(){
   const ko = Prefs.lang === 'ko';
@@ -153,6 +163,11 @@ function applyLang(){
   $('measure-desc').textContent = t.measureD;
   $('btn-lang').textContent = t.lang;
   $('prm-desc').innerHTML = t.prmDesc.replace(/\n/g,'<br>');
+  $('foot-privacy').textContent = t.privacy;
+  $('foot-copy').textContent = t.copy;
+  $('foot-note2').textContent = t.note;
+  $('sports').innerHTML = SPORTS.map(s =>
+    `<span class="sp"><b>${s.code}</b><span class="sub">${ko ? s.ko : s.en}</span></span>`).join('');
 }
 function applyPrm(){
   const p = Prefs.premium;
