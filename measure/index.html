@@ -176,7 +176,7 @@ video{touch-action:none} /* 더블탭 줌 방지: video 요소는 iOS에서 자�
 <header>
   <div>
     <a href="#" title="홈(런처)" onclick="goHome();return false" style="text-decoration:none;cursor:pointer"><svg viewBox="58 0 200 68" height="30" role="img" aria-label="APL Motion 홈" style="display:inline-block;vertical-align:middle"><text x="160" y="44" text-anchor="middle" font-family="'Inter',-apple-system,sans-serif" font-size="34"><tspan font-weight="800" fill="#ffffff">APL </tspan><tspan font-weight="500" fill="#9cc2ff">Motion</tspan></text><path d="M70 54 Q160 51 250 54 L250 58.5 Q160 47.5 70 58.5 Z" fill="#6aa3ff"/><circle cx="250" cy="56.25" r="3.4" fill="#22d3ee"/></svg></a><span class="accent" id="mode-badge" style="font-size:10px;margin-left:2px;color:var(--sport);vertical-align:middle">측정 3D</span>
-    <span class="h-ver">v87</span>
+    <span class="h-ver">v88</span>
   </div>
   <div class="h-right">
     <button class="h-btn" id="btn-home" title="홈(런처로)" onclick="goHome()">🏠</button>
@@ -711,6 +711,7 @@ async function _loadModelP(){
 // N회마다 사용 디텍터를 close→재생성해 GPU를 회수. 재로드는 모델 캐시라 1초 내외, N회당 1번뿐.
 let _anaCount=0;
 const ENGINE_REFRESH_EVERY=6;
+const ENGINE_REFRESH_B_EVERY=3; // v88: B 디텍터는 더 자주 회수(비교 반복 시 점프 미표시 방지)
 async function _ensureEngine(which){
   _anaCount++;
   const due=(_anaCount%ENGINE_REFRESH_EVERY===0);
@@ -719,7 +720,13 @@ async function _ensureEngine(which){
     await _loadModelP(); // null이면 재생성
   }else{ // live
     if(due&&det){try{det.close();}catch(e){}det=null;}
+    // v88: B 디텍터도 주기적 GPU 회수 — V84는 A(det)·정밀(detP)만 커버해
+    // 비교 분석을 반복하면 detB의 GPU 메모리가 누적되어 검출이 죽고(catch로 조용히 삼켜짐)
+    // B 점프높이가 '--cm'로 표시되던 문제. det보다 짧은 주기(3회)로 close→재생성.
+    const dueB=(_anaCount%ENGINE_REFRESH_B_EVERY===0);
+    if(dueB&&detB){try{detB.close();}catch(e){}detB=null;}
     if(!det){$('load-overlay').classList.remove('hidden');$('load-txt').textContent=due?'🔄 엔진 정리 중...':'3D 포즈 모델 로딩 중...';await _loadModel();}
+    if(compareMode&&vid2Loaded&&!detB)await _loadModelB(); // 회수 후 B 재생성(필수: null이면 루프가 B를 조용히 건너뜀)
   }
 }
 
@@ -1230,7 +1237,7 @@ function loop(){
         if(HAS_VFC)_lastDetT_b=_vfcT_b;
         let tsB=_tsBase_b+((HAS_VFC&&_vfcT_b>=0)?_vfcT_b:vid2.currentTime*1000); // v60: B도 미디어 타임스탬프
         if(tsB<=_tsLast_b)tsB=_tsLast_b+1;_tsLast_b=tsB;
-        try{const rB=detB.detectForVideo(vid2,tsB);frameB(rB,t);}catch(e){} // v59: VIDEO 모드
+        try{const rB=detB.detectForVideo(vid2,tsB);frameB(rB,t);}catch(e){if(!window._lerrB){window._lerrB=1;console.warn('B detect:',e);}} // v59: VIDEO 모드 / v88: 첫 오류 1회 로깅
       }
     }
   }else if(lastLm&&lastWlm){
