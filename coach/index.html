@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<!-- APL Motion (코칭/2D) — Copyright (c) 2024-2026 주식회사 에이피엘. All rights reserved.
+     Unauthorized reproduction or distribution is prohibited.
+     Uses TensorFlow.js MoveNet (Apache License 2.0). -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -482,8 +485,8 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
   <div id="hdr">
     <div class="h-brand">
       <div class="h-brand-txt">
-        <div class="h-apl">APL</div>
-        <div class="h-mc">Motion Coach <span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v51</span></div>
+        <svg viewBox="0 0 320 68" height="16" role="img" aria-label="APL Motion" style="display:block"><text x="160" y="44" text-anchor="middle" font-family="-apple-system,'Helvetica Neue',Arial,sans-serif" font-size="34"><tspan font-weight="800" fill="#ffffff">APL </tspan><tspan font-weight="500" fill="#9cc2ff">Motion</tspan></text><path d="M70 54 Q160 51 250 54 L250 58.5 Q160 47.5 70 58.5 Z" fill="#6aa3ff"/><circle cx="250" cy="56.25" r="3.4" fill="#22d3ee"/></svg>
+        <div class="h-mc" style="font-size:10px">코칭 2D <span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v52</span></div>
       </div>
     </div>
     <div id="hdr-right">
@@ -1682,7 +1685,7 @@ async function _runDetection(){
                   }
                   _bestTimingPos=null;_bestTimingCmp=null;_bestTimingPosDevSoFar=Infinity;
                   _gateArmed=false;_gateEndDetected=false;_lastRepT=now2;_gateState='entry';
-                  S.repCount++;$('rep-num').textContent=S.repCount;$('rep-badge').classList.add('on');
+                  addRep(); // [DoubleCountFix] 단일 가드 경유
                   const _gRet2=_lastCmp;
                   S.lastFB=now2;S.speak=false;try{speechSynthesis.cancel();}catch(e){} // [BUG4-FIX] 이중발화 방지
                   // [Work18-FBFix] 정면 피드백 허용: !isFrontal() 가드 제거, 칭찬 경로 추가
@@ -1747,7 +1750,7 @@ async function _runDetection(){
                     // idle → 선수가 시작자세로 돌아와야 entry → 이탈 시 timing → 다음 rep 가능
                     // 이 변경으로 2번 스윙 = 정확히 2회 카운팅 (기존 Work28: 13~14회 오카운팅)
                     _gateState='idle';
-                    S.repCount++;$('rep-num').textContent=S.repCount;$('rep-badge').classList.add('on');
+                    addRep(); // [DoubleCountFix] 단일 가드 경유
                     const _gRet3=_lastCmp;
                     S.lastFB=now2;S.speak=false;try{speechSynthesis.cancel();}catch(e){}
                     setTimeout(()=>{if(S.speak)return;let _ft=null;if(_lastPosCmp&&!posAllGood(_lastPosCmp)){_ft=posFeedbackStr(_lastPosCmp);}else if(_lastPosCmp&&posAllGood(_lastPosCmp)){const _pr=TX[CL].PRAISE;if(_pr)_ft=_pr[Math.floor(Math.random()*_pr.length)];}else if(!_lastPosCmp&&_lastPos){_ft=posAbsFeedback(_lastPos);}else if(_gRet3){const _fo=overall(_gRet3);if(_fo==='good'){const _pr2=TX[CL].PRAISE;if(_pr2)_ft=_pr2[Math.floor(Math.random()*_pr2.length)];}else{const _ffb=primaryFB(_gRet3);if(_ffb){const _fm=getFBMsg(_ffb);if(_fm)_ft=_fm;}}}if(_ft){speak(_ft);}S.lastFB=Date.now();},_GATE_FB_DELAY);
@@ -1838,7 +1841,7 @@ async function _runDetection(){
                 // [BUG6] 시작자세 복귀 = 렙 완료 신호 → MIN_REP_MS 이상 경과했으면 즉시 피드백
                 if(_gateArmed&&(now3-_gateLastPrimeT)>=_MIN_REP_MS&&_lastCmp){
                   _gateArmed=false;_gateEndDetected=false;_lastRepT=now3;_gateState='entry';
-                  S.repCount++;$('rep-num').textContent=S.repCount;$('rep-badge').classList.add('on');
+                  addRep(); // [DoubleCountFix] 단일 가드 경유
                   const _gRet=_lastCmp;
                   S.lastFB=now3;S.speak=false;try{speechSynthesis.cancel();}catch(e){} // [BUG4-FIX] 0→now3: 이중발화 방지
                   setTimeout(()=>{if(S.speak)return;let _t=null;const _o=overall(_gRet);if(_o==='good'){const _gp=CL==='ko'?['아주 좋아','굿']:CL==='ja'?['いいね','グッド']:CL==='zh'?['很好','好的']:CL==='es'?['Muy bien','Bien']:CL==='fr'?['Très bien','Bon']:['Great','Good'];_t=_gp[Math.floor(Math.random()*_gp.length)];}else{const _fb=primaryFB(_gRet);if(_fb){const _m=getFBMsg(_fb);if(_m)_t=_m;}}if(_t)speak(_t);S.lastFB=Date.now();},_GATE_FB_DELAY);
@@ -1862,7 +1865,7 @@ async function _runDetection(){
                   if(!_gateArmed||!_lastCmp) return;
                   _gateArmed=false; _gateEndDetected=false; _gateState='idle';
                   _lastRepT=Date.now();
-                  S.repCount++; $('rep-num').textContent=S.repCount; $('rep-badge').classList.add('on');
+                  addRep(); // [DoubleCountFix] 단일 가드 경유
                   S.lastFB=Date.now(); S.speak=false; try{speechSynthesis.cancel();}catch(e){} // [Issue2 FIX v2] 0→now: 즉시재발화 방지
                   const _fc=_lastCmp;
                   setTimeout(()=>{
@@ -1891,7 +1894,7 @@ async function _runDetection(){
                     if(!_gateArmed){return;}
                     _gateArmed=false; _gateEndDetected=false; _gateState='idle';
                     _lastRepT=Date.now();
-                    S.repCount++; $('rep-num').textContent=S.repCount; $('rep-badge').classList.add('on');
+                    addRep(); // [DoubleCountFix] 단일 가드 경유
                     S.lastFB=Date.now(); S.speak=false; try{speechSynthesis.cancel();}catch(e){} // [Issue2 FIX v2]
                     const _fc=_lastCmp||_capCmp;
                     setTimeout(()=>{
@@ -2423,6 +2426,21 @@ let _gateWasInZone = false; // 호환성 유지 (미사용)
 let _gateSpeechSkip = false;
 let _lastRepT = 0;
 const _MIN_REP_MS = 800;
+// [DoubleCountFix] 모든 렙 카운트를 단일 가드로 통합.
+// 측면 뷰에서 updateRepOsc(각도 진동, 600ms 쿨다운)와 게이트 상태머신(800ms 쿨다운)이
+// 서로 다른 타이머로 같은 렙을 각자 세어 ~2배 카운트되던 문제 해결.
+// _lastCountedT 단일 타임스탬프 + _MIN_REP_MS(800ms) 내 두 번째 호출은 같은 렙으로 보고 무시.
+// → 두 경로 중 먼저 감지한 쪽만 1회 반영(검출 누락 시 다른 경로가 백업하는 이중화는 유지).
+let _lastCountedT = 0;
+function addRep(now){
+  now = now || Date.now();
+  if(now - _lastCountedT < _MIN_REP_MS) return false; // 같은 렙(중복) → 무시
+  _lastCountedT = now;
+  S.repCount++;
+  const _rn=document.getElementById('rep-num'); if(_rn) _rn.textContent=S.repCount;
+  const _rb=document.getElementById('rep-badge'); if(_rb) _rb.classList.add('on');
+  return true;
+}
 let _pendingGateFB = null;
 let _pendingGateFBTimer = null;
 const _GATE_FB_DELAY = 300; // 끝 자세 도달 후 피드백까지 딜레이 ms
@@ -2483,9 +2501,7 @@ function updateRepOsc(angles,ref){
     const excursion=_oscLastMax-p.dev; // how far they swung away before returning
     const elapsed=now-_oscLastMinT;
     if(excursion>=OSC_AMP_MIN && elapsed>=OSC_COOL_MS){
-      S.repCount++;
-      $('rep-num').textContent=S.repCount;
-      $('rep-badge').classList.add('on');
+      addRep(now); // [DoubleCountFix] 단일 가드 경유 (게이트와 중복 시 무시)
       _oscLastMinT=now;
       _oscLastMax=p.dev; // reset max tracking from this point
       // ── 게이트 피드백: 끝 자세 도달 감지 시 1회 발화 ──────────────────
@@ -3719,7 +3735,7 @@ async function startLive(){
 
   _pendingSaveBlob=null;_pendingSaveName=''; // [Work15-Fix1] 새 세션 시작 시 이전 녹화 blob 초기화
   S.stats=freshStats();S.fbLog={};S.repCount=0;S.inZone=false;S.startTime=Date.now();
-  _gateState='idle';_gateLastPrimeT=0;_gateWasInZone=false;_gateSpeechSkip=false;_lastRepT=0;_pendingGateFB=null;
+  _gateState='idle';_gateLastPrimeT=0;_gateWasInZone=false;_gateSpeechSkip=false;_lastRepT=0;_lastCountedT=0;_pendingGateFB=null;
   _gateArmed=false; _gateEndDetected=false; _gateInGateStartT=0; _gateExitStartT=0; // [Issue2 FIX] [Work36-RepFix]
   _gateEntryPosLive=null; // [Work30-RepFix] 세션 시작 시 실시간 진입 위치 초기화
   if(_pendingGateFBTimer){clearTimeout(_pendingGateFBTimer);_pendingGateFBTimer=null;}

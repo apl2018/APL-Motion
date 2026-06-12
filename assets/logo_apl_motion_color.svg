@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 78" width="340" height="78">
+  <!-- APL Motion — 컬러 메인 워드마크 (태그라인 없음, 하단 분리 테이퍼 모션 아크) -->
+  <text x="170" y="46" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="40">
+    <tspan font-weight="800" fill="#1f3a5f">APL </tspan><tspan font-weight="500" fill="#2f6df0">Motion</tspan>
+  </text>
+  <path d="M70 57 Q170 54 270 57 L270 62 Q170 50 70 62 Z" fill="#2f6df0"/>
+  <circle cx="270" cy="59.5" r="4" fill="#06b6d4"/>
+</svg>

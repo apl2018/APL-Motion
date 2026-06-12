@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- APL Motion 앱 아이콘 — APL 아래 Motion(소형), 중앙 정렬, 아크 없음 -->
+  <rect x="0" y="0" width="512" height="512" rx="112" fill="#0f1830"/>
+  <text x="256" y="276" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="150" font-weight="800" fill="#ffffff">APL</text>
+  <text x="256" y="344" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="48" letter-spacing="10" font-weight="500" fill="#9cc2ff">Motion</text>
+</svg>
