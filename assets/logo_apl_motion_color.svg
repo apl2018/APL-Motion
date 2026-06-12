@@ -4,6 +4,4 @@
   <text x="170" y="46" text-anchor="middle" font-family="'Inter','Helvetica Neue',Arial,sans-serif" font-size="40">
     <tspan font-weight="800" fill="#1f3a5f">APL </tspan><tspan font-weight="500" fill="#2f6df0">Motion</tspan>
   </text>
-  <path d="M68 57 Q170 54 272 57 L272 62 Q170 50 68 62 Z" fill="#2f6df0"/>
-  <circle cx="272" cy="59.5" r="4" fill="#06b6d4"/>
-</svg>
+  <path d="M68 57 Q170 54 272 

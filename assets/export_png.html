@@ -24,14 +24,16 @@
 (상표 출원용 워드마크 + 앱/스토어 아이콘. 파일은 다운로드 폴더에 저장됩니다.)</p>
 
 <div class="row">
-  <button onclick="dl('wm-black')">⬇ 워드마크 흑백 (상표용)</button>
-  <button onclick="dl('wm-color')">⬇ 워드마크 컬러</button>
+  <button onclick="dl('cm-black')">⬇ 문자상표 흑백 (도형없음)</button>
+  <button onclick="dl('wm-black')">⬇ 복합상표 흑백 (로고)</button>
+  <button onclick="dl('wm-color')">⬇ 복합상표 컬러</button>
   <button onclick="dl('ic-512')">⬇ 아이콘 512</button>
   <button onclick="dl('ic-1024')">⬇ 아이콘 1024 (앱스토어)</button>
   <button onclick="dl('ic-192')">⬇ 아이콘 192</button>
 </div>
 
 <div>
+  <div class="prev"><canvas id="cm-black"></canvas></div>
   <div class="prev"><canvas id="wm-black"></canvas></div>
   <div class="prev"><canvas id="wm-color"></canvas></div>
 </div>
@@ -55,6 +57,21 @@ function taperedArc(ctx, sx, ex, cy, endH, cenH, arch){
   for(const p of top) ctx.lineTo(p[0],p[1]);
   for(let i=bot.length-1;i>=0;i--) ctx.lineTo(bot[i][0],bot[i][1]);
   ctx.closePath();
+}
+
+function charmark(cv, col, bg){
+  const fs=240, ctx=cv.getContext('2d');
+  ctx.font=`800 ${fs}px Inter`; const wApl=ctx.measureText('APL').width;
+  ctx.font=`500 ${fs}px Inter`; const wMot=ctx.measureText('Motion').width;
+  const gap=fs*0.20, total=wApl+gap+wMot, margin=fs*0.45;
+  const asc=fs*0.74, dsc=fs*0.06;
+  const W=Math.ceil(total+margin*2), H=Math.ceil(margin*2+asc+dsc);
+  cv.width=W; cv.height=H;
+  if(bg){ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);}
+  const baseline=margin+asc, x0=margin;
+  ctx.textBaseline='alphabetic'; ctx.textAlign='left'; ctx.fillStyle=col;
+  ctx.font=`800 ${fs}px Inter`; ctx.fillText('APL', x0, baseline);
+  ctx.font=`500 ${fs}px Inter`; ctx.fillText('Motion', x0+wApl+gap, baseline);
 }
 
 function wordmark(cv, cApl, cMot, cArc, cDot, bg){
@@ -94,6 +111,7 @@ function icon(cv, size){
 }
 
 function render(){
+  charmark(document.getElementById('cm-black'), '#111', '#fff');
   wordmark(document.getElementById('wm-black'), '#111','#111','#111','#111', '#fff');
   wordmark(document.getElementById('wm-color'), '#1f3a5f','#2f6df0','#2f6df0','#06b6d4', '#fff');
   icon(document.getElementById('ic-512'),512);

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 56" width="300" height="56">
+  <!-- APL Motion — 문자상표용 (Inter, 도형 없음, 흑백) -->
+  <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;800&amp;display=swap');</style>
+  <text x="150" y="42" text-anchor="middle" font-family="'Inter','Helvetica Neue',Arial,sans-serif" font-size="34">
+    <tspan font-weight="800" fill="#111111">APL </tspan><tspan font-weight="500" fill="#111111">Motion</tspan>
+  </text>
+</svg>
