@@ -30,10 +30,11 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
   font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--txt)}
 
 /* PREMIUM */
-#prm-badge{font-size:10px;font-weight:800;padding:3px 8px;border-radius:10px;
-  letter-spacing:0.5px;cursor:pointer;border:none;line-height:1.4;transition:all .2s}
-#prm-badge.free{background:rgba(255,255,255,.1);color:rgba(255,255,255,.55)}
-#prm-badge.pro{background:linear-gradient(135deg,#FFD700,#FFA000);color:#000}
+#prm-badge{font-size:11px;font-weight:800;padding:0 9px;border-radius:8px;
+  letter-spacing:0.3px;cursor:pointer;border:1px solid var(--border);line-height:1;transition:all .2s;
+  min-height:34px;display:inline-flex;align-items:center}
+#prm-badge.free{background:rgba(255,255,255,.08);color:rgba(255,255,255,.55)}
+#prm-badge.pro{background:linear-gradient(135deg,#FFD700,#FFA000);color:#000;border-color:transparent}
 #prm-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:600;
   display:none;align-items:center;justify-content:center;padding:20px}
 #prm-modal.on{display:flex}
@@ -120,7 +121,7 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
 .h-apl{font-size:14px;font-weight:900;color:#fff;letter-spacing:2px}
 .h-mc{font-size:14px;font-weight:600;color:var(--txt2);letter-spacing:0.5px}
 .h-title{font-size:15px;font-weight:700;color:var(--txt);letter-spacing:0.3px}
-#hdr-right{display:flex;align-items:center;gap:8px}
+#hdr-right{display:flex;align-items:center;gap:4px}
 #mdl-status{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--txt2);line-height:1}
 .mdot{width:7px;height:7px;border-radius:50%;background:var(--yellow);transition:background .3s}
 .mdot.ok{background:var(--green)}.mdot.err{background:var(--crit)}
@@ -491,7 +492,7 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
     <div class="h-brand">
       <div class="h-brand-txt" style="flex-direction:row;align-items:center;gap:6px">
         <a href="#" title="홈(런처로)" onclick="goHome();return false" style="text-decoration:none;cursor:pointer;display:block"><svg viewBox="58 0 200 68" height="32" role="img" aria-label="APL Motion 홈" style="display:block"><text x="160" y="44" text-anchor="middle" font-family="'Inter',-apple-system,sans-serif" font-size="34"><tspan font-weight="800" fill="#ffffff">APL </tspan><tspan font-weight="500" fill="#9cc2ff">Motion</tspan></text><path d="M70 54 Q160 51 250 54 L250 58.5 Q160 47.5 70 58.5 Z" fill="#6aa3ff"/><circle cx="250" cy="56.25" r="3.4" fill="#22d3ee"/></svg></a>
-        <div class="h-mc" style="font-size:11px"><span id="mode-badge">코칭 2D</span> <span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v56</span></div>
+        <div class="h-mc" style="font-size:10px;white-space:nowrap"><span id="mode-badge">코칭 2D</span> <span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v57</span></div>
       </div>
     </div>
     <div id="hdr-right">
