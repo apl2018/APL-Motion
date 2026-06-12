@@ -9,6 +9,7 @@
 <title>APL Motion Coach 3D</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>window.goHome=function(){var b=location.pathname.replace(/\/(coach|measure)(\/[^?#]*)?$/,'/');location.href=(b&&b!==location.pathname)?b:'../';};</script>
 <style>
 :root{
   --bg:#09090f;--card:#111122;--card2:#181830;--border:rgba(255,255,255,.1);
@@ -174,10 +175,11 @@ video{touch-action:none} /* 더블탭 줌 방지: video 요소는 iOS에서 자�
 <body>
 <header>
   <div>
-    <svg viewBox="0 0 320 68" height="15" role="img" aria-label="APL Motion" style="display:inline-block;vertical-align:middle"><text x="160" y="44" text-anchor="middle" font-family="'Inter',-apple-system,sans-serif" font-size="34"><tspan font-weight="800" fill="#ffffff">APL </tspan><tspan font-weight="500" fill="#9cc2ff">Motion</tspan></text><path d="M70 54 Q160 51 250 54 L250 58.5 Q160 47.5 70 58.5 Z" fill="#6aa3ff"/><circle cx="250" cy="56.25" r="3.4" fill="#22d3ee"/></svg><span class="accent" style="font-size:9px;margin-left:4px;color:var(--sport);vertical-align:middle">측정 3D</span>
-    <span class="h-ver">v84</span>
+    <a href="#" title="홈(런처)" onclick="goHome();return false" style="text-decoration:none;cursor:pointer"><svg viewBox="58 0 200 68" height="30" role="img" aria-label="APL Motion 홈" style="display:inline-block;vertical-align:middle"><text x="160" y="44" text-anchor="middle" font-family="'Inter',-apple-system,sans-serif" font-size="34"><tspan font-weight="800" fill="#ffffff">APL </tspan><tspan font-weight="500" fill="#9cc2ff">Motion</tspan></text><path d="M70 54 Q160 51 250 54 L250 58.5 Q160 47.5 70 58.5 Z" fill="#6aa3ff"/><circle cx="250" cy="56.25" r="3.4" fill="#22d3ee"/></svg></a><span class="accent" id="mode-badge" style="font-size:10px;margin-left:2px;color:var(--sport);vertical-align:middle">측정 3D</span>
+    <span class="h-ver">v87</span>
   </div>
   <div class="h-right">
+    <button class="h-btn" id="btn-home" title="홈(런처로)" onclick="goHome()">🏠</button>
     <button id="prm-badge" class="free">FREE</button>
     <button class="h-btn" id="btn-model" title="정밀 모드(Full 모델)">⚡</button>
     <button class="h-btn" id="btn-reset" title="데이터 초기화">↺</button>
@@ -404,7 +406,7 @@ const SPORTS={
 };
 
 /* ── 상태 ── */
-let det=null,live=false,src='camera',stream=null,raf=null,lang='ko';
+let det=null,live=false,src='camera',stream=null,raf=null,lang=(()=>{try{const v=localStorage.getItem('apl_lang');return v==='en'?'en':'ko';}catch(e){return 'ko';}})(); // 런처와 언어 공유
 let wH=[],vH={},cur={},lastA={};
 let lastLm=null,lastWlm=null,lastFrameT=0;
 let sel=new Set([]);
@@ -737,7 +739,7 @@ function events(){
   $('btn-main').onclick=()=>{if(live)stop_ana();else if(precisionMode&&src==='file'&&vid.src)precise_ana();else start_ana();};
   $('spd-sel').onchange=()=>{if(vid.src||vid.srcObject)vid.playbackRate=+$('spd-sel').value;};
   $('slomo-sel').onchange=()=>{slowMoFactor=+$('slomo-sel').value;};
-  $('btn-lang').onclick=()=>{lang=lang==='ko'?'en':'ko';lang_apply();};
+  $('btn-lang').onclick=()=>{lang=lang==='ko'?'en':'ko';try{localStorage.setItem('apl_lang',lang);}catch(e){}lang_apply();};
   // 더블탭 줌 방지 (iOS 10+ user-scalable=no 무시 대응, video 요소 포함)
   document.addEventListener('dblclick',e=>e.preventDefault(),{passive:false});
   // btn-reset: peak 데이터 초기화 + 화면 즉시 갱신
@@ -2197,6 +2199,7 @@ function buildRows(){
 function lang_apply(){
   const ko=lang==='ko';
   $('btn-lang').textContent=ko?'KO':'EN';
+  {const mb=$('mode-badge');if(mb)mb.textContent=ko?'측정 3D':'Measure 3D';}
   $('btn-cam').textContent='📷'+(ko?' 카메라':' Cam');
   $('btn-file').textContent='📁'+(ko?' 파일':' File');
   if(!live)$('btn-main').textContent=ko?'▶ 시작':'▶ Start';
