@@ -1,6 +1,6 @@
 {
-  "name": "APL Motion",
-  "short_name": "APL Motion",
+  "name": "trajix",
+  "short_name": "trajix",
   "description": "선수 동작 분석 — 실시간 코칭(2D) + 정밀 측정(3D)",
   "start_url": "./",
   "scope": "./",
