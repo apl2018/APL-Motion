@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>APL Motion Coach 3D</title>
+<title>trajix 3D</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script>window.goHome=function(){var b=location.pathname.replace(/\/(coach|measure)(\/[^?#]*)?$/,'/');location.href=(b&&b!==location.pathname)?b:'../';};</script>
@@ -2026,8 +2026,8 @@ function draw_comp_panel(c,W,H,s,side='right'){
   if(isB){
     c.fillStyle='#22c55e';c.fillText('B',px,y+fsL);
   }else{
-    c.fillStyle='#e8e8f2';c.fillText('APL',px,y+fsL);
-    c.fillStyle=SPORTS[sport].col;c.fillText(' 3D',px+c.measureText('APL').width,y+fsL);
+    c.fillStyle='#e8e8f2';c.fillText('trajix',px,y+fsL);
+    c.fillStyle=SPORTS[sport].col;c.fillText(' 3D',px+c.measureText('trajix').width,y+fsL);
   }
   y+=fsL+Math.round(pad*0.3);
   c.font=`600 ${Math.round(fsS*0.85)}px -apple-system,sans-serif`;
@@ -2089,14 +2089,14 @@ function startRec(){
       const type=recorder.mimeType||'video/mp4';
       const blob=new Blob(recChunks,{type});
       const ext=type.includes('webm')?'webm':'mp4';
-      const fname=`APL_3D_${new Date().toISOString().slice(0,19).replace(/:/g,'-')}.${ext}`;
+      const fname=`trajix_3D_${new Date().toISOString().slice(0,19).replace(/:/g,'-')}.${ext}`;
       // iOS Web Share API — 반드시 사용자 탭 제스처 필요
       // → 즉시 시도(중지 버튼 누른 경우), 실패 시 "탭해서 저장" 칩 표시
       const doShare=async()=>{
         if(navigator.share&&navigator.canShare){
           const file=new File([blob],fname,{type});
           if(navigator.canShare({files:[file]})){
-            try{await navigator.share({files:[file],title:'APL Motion 3D'});hideSaveChip();return true;}
+            try{await navigator.share({files:[file],title:'trajix 3D'});hideSaveChip();return true;}
             catch(e){if(e.name==='AbortError'){hideSaveChip();return true;}}
           }
         }
@@ -2113,7 +2113,7 @@ function startRec(){
         _errToast('녹화 저장 오류: '+(err&&err.message||err));
         try{
           const url=URL.createObjectURL(new Blob(recChunks,{type:(recorder&&recorder.mimeType)||'video/mp4'}));
-          const a=document.createElement('a');a.href=url;a.download='APL_3D_rec.mp4';a.click();
+          const a=document.createElement('a');a.href=url;a.download='trajix_3D_rec.mp4';a.click();
           setTimeout(()=>URL.revokeObjectURL(url),5000);
         }catch(e2){}
       }
@@ -2328,7 +2328,7 @@ document.addEventListener('click',async e=>{
   if(navigator.share&&navigator.canShare){
     const file=new File([blob],fname,{type});
     if(navigator.canShare({files:[file]})){
-      try{await navigator.share({files:[file],title:'APL Motion 3D'});hideSaveChip();return;}
+      try{await navigator.share({files:[file],title:'trajix 3D'});hideSaveChip();return;}
       catch(e){if(e.name==='AbortError'){hideSaveChip();return;}}
     }
   }

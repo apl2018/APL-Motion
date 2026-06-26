@@ -11,7 +11,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>APL Motion Coach</title>
+<title>trajix</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script>window.goHome=function(){var b=location.pathname.replace(/\/(coach|measure)(\/[^?#]*)?$/,'/');location.href=(b&&b!==location.pathname)?b:'../';};</script>
@@ -752,7 +752,7 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
 </div>
 <div id="prm-modal">
   <div id="prm-box">
-    <div id="prm-title">&#128081; APL Premium</div>
+    <div id="prm-title">&#128081; trajix Premium</div>
     <div id="prm-desc">&#54532;&#47532;&#48120;&#50516; &#48708;&#48128;&#48264;&#54840;&#47484; &#51077;&#47141;&#54616;&#47732;<br>&#45936;&#51060;&#53552; &#51200;&#51109; &#48143; &#48373;&#49324; &#44592;&#45733;&#51060; &#54876;&#49457;&#54868;&#46121;&#45768;&#45796;.</div>
     <input id="prm-input" type="password" placeholder="&#48708;&#48128;&#48264;&#54840; &#51077;&#47141;" autocomplete="off">
     <div id="prm-err">&#48708;&#48128;&#48264;&#54840;&#44032; &#50741;&#48148;&#47476;&#51648; &#50506;&#49845;&#45768;&#45796;.</div>
@@ -1551,7 +1551,7 @@ async function _runDetection(){
       if(isFrontal()){
         const pos=extractPositions(kps);
         // [Work17] 방향 고정: 셀카(user)=반전없음 / 후면카메라+정면뷰=반전 / 후면뷰=반전없음
-        // 화면좌(APL Motion Coach측)=신체우(정면), 화면우(AI준비완료측)=신체좌(정면)
+        // 화면좌(trajix측)=신체우(정면), 화면우(AI준비완료측)=신체좌(정면)
         // 후면모드는 반대
         const _pNorm=(isUser?1:(S.dir==='back'?1:-1));
         _lastPNorm=_pNorm;
@@ -2089,14 +2089,14 @@ function saveFpPhoto(){
   const fc=document.createElement('canvas');
   fc.width=fpv.videoWidth;fc.height=fpv.videoHeight;
   fc.getContext('2d').drawImage(fpv,0,0);
-  const fname=`APL_${S.ex.name}_기준자세.jpg`;
+  const fname=`trajix_${S.ex.name}_기준자세.jpg`;
   fc.toBlob(blob=>{
     if(!blob) return;
     const file=new File([blob],fname,{type:'image/jpeg'});
     const isMobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if(isMobile&&navigator.canShare&&navigator.canShare({files:[file]})){
       // 모바일: 공유 시트에서 '이미지 저장' → 카메라롤에 저장
-      navigator.share({files:[file],title:'APL 기준자세',text:S.ex.name})
+      navigator.share({files:[file],title:'trajix 기준자세',text:S.ex.name})
         .catch(()=>{});
     }else{
       // PC: 자동 다운로드
@@ -2330,7 +2330,7 @@ function renderDataList(q){
       </div>
     `;
     if(e.img){
-      const saveImg=()=>{const a=document.createElement('a');a.href=e.img;a.download=`APL_${e.name}_${e.exName}.jpg`;document.body.appendChild(a);a.click();setTimeout(()=>document.body.removeChild(a),500);};
+      const saveImg=()=>{const a=document.createElement('a');a.href=e.img;a.download=`trajix_${e.name}_${e.exName}.jpg`;document.body.appendChild(a);a.click();setTimeout(()=>document.body.removeChild(a),500);};
       row.querySelector(".data-row-thumb").addEventListener("click",saveImg);
       row.querySelector(".data-row-imgdl").addEventListener("click",saveImg);
     }
@@ -3388,7 +3388,7 @@ async function saveRecording(chunks,wallMs){
       const now=new Date();
       const stamp=`${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}_${String(now.getHours()).padStart(2,'0')}${String(now.getMinutes()).padStart(2,'0')}`;
       _pendingSaveBlob=_anaFileBlob;
-      _pendingSaveName=`APL_${S.ex.name}_${stamp}_원본.${origExt}`;
+      _pendingSaveName=`trajix_${S.ex.name}_${stamp}_원본.${origExt}`;
       const _saveBtn=$('btn-sum-save');
       if(_saveBtn){
         _saveBtn.style.display='block';
@@ -3419,7 +3419,7 @@ async function saveRecording(chunks,wallMs){
   const now=new Date();
   const stamp=`${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}_${String(now.getHours()).padStart(2,'0')}${String(now.getMinutes()).padStart(2,'0')}`;
   const exName=S.ex.name;
-  const fname=`APL_${exName}_${stamp}.${ext}`;
+  const fname=`trajix_${exName}_${stamp}.${ext}`;
   _pendingSaveBlob=blob;_pendingSaveName=fname;
   const _saveBtn=$('btn-sum-save');
   if(_saveBtn){_saveBtn.style.display='block';_saveBtn.textContent=TX[CL].btn_save_video||'📥 영상 저장';} // [Work45]
@@ -3439,7 +3439,7 @@ async function shareRecording(forceDownload){
         _shareToast.style.cssText='position:fixed;bottom:20%;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.85);color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;z-index:9999;text-align:center;max-width:280px;line-height:1.4;pointer-events:none;';
         document.body.appendChild(_shareToast);
         setTimeout(()=>{try{document.body.removeChild(_shareToast);}catch(e){}},4000);
-        await navigator.share({files:[file],title:'APL Motion Coach'});
+        await navigator.share({files:[file],title:'trajix'});
         return;
       }
     }catch(e){if(e.name==='AbortError')return;}
@@ -3563,7 +3563,7 @@ function onRefFileSelected(e){
   const isImg=file.type.startsWith('image/');
   const isAplRef=file.name.endsWith('.aplref')||file.type==='application/json';
   if(isAplRef){
-    // APL 기준자세 파일 (.aplref) 직접 로드
+    // trajix 기준자세 파일 (.aplref) 직접 로드
     const reader=new FileReader();
     reader.onload=ev=>{
       try{
@@ -4974,7 +4974,7 @@ async function init(){
     if(isIOS){
       if(navigator.share){
         // [Work31-SaveFix] 중복 navigator.share() 호출 버그 수정: if/else 블록 안에서만 호출
-        navigator.share({files:[file],title:'APL Motion Coach',text:fname})
+        navigator.share({files:[file],title:'trajix',text:fname})
           .then(_clearSave)
           .catch(err=>{
             if(err.name==='AbortError') return; // 사용자가 공유 취소 → 그대로 유지
@@ -5053,7 +5053,7 @@ async function init(){
 }
 
 window.addEventListener('load',init);
-/* APL Motion Coach — build v51 [Work51] */
+/* trajix — build v51 [Work51] */
 </script>
 </body>
 </html>
