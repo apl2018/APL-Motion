@@ -1,70 +1,257 @@
 <!doctype html>
-<!-- apl-motion.com 랜딩 — Copyright (c) 2024-2026 주식회사 에이피엘. All rights reserved. -->
+<!-- APL Motion (런처) — Copyright (c) 2024-2026 주식회사 에이피엘. All rights reserved. -->
 <html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<title>trajix — Athlete Performance Lab</title>
+<meta http-equiv="Pragma" content="no-cache">
+<title>trajix</title>
+<link rel="stylesheet" href="./shared/brand.css">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="./assets/icon_apl_motion.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="./assets/icon-192.png">
 <link rel="apple-touch-icon" href="./assets/icon-apple-180.png">
 <meta name="theme-color" content="#09090f">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#09090f;--card:#12121e;--bd:rgba(255,255,255,.10);--txt:#e8e8f2;--txt2:rgba(255,255,255,.58);--gold:#c9a449;}
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);
-    font-family:'Inter',-apple-system,'Helvetica Neue',sans-serif;min-height:100svh}
-  body{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 20px;text-align:center}
-  .wrap{max-width:440px;width:100%;display:flex;flex-direction:column;align-items:center;gap:18px}
-  .logo svg{display:block;height:56px;width:auto}
-  .tag{color:var(--txt2);font-size:15px;line-height:1.6;margin:2px 0 4px}
-  .tag b{color:var(--txt);font-weight:700}
-  .sports{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:2px 0 6px}
-  .sp{background:rgba(255,255,255,.06);border:1px solid var(--bd);border-radius:7px;padding:4px 10px;font-size:11px;color:var(--txt2)}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);font-family:'Inter',-apple-system,'Helvetica Neue',sans-serif;
+       min-height:100svh;display:flex;flex-direction:column;-webkit-tap-highlight-color:transparent}
+  header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px}
+  .logo{font-weight:900;font-size:20px;letter-spacing:.3px}
+  .logo .a{color:var(--accent)}
+  .ver{font-size:10px;opacity:.4;margin-left:6px}
+  .h-right{display:flex;gap:8px}
+  .h-btn{background:rgba(255,255,255,.08);color:var(--txt2);border:1px solid var(--border);
+         border-radius:9px;padding:7px 11px;font-size:12px;cursor:pointer;min-height:38px}
+  .h-btn.pro{background:linear-gradient(135deg,#FFD700,#FFA000);color:#000;border:none;font-weight:800}
+  main{flex:1;display:flex;flex-direction:column;gap:16px;padding:8px 18px 20px;justify-content:center;max-width:520px;width:100%;margin:0 auto}
+  .tagline{color:var(--txt2);font-size:13px;text-align:center;margin:0 0 4px;line-height:1.5}
+  .card{position:relative;border:1px solid var(--border);border-radius:22px;padding:22px 20px;cursor:pointer;
+        display:flex;gap:16px;align-items:center;background:var(--card);transition:transform .1s,border-color .2s}
+  .card:active{transform:scale(.985)}
+  .card.coach:hover{border-color:var(--coach)}
+  .card.measure:hover{border-color:var(--measure)}
+  .card .ic{font-size:38px;flex-shrink:0;width:54px;text-align:center}
+  .card h2{margin:0;font-size:19px;font-weight:800}
+  .card .badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;margin-left:8px;vertical-align:middle}
+  .card.coach .badge{background:rgba(34,197,94,.18);color:var(--coach)}
+  .card.measure .badge{background:rgba(6,182,212,.18);color:var(--measure)}
+  .card p{margin:6px 0 0;color:var(--txt2);font-size:13px;line-height:1.5}
+  .card .arrow{margin-left:auto;color:var(--txt2);font-size:22px;flex-shrink:0}
+  footer{padding:14px 18px 22px;color:var(--txt2);font-size:11px;text-align:center;line-height:1.6}
+  .sports{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:6px}
+  .sp{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:7px;padding:3px 9px;font-size:11px;color:var(--txt2)}
   .sp b{color:var(--txt);font-weight:800;letter-spacing:.3px}
-  .badge-link{display:inline-block;margin-top:6px}
-  .badge{display:inline-flex;align-items:center;gap:11px;background:#fff;color:#000;
-    border-radius:14px;padding:13px 22px;text-decoration:none;font-weight:800;font-size:17px;
-    box-shadow:0 8px 30px rgba(0,0,0,.45);transition:transform .1s}
-  .badge:active{transform:scale(.97)}
-  .badge .apple{display:block;flex-shrink:0}
-  .badge .t small{display:block;font-size:10px;font-weight:600;color:#555;letter-spacing:.2px;text-align:left}
-  .badge .t span{display:block;font-size:18px;font-weight:800;margin-top:-2px;text-align:left}
-  .note{color:var(--txt2);font-size:12px;line-height:1.6;margin-top:4px}
-  footer{margin-top:26px;color:var(--txt2);font-size:11px;line-height:1.7}
-  footer a{color:var(--txt2)}
+  .sp .sub{font-size:9px;opacity:.7;margin-left:3px}
+  /* 프리미엄 모달 */
+  #prm-modal{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:600;display:none;align-items:center;justify-content:center;padding:20px}
+  #prm-modal.on{display:flex}
+  #prm-box{background:#1A1A2E;border-radius:20px;padding:26px 22px;width:100%;max-width:330px;display:flex;flex-direction:column;gap:12px}
+  #prm-title{font-size:17px;font-weight:800;text-align:center}
+  #prm-desc{font-size:13px;color:var(--txt2);text-align:center;line-height:1.5}
+  #prm-input{background:#16213E;border:1px solid var(--border);border-radius:10px;padding:12px;color:#fff;font-size:16px;text-align:center;letter-spacing:3px;outline:none}
+  #prm-input:focus{border-color:var(--accent)}
+  #prm-err{font-size:12px;color:#ef4444;text-align:center;min-height:15px;display:none}
+  #prm-err.on{display:block}
+  .prm-row{display:flex;gap:10px}
+  #prm-cancel{flex:1;padding:12px;border-radius:10px;background:rgba(255,255,255,.08);color:var(--txt2);border:none;cursor:pointer;font-size:14px}
+  #prm-confirm{flex:2;padding:12px;border-radius:10px;background:linear-gradient(135deg,#FFD700,#FFA000);color:#000;border:none;cursor:pointer;font-size:14px;font-weight:700}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="logo">
-      <svg viewBox="-32 0 2368 1185.5" role="img" aria-label="trajix" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,883.5) scale(1,-1)"><path d="M208 458V153Q208 122 222.5 108.5Q237 95 272 95H342V0H252Q175 0 134.0 36.0Q93 72 93 153V458H28V551H93V688H208V551H342V458Z" fill="#f3f2ee"/><path d="M354 560V442H325Q258 442 223.5 408.0Q189 374 189 290V0H75V551H189V471Q214 513 255.5 536.5Q297 560 354 560Z" transform="translate(337,0)" fill="#f3f2ee"/><path d="M297 560Q362 560 410.5 534.5Q459 509 488 471V551H603V0H488V82Q459 43 409.0 17.0Q359 -9 295 -9Q224 -9 165.0 27.5Q106 64 71.5 129.5Q37 195 37 278Q37 361 71.5 425.0Q106 489 165.5 524.5Q225 560 297 560ZM321 461Q277 461 239.0 439.5Q201 418 177.5 376.5Q154 335 154 278Q154 221 177.5 178.0Q201 135 239.5 112.5Q278 90 321 90Q365 90 403.0 112.0Q441 134 464.5 176.5Q488 219 488 276Q488 333 464.5 375.0Q441 417 403.0 439.0Q365 461 321 461Z" transform="translate(686,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 -108Q189 -189 148.5 -225.5Q108 -262 31 -262H-28V-166H11Q46 -166 60.5 -152.5Q75 -139 75 -108V551H189Z" transform="translate(1329,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 551V0H75V551Z" transform="translate(1558,0)" fill="#f3f2ee"/><path d="M311 279 489 0H360L241 187L129 0H10L188 271L10 551H139L258 364L370 551H489Z" transform="translate(1787,0)" fill="#f3f2ee"/><path d="M 1461.5 685.0 Q 1576.0 980 1690.5 685.0" fill="none" stroke="#c9a449" stroke-width="22" stroke-linecap="round"/><circle cx="1461.5" cy="685.0" r="86.0" fill="#c9a449"/><circle cx="1690.5" cy="685.0" r="86.0" fill="#c9a449"/></g></svg>
-    </div>
-    <p class="tag" id="tag"><b>스포츠 동작 분석 · 코칭 앱</b><br>점프 높이 · 회전속도 · X-factor · 관절각을 정밀 측정하고 비교</p>
-    <div class="sports">
-      <span class="sp"><b>SPL</b></span><span class="sp"><b>GPL</b></span><span class="sp"><b>BPL</b></span><span class="sp"><b>TPL</b></span><span class="sp"><b>VPL</b></span>
-    </div>
-    <a class="badge-link" href="https://apps.apple.com/app/id6787316885" id="dl">
-      <span class="badge"><svg class="apple" viewBox="0 0 24 24" width="24" height="24" fill="#000" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.28.07 2.17.72 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg><span class="t"><small id="dl1">App Store에서</small><span id="dl2">다운로드</span></span></span>
-    </a>
-    <p class="note" id="note">iPhone · iPad 지원 · 무료 다운로드 (프리미엄 인앱 구매)</p>
+<header>
+  <div class="logo-wrap" style="display:flex;align-items:flex-end;gap:3px">
+    <svg viewBox="-32 0 2368 1185.5" role="img" aria-label="trajix" style="display:block;height:44px;width:auto" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,883.5) scale(1,-1)"><path d="M208 458V153Q208 122 222.5 108.5Q237 95 272 95H342V0H252Q175 0 134.0 36.0Q93 72 93 153V458H28V551H93V688H208V551H342V458Z" transform="translate(0,0)" fill="#f3f2ee"/><path d="M354 560V442H325Q258 442 223.5 408.0Q189 374 189 290V0H75V551H189V471Q214 513 255.5 536.5Q297 560 354 560Z" transform="translate(337,0)" fill="#f3f2ee"/><path d="M297 560Q362 560 410.5 534.5Q459 509 488 471V551H603V0H488V82Q459 43 409.0 17.0Q359 -9 295 -9Q224 -9 165.0 27.5Q106 64 71.5 129.5Q37 195 37 278Q37 361 71.5 425.0Q106 489 165.5 524.5Q225 560 297 560ZM321 461Q277 461 239.0 439.5Q201 418 177.5 376.5Q154 335 154 278Q154 221 177.5 178.0Q201 135 239.5 112.5Q278 90 321 90Q365 90 403.0 112.0Q441 134 464.5 176.5Q488 219 488 276Q488 333 464.5 375.0Q441 417 403.0 439.0Q365 461 321 461Z" transform="translate(686,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 -108Q189 -189 148.5 -225.5Q108 -262 31 -262H-28V-166H11Q46 -166 60.5 -152.5Q75 -139 75 -108V551H189Z" transform="translate(1329,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 551V0H75V551Z" transform="translate(1558,0)" fill="#f3f2ee"/><path d="M311 279 489 0H360L241 187L129 0H10L188 271L10 551H139L258 364L370 551H489Z" transform="translate(1787,0)" fill="#f3f2ee"/><path d="M 1461.5 685.0 Q 1576.0 980 1690.5 685.0" fill="none" stroke="#c9a449" stroke-width="22" stroke-linecap="round"/><circle cx="1461.5" cy="685.0" r="86.0" fill="#c9a449"/><circle cx="1690.5" cy="685.0" r="86.0" fill="#c9a449"/></g></svg>
+    <span class="ver" id="ver">v1</span>
   </div>
-  <footer>
-    <div>trajix · Athlete Performance Lab</div>
-    <div style="margin-top:7px;opacity:.85">
-      <a href="./privacy.html">개인정보처리방침</a> · <a href="./licenses.html">오픈소스 라이선스</a> · &copy; 2024–2026 주식회사 에이피엘
+  <div class="h-right">
+    <button class="h-btn" id="btn-lang">KO</button>
+    <button class="h-btn" id="btn-prm">FREE</button>
+  </div>
+</header>
+
+<main>
+  <p class="tagline" id="tagline">목적에 맞는 모드를 선택하세요</p>
+
+  <div class="card coach" id="card-coach">
+    <div class="ic">🎯</div>
+    <div>
+      <h2 id="coach-title">실시간 코칭<span class="badge">2D</span></h2>
+      <p id="coach-desc">자세 교정 · 시작/끝 자세 음성 피드백 — 가볍고 빠른 실시간 분석</p>
     </div>
-  </footer>
+    <div class="arrow">›</div>
+  </div>
+
+  <div class="card measure" id="card-measure">
+    <div class="ic">📊</div>
+    <div>
+      <h2 id="measure-title">정밀 측정<span class="badge">3D</span></h2>
+      <p id="measure-desc">점프 높이 · X-factor · 회전속도 · 관절각 — 결정적 정밀 측정 & 비교 분석</p>
+    </div>
+    <div class="arrow">›</div>
+  </div>
+</main>
+
+<footer>
+  <div class="sports" id="sports"></div>
+  <div id="foot-note">trajix · Athlete Performance Lab</div>
+  <div style="margin-top:8px;font-size:10px;opacity:.7">
+    <a href="./help.html" id="foot-help" style="color:var(--txt2)">도움말</a>
+    <span style="opacity:.5"> · </span>
+    <a href="./privacy.html" id="foot-privacy" style="color:var(--txt2)">개인정보처리방침</a>
+    <span style="opacity:.5"> · </span>
+    <a href="./licenses.html" id="foot-licenses" style="color:var(--txt2)">오픈소스 라이선스</a>
+    <span style="opacity:.5"> · </span>
+    <span id="foot-copy">© 2024–2026 주식회사 에이피엘</span>
+  </div>
+  <div id="foot-note2" style="margin-top:4px;font-size:9px;opacity:.45">스포츠 퍼포먼스 분석·코칭 보조 도구 (의료기기 아님)</div>
+</footer>
+
+<!-- 프리미엄 잠금 해제 -->
+<div id="prm-modal">
+  <div id="prm-box">
+    <div id="prm-title">🔒 Premium</div>
+    <div id="prm-desc">프리미엄 기능(전체 종목 · 정밀/비교 분석)은<br>프리미엄 전용입니다. 비밀번호를 입력하세요.</div>
+    <input id="prm-input" type="password" placeholder="비밀번호" autocomplete="off">
+    <div id="prm-err">비밀번호가 올바르지 않습니다</div>
+    <div class="prm-row">
+      <button id="prm-cancel">취소</button>
+      <button id="prm-confirm">🔓 잠금 해제</button>
+    </div>
+  </div>
+</div>
+
+<script src="./shared/iap.js"></script>
 <script>
-  // 언어 살짝 대응(브라우저가 영어면 영어 문구)
-  try{ if((navigator.language||'ko').slice(0,2)!=='ko'){
-    document.getElementById('tag').innerHTML='<b>Sports Motion Analysis · Coaching</b><br>Measure & compare jump height, rotation speed, X-factor, joint angles';
-    document.getElementById('dl1').textContent='Download on the';
-    document.getElementById('dl2').textContent='App Store';
-    document.getElementById('note').textContent='iPhone · iPad · Free download (Premium in-app purchase)';
-  }}catch(e){}
+/* 인라인 공통 레이어 — Capacitor에서 로컬 ES모듈 import가 MIME 문제로 실패하는 것을 회피.
+   (모듈이 실행 안 되면 런처 전체 JS가 죽어 탭·버전·언어가 먹통이 됨) */
+var _K = { prm:'apl_prm', lang:'apl_lang' };
+var Prefs = {
+  get lang(){ return localStorage.getItem(_K.lang) || 'ko'; },
+  set lang(v){ localStorage.setItem(_K.lang, v); },
+  get premium(){ return localStorage.getItem(_K.prm) === '1'; },
+  set premium(v){ localStorage.setItem(_K.prm, v ? '1' : '0'); }
+};
+async function unlock(pw){
+  try{
+    var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+    var hex = Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+    if(hex === '6e9a16337d5d2c2302e87aeba5cae99ee0f5aa2c5c789504285018b53d26e3c9'){ Prefs.premium = true; return true; }
+  }catch(e){}
+  return false;
+}
+
+const SHELL_VER = 'v10';
+const $ = id => document.getElementById(id);
+
+// ── 다국어 ──
+const T = {
+  ko:{ tagline:'목적에 맞는 모드를 선택하세요',
+       coachT:'실시간 코칭', coachD:'자세 교정 · 시작/끝 자세 음성 피드백 — 가볍고 빠른 실시간 분석',
+       measureT:'정밀 측정', measureD:'점프 높이 · X-factor · 회전속도 · 관절각 — 결정적 정밀 측정 & 비교 분석',
+       lang:'KO', prmDesc:'프리미엄 기능(전체 종목 · 정밀/비교 분석)은\n프리미엄 전용입니다. 비밀번호를 입력하세요.',
+       privacy:'개인정보처리방침', help:'도움말', copy:'© 2024–2026 주식회사 에이피엘',
+       note:'스포츠 퍼포먼스 분석·코칭 보조 도구 (의료기기 아님)' },
+  en:{ tagline:'Choose the mode for your goal',
+       coachT:'Live Coaching', coachD:'Posture correction · start/end pose voice feedback — light & fast real-time',
+       measureT:'Precise Measure', measureD:'Jump height · X-factor · rotation speed · joint angles — deterministic measure & compare',
+       lang:'EN', prmDesc:'Premium features (all sports · precise/compare) are premium-only.\nEnter the password.',
+       privacy:'Privacy Policy', help:'Help', copy:'© 2024–2026 APL Inc.',
+       note:'Sports performance analysis & coaching aid (not a medical device)' },
+};
+
+// ── 종목 ──
+const SPORTS = [
+  { code:'SPL', ko:'스케이팅·스키·스노보드', en:'Skating · Ski · Snowboard' },
+  { code:'GPL', ko:'골프', en:'Golf' },
+  { code:'BPL', ko:'야구·농구', en:'Baseball · Basketball' },
+  { code:'TPL', ko:'테니스', en:'Tennis' },
+  { code:'VPL', ko:'배구', en:'Volleyball' },
+];
+
+function applyLang(){
+  const ko = Prefs.lang === 'ko';
+  const t = ko ? T.ko : T.en;
+  $('tagline').textContent = t.tagline;
+  $('coach-title').firstChild.textContent = t.coachT;
+  $('coach-desc').textContent = t.coachD;
+  $('measure-title').firstChild.textContent = t.measureT;
+  $('measure-desc').textContent = t.measureD;
+  $('btn-lang').textContent = t.lang;
+  $('prm-desc').innerHTML = t.prmDesc.replace(/\n/g,'<br>');
+  $('foot-privacy').textContent = t.privacy;
+  { const fh = $('foot-help'); if(fh) fh.textContent = t.help; }
+  $('foot-copy').textContent = t.copy;
+  $('foot-note2').textContent = t.note;
+  $('sports').innerHTML = SPORTS.map(s =>
+    `<span class="sp"><b>${s.code}</b><span class="sub">${ko ? s.ko : s.en}</span></span>`).join('');
+}
+function applyPrm(){
+  const p = Prefs.premium;
+  $('btn-prm').textContent = p ? 'PRO ⭐' : 'FREE';
+  $('btn-prm').className = 'h-btn' + (p ? ' pro' : '');
+}
+
+$('ver').textContent = SHELL_VER;
+applyLang(); applyPrm();
+
+// ── 모드 진입 (페이지 이동 → 엔진 격리) ──
+$('card-coach').onclick   = () => location.href = './coach/index.html';
+$('card-measure').onclick = () => location.href = './measure/index.html';
+
+// ── 언어 토글 ──
+$('btn-lang').onclick = () => { Prefs.lang = Prefs.lang === 'ko' ? 'en' : 'ko'; applyLang(); };
+
+// ── 프리미엄 ──
+$('btn-prm').onclick = () => {
+  if(Prefs.premium){ Prefs.premium = false; applyPrm(); return; } // 토글 해제
+  $('prm-input').value=''; $('prm-err').classList.remove('on');
+  $('prm-modal').classList.add('on'); setTimeout(()=>$('prm-input').focus(),120);
+};
+$('prm-cancel').onclick = () => $('prm-modal').classList.remove('on');
+$('prm-confirm').onclick = tryUnlock;
+$('prm-input').addEventListener('keydown', e => {
+  if(e.key==='Enter') tryUnlock();
+  if(e.key==='Escape') $('prm-modal').classList.remove('on');
+});
+async function tryUnlock(){
+  const ok = await unlock($('prm-input').value);
+  if(ok){ $('prm-modal').classList.remove('on'); applyPrm(); }
+  else { $('prm-err').classList.add('on'); $('prm-input').select(); }
+}
+
+// ── 직원용 숨김 해제(웹 전용): trajix 로고 30연타(2초 내 연속) → 관리자 코드 → 프리미엄 ──
+// v10: 앱(네이티브)에서는 비활성 — 앱은 인앱결제(IAP)만 허용. 웹(직원용)에서만 동작.
+(function(){
+  var _isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+  if(_isNative) return;  // 앱: 우회 없음(IAP 전용)
+  const logo = document.querySelector('.logo-wrap [aria-label="trajix"]') || document.querySelector('[aria-label="trajix"]');
+  if(!logo) return;
+  let n=0, last=0;
+  logo.addEventListener('click', async () => {
+    const now = Date.now();
+    if(now-last > 2000) n=0;
+    last = now; n++;
+    if(n >= 30){
+      n=0;
+      const pw = window.prompt('관리자 코드');
+      if(pw==null) return;
+      if(await unlock(pw)){
+        ['apl3d_prm','aplc_prm','apl_premium'].forEach(k=>{try{localStorage.setItem(k,'1');}catch(e){}});
+        applyPrm();
+        alert('프리미엄이 활성화되었습니다.');
+      } else {
+        alert('코드가 올바르지 않습니다.');
+      }
+    }
+  });
+})();
+
+// PWA service worker (있으면 등록)
+if('serviceWorker' in navigator && !window.Capacitor && location.protocol.indexOf('http')===0){ navigator.serviceWorker.register('./sw.js').catch(()=>{}); }
 </script>
 </body>
 </html>
