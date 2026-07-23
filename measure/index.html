@@ -178,7 +178,7 @@ video{touch-action:none} /* 더블탭 줌 방지: video 요소는 iOS에서 자�
     <a href="#" title="홈(런처)" onclick="goHome();return false" style="text-decoration:none;cursor:pointer;display:flex;align-items:center"><svg viewBox="-32 0 2368 1185.5" role="img" aria-label="trajix" style="display:block;height:30px;width:auto" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,883.5) scale(1,-1)"><path d="M208 458V153Q208 122 222.5 108.5Q237 95 272 95H342V0H252Q175 0 134.0 36.0Q93 72 93 153V458H28V551H93V688H208V551H342V458Z" transform="translate(0,0)" fill="#f3f2ee"/><path d="M354 560V442H325Q258 442 223.5 408.0Q189 374 189 290V0H75V551H189V471Q214 513 255.5 536.5Q297 560 354 560Z" transform="translate(337,0)" fill="#f3f2ee"/><path d="M297 560Q362 560 410.5 534.5Q459 509 488 471V551H603V0H488V82Q459 43 409.0 17.0Q359 -9 295 -9Q224 -9 165.0 27.5Q106 64 71.5 129.5Q37 195 37 278Q37 361 71.5 425.0Q106 489 165.5 524.5Q225 560 297 560ZM321 461Q277 461 239.0 439.5Q201 418 177.5 376.5Q154 335 154 278Q154 221 177.5 178.0Q201 135 239.5 112.5Q278 90 321 90Q365 90 403.0 112.0Q441 134 464.5 176.5Q488 219 488 276Q488 333 464.5 375.0Q441 417 403.0 439.0Q365 461 321 461Z" transform="translate(686,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 -108Q189 -189 148.5 -225.5Q108 -262 31 -262H-28V-166H11Q46 -166 60.5 -152.5Q75 -139 75 -108V551H189Z" transform="translate(1329,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 551V0H75V551Z" transform="translate(1558,0)" fill="#f3f2ee"/><path d="M311 279 489 0H360L241 187L129 0H10L188 271L10 551H139L258 364L370 551H489Z" transform="translate(1787,0)" fill="#f3f2ee"/><path d="M 1461.5 685.0 Q 1576.0 980 1690.5 685.0" fill="none" stroke="#c9a449" stroke-width="22" stroke-linecap="round"/><circle cx="1461.5" cy="685.0" r="86.0" fill="#c9a449"/><circle cx="1690.5" cy="685.0" r="86.0" fill="#c9a449"/></g></svg></a>
     <span style="display:inline-flex;flex-direction:column;align-items:flex-start;line-height:1.1;gap:3px">
       <span class="accent" id="mode-badge" style="font-size:10px;color:var(--sport);white-space:nowrap">측정 3D</span>
-      <span class="h-ver" style="margin-left:0">v109</span>
+      <span class="h-ver" style="margin-left:0">v110</span>
     </span>
   </div>
   <div class="h-right">
@@ -686,7 +686,7 @@ const gC=$('graph-cvs')||{},gX=gC.getContext?gC.getContext('2d'):null;
 /* ── INIT ── */
 async function init(){
   // localStorage 프리미엄 상태 복원
-  try{if(localStorage.getItem('apl3d_prm')==='1')_setPremium(true);}catch(e){}
+  try{if(['apl_prm','apl3d_prm','aplc_prm','apl_premium'].some(function(k){return localStorage.getItem(k)==='1';}))_setPremium(true);}catch(e){}
   try{if(localStorage.getItem('apl3d_pm')==='1')precisionMode=true;}catch(e){}
   buildPts();buildRows();buildJoints();events();lang_apply();resize();
   _updateModelBtn();
@@ -2346,8 +2346,8 @@ async function sha256hex(str){
 function _setPremium(v){
   isPremium=v;
   const badge=$('prm-badge');
-  if(v){badge.textContent='PRO ⭐';badge.className='pro';try{localStorage.setItem('apl3d_prm','1');}catch(e){}}
-  else{badge.textContent='FREE';badge.className='free';try{localStorage.setItem('apl3d_prm','0');}catch(e){}}
+  if(v){badge.textContent='PRO ⭐';badge.className='pro';try{['apl_prm','apl3d_prm','aplc_prm','apl_premium'].forEach(function(k){localStorage.setItem(k,'1');});}catch(e){}}
+  else{badge.textContent='FREE';badge.className='free';try{['apl_prm','apl3d_prm','aplc_prm','apl_premium'].forEach(function(k){localStorage.setItem(k,'0');});}catch(e){}}
   // v55: 프리미엄 = PRO 모드만 표시 (일반 숨김), 무료 = 일반만 사용
   const gBtn=document.querySelector('.sp-btn[data-s="GEN"]');
   if(gBtn)gBtn.style.display=v?'none':'';

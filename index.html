@@ -132,8 +132,8 @@ var _K = { prm:'apl_prm', lang:'apl_lang' };
 var Prefs = {
   get lang(){ return localStorage.getItem(_K.lang) || 'ko'; },
   set lang(v){ localStorage.setItem(_K.lang, v); },
-  get premium(){ return localStorage.getItem(_K.prm) === '1'; },
-  set premium(v){ localStorage.setItem(_K.prm, v ? '1' : '0'); }
+  get premium(){ return ['apl_prm','apl3d_prm','aplc_prm','apl_premium'].some(function(k){try{return localStorage.getItem(k)==='1';}catch(e){return false;}}); },
+  set premium(v){ ['apl_prm','apl3d_prm','aplc_prm','apl_premium'].forEach(function(k){try{localStorage.setItem(k, v ? '1' : '0');}catch(e){}}); }
 };
 async function unlock(pw){
   try{
@@ -144,7 +144,7 @@ async function unlock(pw){
   return false;
 }
 
-const SHELL_VER = 'v10';
+const SHELL_VER = 'v11';
 const $ = id => document.getElementById(id);
 
 // ── 다국어 ──

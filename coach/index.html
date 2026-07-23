@@ -4270,13 +4270,13 @@ function _setPremium(val){
   const badge=$('prm-badge');if(!badge)return;
   if(val){
     badge.textContent='PRO';badge.className='pro';
-    try{localStorage.setItem('apl_premium','1');}catch(e){}
+    try{['apl_prm','apl3d_prm','aplc_prm','apl_premium'].forEach(function(k){localStorage.setItem(k,'1');});}catch(e){}
   }else{
     badge.textContent='FREE';badge.className='free';
   }
 }
 function _hasPremiumStored(){
-  try{return localStorage.getItem('apl_premium')==='1';}catch(e){return false;}
+  try{return ['apl_prm','apl3d_prm','aplc_prm','apl_premium'].some(function(k){return localStorage.getItem(k)==='1';});}catch(e){return false;}
 }
 function requirePremium(cb){
   if(S.premium){cb();return;}
