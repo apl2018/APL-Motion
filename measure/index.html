@@ -104,8 +104,8 @@ header{display:flex;align-items:center;justify-content:space-between;
 .rp-alert.bad{background:rgba(239,68,68,.15);color:#ef4444}
 /* 컨트롤 바 */
 #ctrl-bar{background:var(--card);border-top:1px solid var(--border);
-  padding:5px 8px;display:flex;align-items:center;gap:5px;
-  flex-shrink:0;overflow-x:auto;scrollbar-width:none;min-height:50px}
+  padding:5px 8px;padding-bottom:34px;display:flex;align-items:center;gap:5px;
+  flex-shrink:0;flex-wrap:wrap;row-gap:6px;min-height:50px}
 #ctrl-bar::-webkit-scrollbar{display:none}
 .btn{border:none;border-radius:10px;font-size:11px;font-weight:600;cursor:pointer;
   padding:0 10px;height:38px;transition:opacity .15s;white-space:nowrap;flex-shrink:0}
@@ -118,9 +118,9 @@ header{display:flex;align-items:center;justify-content:space-between;
 .btn-pause.on{background:var(--yellow);color:#000}
 .btn-rec{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
 .btn-rec.on{background:var(--red);color:#fff;border-color:var(--red)}
-.btn-main{background:var(--green);color:#fff;height:42px;padding:0 16px;font-size:13px;font-weight:700;border-radius:12px;margin-left:2px;flex-shrink:0}
+.btn-main{background:var(--green);color:#fff;height:44px;padding:0 16px;font-size:14px;font-weight:700;border-radius:12px;flex-shrink:0;width:100%;margin:2px 0 0}
 .btn-main.stop{background:var(--red)}
-.sep{flex:1;min-width:4px}
+.sep{flex-basis:100%;height:0;min-width:0;margin:0;padding:0}
 #slomo-sel{background:rgba(255,255,255,.1);color:var(--txt);border:1px solid var(--border);
   border-radius:8px;padding:0 6px;font-size:11px;cursor:pointer;height:34px;flex-shrink:0}
 #file-name{font-size:10px;color:var(--txt2);max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0}
@@ -175,10 +175,10 @@ video{touch-action:none} /* 더블탭 줌 방지: video 요소는 iOS에서 자�
 <body>
 <header>
   <div style="display:flex;align-items:center;gap:6px">
-    <a href="#" title="홈(런처)" onclick="goHome();return false" style="text-decoration:none;cursor:pointer;display:flex;align-items:center"><img src="../assets/trajix_wm_white.svg" alt="trajix" style="display:block;height:30px"></a>
+    <a href="#" title="홈(런처)" onclick="goHome();return false" style="text-decoration:none;cursor:pointer;display:flex;align-items:center"><svg viewBox="-32 0 2368 1185.5" role="img" aria-label="trajix" style="display:block;height:30px;width:auto" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,883.5) scale(1,-1)"><path d="M208 458V153Q208 122 222.5 108.5Q237 95 272 95H342V0H252Q175 0 134.0 36.0Q93 72 93 153V458H28V551H93V688H208V551H342V458Z" transform="translate(0,0)" fill="#f3f2ee"/><path d="M354 560V442H325Q258 442 223.5 408.0Q189 374 189 290V0H75V551H189V471Q214 513 255.5 536.5Q297 560 354 560Z" transform="translate(337,0)" fill="#f3f2ee"/><path d="M297 560Q362 560 410.5 534.5Q459 509 488 471V551H603V0H488V82Q459 43 409.0 17.0Q359 -9 295 -9Q224 -9 165.0 27.5Q106 64 71.5 129.5Q37 195 37 278Q37 361 71.5 425.0Q106 489 165.5 524.5Q225 560 297 560ZM321 461Q277 461 239.0 439.5Q201 418 177.5 376.5Q154 335 154 278Q154 221 177.5 178.0Q201 135 239.5 112.5Q278 90 321 90Q365 90 403.0 112.0Q441 134 464.5 176.5Q488 219 488 276Q488 333 464.5 375.0Q441 417 403.0 439.0Q365 461 321 461Z" transform="translate(686,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 -108Q189 -189 148.5 -225.5Q108 -262 31 -262H-28V-166H11Q46 -166 60.5 -152.5Q75 -139 75 -108V551H189Z" transform="translate(1329,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 551V0H75V551Z" transform="translate(1558,0)" fill="#f3f2ee"/><path d="M311 279 489 0H360L241 187L129 0H10L188 271L10 551H139L258 364L370 551H489Z" transform="translate(1787,0)" fill="#f3f2ee"/><path d="M 1461.5 685.0 Q 1576.0 980 1690.5 685.0" fill="none" stroke="#c9a449" stroke-width="22" stroke-linecap="round"/><circle cx="1461.5" cy="685.0" r="86.0" fill="#c9a449"/><circle cx="1690.5" cy="685.0" r="86.0" fill="#c9a449"/></g></svg></a>
     <span style="display:inline-flex;flex-direction:column;align-items:flex-start;line-height:1.1;gap:3px">
       <span class="accent" id="mode-badge" style="font-size:10px;color:var(--sport);white-space:nowrap">측정 3D</span>
-      <span class="h-ver" style="margin-left:0">v92</span>
+      <span class="h-ver" style="margin-left:0">v109</span>
     </span>
   </div>
   <div class="h-right">
@@ -367,12 +367,19 @@ video{touch-action:none} /* 더블탭 줌 방지: video 요소는 iOS에서 자�
   <button class="btn btn-main" id="btn-main">▶ 시작</button>
 </div>
 
+<script src="../shared/iap.js"></script>
 <script type="module">
 import{PoseLandmarker,FilesetResolver}from"https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/+esm";
 const WASM="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/wasm";
 const MODEL="https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task";
 const GRAPH_MS=5000,MAX_ANG_VEL=500,REC_MAX=1920,REC_BPS=12_000_000;
 const MAX_FLIGHT_S=0.9; // v53: 1.2→0.9s — 지상 점프 현실 최대치로 강화 (조기 이륙 오기록 차단)
+// ── 화면 높이 보정: iOS 웹뷰에서 100svh가 실제 가시영역과 달라 하단(파일/카메라/시작 버튼) 잘림 → innerHeight로 강제 ──
+function setAppHeight(){ try{ document.body.style.height = window.innerHeight + 'px'; }catch(e){} }
+setAppHeight();
+window.addEventListener('resize', setAppHeight);
+window.addEventListener('orientationchange', ()=>setTimeout(setAppHeight,200));
+if(window.visualViewport){ window.visualViewport.addEventListener('resize', setAppHeight); }
 
 const BONES=[[11,12],[23,24],[11,13],[13,15],[12,14],[14,16],[11,23],[12,24],
   [23,25],[25,27],[24,26],[26,28],[27,29],[28,30],[0,11],[0,12]];
@@ -444,6 +451,7 @@ let detB=null;
 let jumpH_b=0,peakJumpH_b=0; // v43: jumpRef_b → 지면 모델(gndPts_b)로 대체
 let jumpState_b='GROUND';
 let jumpTakeoffT_b=0,jumpTakeoffAnkle_b=0,minAnkleGnd_b=0;
+let jumpTakeoffHipY_b=0,_apexHipY_b=0; // v104: B 공중 골반 최고점 — 회전 점프 조기착지 방지용
 let flightTimeSec_b=0,peakFlightTimeSec_b=0,takeoffSpeed_b=0; // B 영상용 MediaPipe (IMAGE mode)
 let lastLm_b=null,lastWlm_b=null,lastA_b={};
 let angVel_b={sh:0,hip:0},peakAngVel_b={sh:0,hip:0};
@@ -462,6 +470,8 @@ let _prevA=null,_prevAt=0;
 let jumpH=0,peakJumpH=0; // v43: jumpRef → 지면 모델(gndPts)로 대체
 let jumpState='GROUND'; // GROUND|AIRBORNE|LAND
 let jumpTakeoffT=0,jumpTakeoffHipY=0;
+let _apexHipY=0;         // v104: 공중 골반 최고점(min Y) — 회전 점프 조기착지 방지용
+let hipTrack=[],hipTrack_b=[]; // v105: 골반(무게중심) 궤적 샘플 {t:미디어ms, y} — 탄도 기반 체공시간 계산
 let _hipRef=0;           // GROUND hip Y EMA (CoM 기준점)
 let refLegNorm=0.35;    // 이륙 전 발목-고관절 거리 고정값 (스케일 안정화)
 let slowMoFactor=1.0;   // 슬로모션 배율: 1=일반, 4=120fps슬로, 8=240fps슬로
@@ -553,6 +563,29 @@ function flightFit(pts){
   for(const p of pts){const x=(p.tm-t0)/1000;const e=p.gap-(c0+c1*x+c2*x*x);rss+=e*e;}
   if(Math.sqrt(rss/n)>Math.max(0.008,apex*0.25))return null; // 잔차 과대 = 궤적 신뢰 불가
   return{t1:t0+r1*1000,t2:t0+r2*1000};
+}
+// v105: 골반(무게중심) 탄도 기반 체공시간 — 발 감지 구간(toMs~ldMs)을 seed로,
+// 골반의 "최고 상승속도 시점=이륙", "최고 하강속도 시점=착지"를 사용. 회전·이동·토(발끝) 동작에
+// 흔들리는 발 대신 무게중심으로 재므로 회전 점프에서 체공시간이 정확해짐. (오프라인 5개 클립 검증:
+// 수직42·홉25·회전17~21cm 모두 실측 일치.) 유효하지 않으면 null → 발 기반 값으로 폴백(하위호환).
+function _comFlight(track, toMs, ldMs, slowMo){
+  if(!track||track.length<5)return null;
+  const w0=toMs-300, w1=ldMs+300;              // v107: 넉넉한 창 — 발 감지 창의 오차/치우침에 덜 의존
+  const pts=track.filter(p=>p.t>=w0&&p.t<=w1);
+  const n=pts.length; if(n<5)return null;
+  let ap=0,ay=Infinity;
+  for(let i=0;i<n;i++){if(pts[i].y<ay){ay=pts[i].y;ap=i;}} // 정점 = 골반 최고점(min y) — 견고
+  if(ap<1||ap>n-2)return null;
+  const apT=pts[ap].t, R=350*slowMo;           // v107: 정점 기준 ±0.35s(실시간)만 탐색 → 발 창에 비종속(온디바이스 조기컷 방지)
+  const vel=i=>{const j=Math.min(i+1,n-1),k=Math.max(i-1,0);const d=(pts[j].t-pts[k].t)||1;return (pts[j].y-pts[k].y)/d;};
+  let toI=ap,vb=Infinity;                      // 이륙 = 최고 상승속도(가장 음수), 정점 이전 R 이내
+  for(let i=1;i<=ap;i++){if(apT-pts[i].t>R)continue;const v=vel(i);if(v<vb){vb=v;toI=i;}}
+  let ldI=ap,vd=-Infinity;                     // 착지 = 최고 하강속도(가장 양수), 정점 이후 R 이내
+  for(let i=ap;i<n-1;i++){if(pts[i].t-apT>R)continue;const v=vel(i);if(v>vd){vd=v;ldI=i;}}
+  if(ldI<=toI)return null;
+  const T=(pts[ldI].t-pts[toI].t)/slowMo/1000;
+  if(T<0.12||T>0.95)return null;               // 비현실 값 거부 → 폴백
+  return T;
 }
 // ── v45: 착지 확정 로직 (v44 재설계) ──────
 // v44의 "수직속도 안정 3프레임" 방식은 피겨 착지 hop(착지 직후 충격 분산을 위한 잔점프)에서
@@ -909,6 +942,8 @@ function events(){
     if(e.key==='Enter')_tryPrmUnlock();
     if(e.key==='Escape'){$('prm-modal').classList.remove('on');_prmPendingCb=null;}
   });
+  // 키보드 닫힌 뒤 WKWebView가 화면을 밀어올린 채 안 돌아오는 문제 → 원위치 복구
+  $('prm-input').addEventListener('blur',()=>{setTimeout(()=>{window.scrollTo(0,0);try{document.scrollingElement.scrollTop=0;}catch(e){}},80);});
   window.addEventListener('resize',resize);
   vid.addEventListener('ended',()=>{if(live&&src==='file')stop_ana();});
 
@@ -996,7 +1031,8 @@ function _resetRunState(){
   jumpTakeoffT_b=0;jumpTakeoffAnkle_b=0;minAnkleGnd_b=0;
   flightTimeSec_b=0;takeoffSpeed_b=0;
   jumpH=0;jumpState='GROUND';gndPts.length=0;_gndFitTO=null;
-  jumpTakeoffT=0;jumpTakeoffHipY=0;_hipRef=0;refLegNorm=0.35;
+  jumpTakeoffT=0;jumpTakeoffHipY=0;_apexHipY=0;jumpTakeoffHipY_b=0;_apexHipY_b=0;_hipRef=0;refLegNorm=0.35;
+  hipTrack.length=0;hipTrack_b.length=0; // v105
   flightTimeSec=0;takeoffSpeed=0;jumpTakeoffAnkle=0;minAnkleGnd=0;
   _lastAnkleY=null;_lastAnkleY_b=null;_lastAnkleX=null;_lastAnkleX_b=null;
   _landCnt=0;_landCnt_b=0;_jdbg1='';_jdbg2='';_jdbg1b='';_jdbg2b='';
@@ -1093,6 +1129,7 @@ function _seekTo(v,t){
     v.currentTime=t;
   });
 }
+const sleep=ms=>new Promise(r=>setTimeout(r,Math.max(0,ms|0)));
 async function precise_ana(){
   if(!det){alert(lang==='ko'?'모델 로딩 중입니다.':'Model is loading...');return;}
   if(src!=='file'||!vid.src){alert(lang==='ko'?'영상 파일을 먼저 선택하세요':'Load a video file first');return;}
@@ -1108,6 +1145,7 @@ async function precise_ana(){
   $('btn-main').className='btn btn-main stop';
   vid.classList.add('show');
   $('no-det').classList.remove('on');
+  $('chip-prec').textContent=lang==='ko'?'🎯 정밀 분석 중':'🎯 Analyzing'; // v104: 다국어
   $('chip-prec').style.display=''; // v65: 정밀 분석 중 표시 (부드럽게 보여도 프레임 스텝 분석 중)
   const step=1/30; // 미디어 초 (대부분의 폰 영상 30fps와 일치)
   const dur=vid.duration||0;
@@ -1125,30 +1163,45 @@ async function precise_ana(){
   const dur2=cmp?(vid2.duration||0):0;
   const b0=cmp?cmpStartB:0;
   const _setSeekB=()=>{if(cmp&&dur2){$('seek-bar-b').value=(vid2.currentTime/dur2)*1000;$('seek-time-b').textContent=fmtTime(vid2.currentTime);}};
-  for(let mt=mt0;mt<dur-0.01&&precRun;mt+=step){
-    const fmt=await _seekTo(vid,mt); // v64: 표시 확정된 프레임의 mediaTime
-    if(!precRun)break;
-    const mtMs=(fmt!==undefined?fmt:vid.currentTime)*1000;
-    _lastDetT=mtMs; // detectJump의 vt 소스 (rVFC 경로와 동일)
-    let ts=_tsBase+mtMs;if(ts<=_tsLast)ts=_tsLast+1;_tsLast=ts;
-    // frame()의 시간축도 미디어 기반(ts) — 회전속도(°/s)·선형속도가 처리 속도와 무관하게 영상 시간 기준으로 계산됨
-    // v67: 무상태 IMAGE 디텍터 — 실행 간 트래킹 상태 오염 없음 (반복 분석 동일 결과)
-    try{const r=detP.detect(vid);frame(r,ts);}catch(e){}
-    _anN++; // v64: _vfcN은 rVFC가 집계 (이중 집계로 '프레임 누락 46%' 오표시되던 버그 수정)
-    // v69: B 영상 동일 스텝 분석 (detP는 IMAGE 무상태라 A·B 공용 안전)
-    if(cmp){
-      const bt=b0+(mt-mt0); // A와 동일 경과시간만큼 B도 진행
-      if(bt<dur2-0.01){
-        const fmtB=await _seekTo(vid2,bt);
-        if(!precRun)break;
-        _lastDetT_b=(fmtB!==undefined?fmtB:vid2.currentTime)*1000;
-        try{const rB=detP.detect(vid2);frameB(rB,ts);}catch(e){}
-        _setSeekB();
-      }
+  let _recPaceT=performance.now(); // 녹화 시 실시간 페이스 기준(정상 속도 저장)
+  // v103: 비교 모드 루프 길이 = A·B 잔여 구간 중 더 긴 쪽까지.
+  // (기존 버그: 루프가 A(vid)의 잔여 길이에만 종속 → B 영상이 A보다 길거나 A 재생헤드가
+  //  앞서 있으면 B의 점프 구간이 통째로 잘려 B 점프높이가 안 나오던 문제. A·B를 각자
+  //  자기 끝까지 독립적으로 분석하도록 수정.)
+  const _spanA=Math.max(0,dur-mt0);
+  const _spanB=cmp?Math.max(0,dur2-b0):0;
+  const _span=Math.max(_spanA,_spanB);
+  for(let _k=0;_k*step<_span-0.01&&precRun;_k++){
+    const el=_k*step, mt=mt0+el, bt=b0+el;   // el = 시작점 이후 경과(미디어 초)
+    const _aOn=mt<dur-0.01, _bOn=cmp&&bt<dur2-0.01;
+    if(!_aOn&&!_bOn)break;
+    let ts;
+    if(_aOn){
+      const fmt=await _seekTo(vid,mt); // v64: 표시 확정된 프레임의 mediaTime
+      if(!precRun)break;
+      const mtMs=(fmt!==undefined?fmt:vid.currentTime)*1000;
+      _lastDetT=mtMs; // detectJump의 vt 소스 (rVFC 경로와 동일)
+      ts=_tsBase+mtMs;if(ts<=_tsLast)ts=_tsLast+1;_tsLast=ts;
+      // frame()의 시간축도 미디어 기반(ts) — 회전속도(°/s)·선형속도가 처리 속도와 무관하게 영상 시간 기준으로 계산됨
+      // v67: 무상태 IMAGE 디텍터 — 실행 간 트래킹 상태 오염 없음 (반복 분석 동일 결과)
+      try{const r=detP.detect(vid);frame(r,ts);}catch(e){}
+      _anN++; // v64: _vfcN은 rVFC가 집계 (이중 집계로 '프레임 누락 46%' 오표시되던 버그 수정)
     }
-    if(dur)$('seek-bar').value=(vid.currentTime/dur)*1000;
-    $('seek-time').textContent=fmtTime(vid.currentTime)+' / '+fmtTime(dur);
-    setRefMsg((lang==='ko'?'🎯 정밀 분석 중 ':'🎯 Analyzing ')+Math.round((mt-mt0)/Math.max(0.01,dur-mt0)*100)+'%  (■ 중지 가능)','var(--cyan)');
+    // v69/v103: B 영상 독립 프레임 스텝 분석 (detP는 IMAGE 무상태라 A·B 공용 안전)
+    if(_bOn){
+      const fmtB=await _seekTo(vid2,bt);
+      if(!precRun)break;
+      _lastDetT_b=(fmtB!==undefined?fmtB:vid2.currentTime)*1000;
+      // v103: B 전용 미디어 타임스탬프 — A 종료 후에도 B 각속도 dt가 정확(단조 증가)
+      let tsB=_tsBase_b+_lastDetT_b;if(tsB<=_tsLast_b)tsB=_tsLast_b+1;_tsLast_b=tsB;
+      try{const rB=detP.detect(vid2);frameB(rB,tsB);}catch(e){}
+      _setSeekB();
+    }
+    if(dur&&_aOn)$('seek-bar').value=(vid.currentTime/dur)*1000;
+    $('seek-time').textContent=fmtTime(Math.min(mt,dur))+' / '+fmtTime(dur);
+    setRefMsg((lang==='ko'?'🎯 정밀 분석 중 ':'🎯 Analyzing ')+Math.round(el/Math.max(0.01,_span)*100)+'%'+(lang==='ko'?'  (■ 중지 가능)':'  (■ Stop anytime)'),'var(--cyan)');
+    // v100: 녹화 중에는 실시간 속도로 페이싱 → 녹화 영상이 정상 속도로 저장(빨라짐 방지). 처리가 더 느리면 대기 안 함(슬로모션 방지).
+    if(isRec){ _recPaceT+=step*1000; const _pw=_recPaceT-performance.now(); if(_pw>0){await sleep(_pw);} else {_recPaceT=performance.now();} }
   }
   const finished=precRun;
   precRun=false;
@@ -1269,22 +1322,19 @@ function frame(res,t){
   if(sport==='JMP'){ // v64: 점프 감지 = 점프 모드 전용
     detectJump(lm,t);
     // v47/v49: 점프 진단 오버레이 (좌하단) — 상태 / A 결과 / B 결과(비교 모드)
-    if(_jdbg1||_jHist.length||_jdbg1b||_jdbg2b){
+    // 출시본: 개발자 진단(_jdbg1/_jHist/비교 B진단)은 숨김. 사용자용 힌트(프레임 누락→정밀모드 권장)만 표시.
+    {
       const _ls=[];
-      if(_jdbg1)_ls.push(['#FFD700',_jdbg1]);
-      _jHist.forEach(s=>_ls.push([s.startsWith('✔')?'#22c55e':'#ef4444',s])); // v60: 최근 이벤트 3건
-      // v60: 분석 커버리지 — 표시된 프레임 중 분석된 비율. 92% 미만 = 처리 지연으로 프레임 누락
       const _cov=_vfcN>20?_anN/_vfcN:1;
-      if(!precRun&&src==='file'&&HAS_VFC&&_cov<0.92)_ls.push(['#f97316','⚠ 프레임 누락 '+Math.round((1-Math.min(1,_cov))*100)+'% — 정밀 모드(🎯) 권장']); // v64/v91: 정밀측정 중엔 무의미하므로 숨김
-
-      if(compareMode&&_jdbg1b)_ls.push(['#FFD700',_jdbg1b]);
-      if(compareMode&&_jdbg2b)_ls.push([_jdbg2b.includes('✔')?'#22c55e':'#ef4444',_jdbg2b]);
-      ctx.font='600 11px monospace';
-      const _w=Math.max(..._ls.map(l=>ctx.measureText(l[1]).width))+14;
-      const _h=_ls.length*16+8;
-      const _y0=cvs.height-_h-8;
-      ctx.fillStyle='rgba(0,0,0,.65)';ctx.fillRect(6,_y0,_w,_h);
-      _ls.forEach((l,i)=>{ctx.fillStyle=l[0];ctx.fillText(l[1],13,_y0+15+i*16);});
+      if(!precRun&&src==='file'&&HAS_VFC&&_cov<0.92)_ls.push(['#f97316','⚠ 프레임 누락 '+Math.round((1-Math.min(1,_cov))*100)+'% — 정밀 모드(🎯) 권장']);
+      if(_ls.length){
+        ctx.font='600 11px monospace';
+        const _w=Math.max(..._ls.map(l=>ctx.measureText(l[1]).width))+14;
+        const _h=_ls.length*16+8;
+        const _y0=cvs.height-_h-8;
+        ctx.fillStyle='rgba(0,0,0,.65)';ctx.fillRect(6,_y0,_w,_h);
+        _ls.forEach((l,i)=>{ctx.fillStyle=l[0];ctx.fillText(l[1],13,_y0+15+i*16);});
+      }
     }
   }
   // v80: 피크는 최근 XF_WIN프레임 중앙값으로 추적 (단발 스파이크 무시). 현재값(rv-xf)은 원시 그대로 표시.
@@ -1363,8 +1413,11 @@ function detectJump_b(lm,t){
   // v54: 몸통 스케일 (A와 동일)
   const bodyS=Math.hypot((lm[11].x+lm[12].x)/2-(lm[23].x+lm[24].x)/2,
                          (lm[11].y+lm[12].y)/2-(lm[23].y+lm[24].y)/2)||0.2;
+  // v104: B 골반(무게중심) 세로 위치
+  const hipY=(lm[23].y+lm[24].y)/2, hasHip=((lm[23].visibility||0)>0.3||(lm[24].visibility||0)>0.3);
   const slowMo=src==='camera'?1.0:slowMoFactor;
   const vt=(HAS_VFC&&_lastDetT_b>=0)?_lastDetT_b:vid2.currentTime*1000; // v56/v58: B 미디어 시간 (rVFC 우선)
+  if(hasHip){hipTrack_b.push({t:vt,y:hipY});if(hipTrack_b.length>300)hipTrack_b.shift();} // v105: B 골반 궤적 수집
   switch(jumpState_b){
     case'GROUND':{
       // v43: 지면 모델 (A와 동일)
@@ -1407,6 +1460,7 @@ function detectJump_b(lm,t){
         if(precRun&&_toCnt_b<2)break;
         jumpTakeoffT_b=(_riseT_b&&vt-_riseT_b<800)?_riseT_b:((_lastGndT_b&&vt-_lastGndT_b<800)?_lastGndT_b:vt);
         jumpTakeoffAnkle_b=ankleGnd;minAnkleGnd_b=ankleGnd;
+        jumpTakeoffHipY_b=hipY;_apexHipY_b=hipY; // v104: 골반 기준점·최고점 초기화
         const _fitTOb=gndFit(gndPts_b.slice(-RECENT_GND)); // v79: 최근 1s 구간 (A와 동일)
         _gndFitTO_b=_fitTOb;
         const _gg0b=gndY(_fitTOb,ankleX,bodyS)-ankleGnd;
@@ -1421,6 +1475,7 @@ function detectJump_b(lm,t){
       const realMs=airMs/slowMo;
       const realSec=realMs/1000;
       if(ankleGnd<minAnkleGnd_b)minAnkleGnd_b=ankleGnd;
+      if(hasHip&&hipY<_apexHipY_b)_apexHipY_b=hipY; // v104: B 골반 최고점 추적
       const minDrop=jumpTakeoffAnkle_b-minAnkleGnd_b;
       flightTimeSec_b=realSec;
       const h2=realSec/2;
@@ -1438,7 +1493,11 @@ function detectJump_b(lm,t){
         if(_landCnt_b===0)_landT0_b=vt;
         _landCnt_b++;
         const _sure=_gap<=0.002||ankleGnd>=jumpTakeoffAnkle_b+0.035;
-        if(_landCnt_b>=LAND_N||_sure){
+        // v104: B 회전 점프 조기착지 방지 — 골반이 apex에서 절반 이상 내려오기 전엔 착지 보류 (A와 동일)
+        const _hipRise=jumpTakeoffHipY_b-_apexHipY_b;
+        const _hipOK=!(hasHip&&_hipRise>0.03)||((hipY-_apexHipY_b)>=0.5*_hipRise);
+        if(!_hipOK)_jdbg1b='B 착지보류 골반하강'+Math.round(Math.max(0,hipY-_apexHipY_b)/Math.max(1e-4,_hipRise)*100)+'%/50';
+        if((_landCnt_b>=LAND_N||_sure)&&_hipOK){
           let _t1=jumpTakeoffT_b,_t2=_landT0_b,_fitOk=false; // v58: 포물선 피팅 (A와 동일)
           const _ff=flightFit(airPts_b);
           if(_ff){ // v59: 비대칭 게이트 (A와 동일)
@@ -1446,7 +1505,8 @@ function detectJump_b(lm,t){
             if(_d1>=-600&&_d1<=150&&Math.abs(_d2)<=300){_t1=_ff.t1;_t2=_ff.t2;_fitOk=true;}
           }
           const airMs0=_t2-_t1;
-          const realSec0=airMs0/slowMo/1000; // v56
+          let realSec0=airMs0/slowMo/1000; // v56
+          const _cmb=''; // v109: CoM 실험 롤백 — 발 기반 체공 유지
           if(airMs0>=50){
             const validJump=realSec0>=0.15; // v48: A와 동일 — minDrop 조건 제거
             const validForPeak=validJump&&realSec0<=MAX_FLIGHT_S;
@@ -1456,14 +1516,14 @@ function detectJump_b(lm,t){
             if(validForPeak){
               if(jh0>peakJumpH_b)peakJumpH_b=jh0;
               if(realSec0>peakFlightTimeSec_b)peakFlightTimeSec_b=realSec0;
-              _jdbg2b='B ✔ 기록 T='+realSec0.toFixed(2)+'s h='+jh0+'cm'+(_fitOk?' fit':(_ff?' gate':' nofit')); // v58/v60
+              _jdbg2b='B ✔ 기록 T='+realSec0.toFixed(2)+'s h='+jh0+'cm'+(_fitOk?' fit':(_ff?' gate':' nofit'))+_cmb; // v58/v60/v105
             }else{
               _jdbg2b='B ✖ 무시 T='+realSec0.toFixed(2)+'s';
             }
           }
           gndPts_b.push({x:ankleX,y:ankleGnd,s:bodyS});
           jumpState_b='LAND';jumpH_b=0;_landCnt_b=0;
-        }
+        }else if(!_hipOK){_landCnt_b=0;} // v104: 골반 미하강 → 가짜 착지 거부
       }else{
         _landCnt_b=0;
       }
@@ -1551,6 +1611,8 @@ function detectJump(lm,t){
   // v54: 몸통 화면 길이 (원근 스케일 — 깊이 이동 지표, 공중에서도 측정 가능)
   const bodyS=Math.hypot((lm[11].x+lm[12].x)/2-(lm[23].x+lm[24].x)/2,
                          (lm[11].y+lm[12].y)/2-(lm[23].y+lm[24].y)/2)||0.2;
+  // v104: 골반(무게중심) 세로 위치 — 회전해도 안정적 (조기착지 방지 기준)
+  const hipY=(lm[23].y+lm[24].y)/2, hasHip=((lm[23].visibility||0)>0.3||(lm[24].visibility||0)>0.3);
 
   const slowMo=src==='camera'?1.0:slowMoFactor;
   // v56: 점프 타이밍 = 미디어 시간 (vid.currentTime) 기반
@@ -1560,6 +1622,7 @@ function detectJump(lm,t){
   // v58: rVFC mediaTime 우선 — currentTime은 프레임 표시와 무관하게 흐르므로
   // 같은 픽셀 프레임이 실행마다 다른 시각으로 찍히는 문제 제거
   const vt=src==='camera'?t:((HAS_VFC&&_lastDetT>=0)?_lastDetT:vid.currentTime*1000);
+  if(hasHip){hipTrack.push({t:vt,y:hipY});if(hipTrack.length>300)hipTrack.shift();} // v105: 골반 궤적 수집
 
   switch(jumpState){
     case'GROUND':{
@@ -1606,6 +1669,7 @@ function detectJump(lm,t){
         jumpTakeoffT=(_riseT&&vt-_riseT<800)?_riseT:((_lastGndT&&vt-_lastGndT<800)?_lastGndT:vt);
         jumpTakeoffAnkle=ankleGnd; // 보조 착지 기준 (대칭 감지)
         minAnkleGnd=ankleGnd;      // 최저점 초기화
+        jumpTakeoffHipY=hipY;_apexHipY=hipY; // v104: 골반 기준점·최고점 초기화
         // v79: 측정용 지면 모델은 "점프 직전 RECENT_GND(1s)" 고정 구간으로만 학습.
         // 전체 버퍼를 쓰면 시작점(런웨이)에 따라 표본이 달라 높이가 1~2cm씩 흔들림(24/23/22).
         // 직전 1초만 쓰면 1·2·3초 전 어디서 시작하든 같은 구간 → 결과 수렴 (시작점 무관).
@@ -1629,6 +1693,7 @@ function detectJump(lm,t){
 
       // 최저 발목 추적 (진짜 점프 판별용)
       if(ankleGnd<minAnkleGnd)minAnkleGnd=ankleGnd;
+      if(hasHip&&hipY<_apexHipY)_apexHipY=hipY; // v104: 골반 최고점(apex) 추적
       // 이륙 시 발목 위치에서 얼마나 더 내려갔는지 (4% 이상 = 진짜 점프)
       const minDrop=jumpTakeoffAnkle-minAnkleGnd;
 
@@ -1656,7 +1721,12 @@ function detectJump(lm,t){
         _landCnt++;
         // v49: 확실히 닿으면 즉시 확정 — 저fps(비교 모드)·hop 짧은 접촉 대응
         const _sure=_gap<=0.002||ankleGnd>=jumpTakeoffAnkle+0.035;
-        if(_landCnt>=LAND_N||_sure){
+        // v104: 회전 점프 조기착지 방지 — 골반(무게중심)이 apex에서 절반 이상 내려오기 전엔 착지 보류.
+        // 회전 중 자유 다리가 먼저 지면선에 닿아 생기는 가짜 착지를 골반으로 거부. 골반 상승폭이
+        // 작거나(비점프) 미검출이면 게이트 미적용 → 기존 동작 유지(하위호환). 안전장치: MAX_FLIGHT_S 타임아웃.
+        const _hipRise=jumpTakeoffHipY-_apexHipY;
+        const _hipOK=!(hasHip&&_hipRise>0.03)||((hipY-_apexHipY)>=0.5*_hipRise);
+        if((_landCnt>=LAND_N||_sure)&&_hipOK){
           // v58: 체공 전체 궤적 포물선 피팅으로 이지·접지 시각 재추정
           // 성공 + 기존 추정과 합리적 범위(이지 ±250ms, 접지 ±300ms 실시간) 일치 시 채택, 실패 시 v57 보간값 폴백
           let _t1=jumpTakeoffT,_t2=_landT0,_fitOk=false;
@@ -1668,8 +1738,9 @@ function detectJump(lm,t){
             if(_d1>=-600&&_d1<=150&&Math.abs(_d2)<=300){_t1=_ff.t1;_t2=_ff.t2;_fitOk=true;}
           }
           const airMs0=_t2-_t1;                    // 비행시간 = 피팅 근 (폴백: 첫 접촉 기준)
-          const realSec0=airMs0/slowMo/1000;
-          const _fm=_fitOk?' fit':(_ff?' gate':' nofit'); // v60: fit=피팅 채택 / gate=게이트 거부 / nofit=피팅 실패
+          let realSec0=airMs0/slowMo/1000;
+          // v105: 골반 탄도 체공 우선 — 유효 시 발 기반 체공시간을 무게중심 기준으로 교체(회전 점프 정확). 무효면 발 값 유지.
+          const _fm=_fitOk?' fit':(_ff?' gate':' nofit'); // v60: 발 기반 체공(정밀 포즈추정 기준). CoM 실험(v105~108)은 온디바이스 미검증으로 롤백.
           if(airMs0>=50){ // 최소 50ms (노이즈 방지)
             // v46: 유효 점프 기준 완화 5%→2% + 최소 체공 0.15s
             // 피겨 점프는 비행 중 착지 다리를 아래로 뻗어 "낮은 쪽 발"의 최대 상승폭이
@@ -1698,7 +1769,7 @@ function detectJump(lm,t){
           // 착지 지점을 지면 샘플에 반영 후 상태 리셋
           gndPts.push({x:ankleX,y:ankleGnd,s:bodyS});
           jumpState='LAND';jumpH=0;_landCnt=0;
-        }
+        }else if(!_hipOK){_landCnt=0;} // v104: 골반 미하강 → 가짜 착지 거부, 후보 리셋(_landT0 재측정)
       }else{
         _landCnt=0; // 단일 프레임 노이즈 → 후보 취소
       }
@@ -2066,10 +2137,7 @@ function getMimeType(){
 }
 function startRec(){
   if(!live){alert(lang==='ko'?'분석을 먼저 시작하세요':'Start analysis first');return;}
-  // v70: 정밀 모드 녹화는 느린 화면(슬로모션)으로 저장됨 — 원리 안내
-  // 녹화기는 실제 시계 기준으로 영상을 만드는데 정밀 분석은 프레임을 멈춰가며 스텝하므로
-  // 영상이 늘어남. 정상 속도 영상은 실시간(▶) 분석 중 녹화 권장.
-  if(precRun)_errToast(lang==='ko'?'정밀 분석 녹화는 슬로모션으로 저장됩니다. 정상 속도 영상은 실시간(▶) 분석에서 녹화하세요.':'Precise-mode recording saves as slow-motion. Use live (▶) analysis for normal speed.','rgba(160,110,20,.93)');
+  // v100: 정밀 녹화도 실시간 페이싱으로 정상 속도 저장 → 별도 안내 토스트 불필요(제거).
   try{
     initCompCanvas();
     const mimeType=getMimeType();
@@ -2261,7 +2329,8 @@ function lang_apply(){
   const ICONS={'GEN':'⚡','PRO':'⭐','JMP':'🦘'}; // v64
   const NAMES={GEN:{ko:'일반',en:'General'},PRO:{ko:'프리미엄',en:'Premium'},JMP:{ko:'점프',en:'Jump'}};
   document.querySelectorAll('.sp-btn').forEach(b=>{const s=b.dataset.s;b.textContent=ICONS[s]+' '+(ko?NAMES[s].ko:NAMES[s].en);});
-  buildPts();buildRows();buildJoints();
+  {const cp=$('chip-prec');if(cp)cp.textContent=ko?'🎯 정밀 분석 중':'🎯 Analyzing';} // v104: 정밀분석 칩 다국어
+  buildPts();buildRows();buildJoints();if(compareMode)buildJoints_b(); // v104: 언어 전환 시 B 패널 관절 라벨도 갱신
   // ref-msg 언어 동기화 (B 로드 완료 메시지)
   if(vid2Loaded&&!live){
     setRefMsg(ko?'B 로드 완료. 점프 2~3초 전으로 A·B 맞추고 ▶ 시작':'B loaded. Align A·B ~2-3s before the jump, then ▶ Start','var(--green)'); // v59
@@ -2285,13 +2354,13 @@ function _setPremium(v){
   if(v){if(sport!=='PRO')setSport('PRO');}
   else if(sport!=='GEN')setSport('GEN');
 }
-function requirePremium(cb){
-  if(isPremium){cb();return;}
+async function requirePremium(cb){
+  if(isPremium){cb&&cb();return;}
   _prmPendingCb=cb;
-  $('prm-input').value='';
-  $('prm-err').classList.remove('on');
+  $('prm-input').value=''; { const _e=$('prm-err'); if(_e)_e.classList.remove('on'); }
   $('prm-modal').classList.add('on');
-  setTimeout(()=>$('prm-input').focus(),120);
+  // 네이티브: iap.js가 [구매]/[복원] 버튼 주입 + 비번칸 숨김(결제 경로). 웹: 비번칸 표시(회원용).
+  if(!(window.TrajixIAP && window.TrajixIAP.native)) setTimeout(()=>{try{$('prm-input').focus();}catch(e){}},120);
 }
 async function _tryPrmUnlock(){
   const pw=$('prm-input').value;
@@ -2299,6 +2368,7 @@ async function _tryPrmUnlock(){
   if(h===_PW_HASH){
     _setPremium(true);
     $('prm-modal').classList.remove('on');
+    $('prm-input').blur();
     $('prm-desc').textContent='프리미엄 모드(전체 관절 + 점프 분석)와\n비교 분석은 프리미엄 전용입니다.\n비밀번호를 입력하세요.';
     if(_prmPendingCb){_prmPendingCb();_prmPendingCb=null;}
   }else{
