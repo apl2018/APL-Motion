@@ -505,7 +505,7 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
     <div class="h-brand">
       <div class="h-brand-txt" style="flex-direction:row;align-items:center;gap:8px">
         <a href="#" title="홈(런처로)" onclick="goHome();return false" style="text-decoration:none;cursor:pointer;display:block"><svg viewBox="-32 0 2368 1185.5" role="img" aria-label="trajix" style="display:block;height:32px;width:auto" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,883.5) scale(1,-1)"><path d="M208 458V153Q208 122 222.5 108.5Q237 95 272 95H342V0H252Q175 0 134.0 36.0Q93 72 93 153V458H28V551H93V688H208V551H342V458Z" transform="translate(0,0)" fill="#f3f2ee"/><path d="M354 560V442H325Q258 442 223.5 408.0Q189 374 189 290V0H75V551H189V471Q214 513 255.5 536.5Q297 560 354 560Z" transform="translate(337,0)" fill="#f3f2ee"/><path d="M297 560Q362 560 410.5 534.5Q459 509 488 471V551H603V0H488V82Q459 43 409.0 17.0Q359 -9 295 -9Q224 -9 165.0 27.5Q106 64 71.5 129.5Q37 195 37 278Q37 361 71.5 425.0Q106 489 165.5 524.5Q225 560 297 560ZM321 461Q277 461 239.0 439.5Q201 418 177.5 376.5Q154 335 154 278Q154 221 177.5 178.0Q201 135 239.5 112.5Q278 90 321 90Q365 90 403.0 112.0Q441 134 464.5 176.5Q488 219 488 276Q488 333 464.5 375.0Q441 417 403.0 439.0Q365 461 321 461Z" transform="translate(686,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 -108Q189 -189 148.5 -225.5Q108 -262 31 -262H-28V-166H11Q46 -166 60.5 -152.5Q75 -139 75 -108V551H189Z" transform="translate(1329,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 551V0H75V551Z" transform="translate(1558,0)" fill="#f3f2ee"/><path d="M311 279 489 0H360L241 187L129 0H10L188 271L10 551H139L258 364L370 551H489Z" transform="translate(1787,0)" fill="#f3f2ee"/><path d="M 1461.5 685.0 Q 1576.0 980 1690.5 685.0" fill="none" stroke="#c9a449" stroke-width="22" stroke-linecap="round"/><circle cx="1461.5" cy="685.0" r="86.0" fill="#c9a449"/><circle cx="1690.5" cy="685.0" r="86.0" fill="#c9a449"/></g></svg></a>
-        <div class="h-mc" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;letter-spacing:0;gap:3px"><span id="mode-badge" style="font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap">코칭 2D</span><span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v115</span></div>
+        <div class="h-mc" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;letter-spacing:0;gap:3px"><span id="mode-badge" style="font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap">코칭 2D</span><span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v116</span></div>
       </div>
     </div>
     <div id="hdr-right">
@@ -1326,8 +1326,101 @@ function _unlockTTS(){
     speechSynthesis.speak(u);_ttsUnlocked=true;
   }catch(e){}
 }
+// ===== [VoiceClip v116] 사전 렌더 음성 클립 — 양쪽 이어폰 출력 + 녹화 캡처 (iOS TTS 한계 극복) =====
+// 한국어 피드백은 voice/cNNN.wav 를 WebAudio로 재생 → ①스테레오 ②녹화영상에 포함 ③일정 볼륨.
+// 클립이 없거나(타 언어)·아직 로드 전이면 기존 speechSynthesis로 자연 폴백. 라우팅은 playCoachChime 패턴과 동일.
+const _VOICE_MAP = {
+  "왼무릎 좀더 구부려":"c001.wav",
+  "오른무릎 좀더 구부려":"c002.wav",
+  "왼무릎 많이 구부려":"c003.wav",
+  "오른무릎 많이 구부려":"c004.wav",
+  "왼무릎 너무 구부렸어":"c005.wav",
+  "오른무릎 너무 구부렸어":"c006.wav",
+  "왼무릎 좀 펴":"c007.wav",
+  "오른무릎 좀 펴":"c008.wav",
+  "엉덩이 더 낮춰":"c009.wav",
+  "엉덩이 더 내려":"c010.wav",
+  "상체 더 세워":"c011.wav",
+  "상체 너무 숙였어":"c012.wav",
+  "등 너무 굽었어. 세워":"c013.wav",
+  "상체 앞으로 기울여":"c014.wav",
+  "상체 더 기울여":"c015.wav",
+  "등 더 펴":"c016.wav",
+  "등 굽었어. 펴":"c017.wav",
+  "허리 중립 유지":"c018.wav",
+  "허리 너무 젖혔어":"c019.wav",
+  "왼어깨 앞으로 내려":"c020.wav",
+  "오른어깨 앞으로 내려":"c021.wav",
+  "왼어깨 너무 뒤로 젖혔어. 앞으로 내려":"c022.wav",
+  "오른어깨 너무 뒤로 젖혔어. 앞으로 내려":"c023.wav",
+  "왼어깨 뒤로 펴":"c024.wav",
+  "오른어깨 뒤로 펴":"c025.wav",
+  "왼어깨 너무 앞으로 굽었어":"c026.wav",
+  "오른어깨 너무 앞으로 굽었어":"c027.wav",
+  "왼팔꿈치 더 구부려":"c028.wav",
+  "오른팔꿈치 더 구부려":"c029.wav",
+  "왼팔꿈치 더 구부려. 90도 목표":"c030.wav",
+  "오른팔꿈치 더 구부려. 90도 목표":"c031.wav",
+  "왼팔꿈치 더 펴":"c032.wav",
+  "오른팔꿈치 더 펴":"c033.wav",
+  "왼팔꿈치 너무 굽혔어. 펴":"c034.wav",
+  "오른팔꿈치 너무 굽혔어. 펴":"c035.wav",
+  "골반 왼쪽으로":"c036.wav",
+  "골반 오른쪽으로":"c037.wav",
+  "왼쪽 어깨 올려":"c038.wav",
+  "오른쪽 어깨 올려":"c039.wav",
+  "왼쪽 골반 올려":"c040.wav",
+  "오른쪽 골반 올려":"c041.wav",
+  "상체 왼쪽으로":"c042.wav",
+  "상체 오른쪽으로":"c043.wav",
+  "왼 무릎 바깥으로":"c044.wav",
+  "왼 무릎 안으로":"c045.wav",
+  "오른 무릎 바깥으로":"c046.wav",
+  "오른 무릎 안으로":"c047.wav",
+  "완벽해":"c048.wav",
+  "아주 좋아":"c049.wav",
+  "훌륭해":"c050.wav",
+  "자세 좋아":"c051.wav",
+  "굿":"c052.wav",
+  "분석을 시작합니다":"c053.wav",
+  "분석이 종료되었습니다. 수고하셨습니다":"c054.wav",
+  "기준 자세가 저장되었습니다":"c055.wav",
+  "자세 인식에 실패했습니다. 다시 시도해 주세요":"c056.wav",
+  "전신이 보이도록 서 주세요":"c057.wav"
+};
+function _normClip(s){ return String(s).trim().replace(/[!.。\s]+$/,''); }
+let _clipBytes={}, _clipBufs={}, _clipBufCtx=null, _curClipSrc=null, _clipPreloaded=false;
+function _clipCtx(){ return (_recAudioCtx&&_recAudioCtx.state!=='closed')?_recAudioCtx:((typeof _audioCtxKeepAlive!=='undefined'&&_audioCtxKeepAlive&&_audioCtxKeepAlive.state!=='closed')?_audioCtxKeepAlive:null); }
+function preloadClips(){
+  if(_clipPreloaded) return; _clipPreloaded=true;
+  const files=Array.from(new Set(Object.values(_VOICE_MAP)));
+  files.forEach(f=>{ fetch('voice/'+f).then(r=>r.ok?r.arrayBuffer():null).then(b=>{ if(b)_clipBytes[f]=b; }).catch(()=>{}); });
+}
+function decodeClips(){
+  const ctx=_clipCtx(); if(!ctx) return;
+  if(_clipBufCtx!==ctx){ _clipBufs={}; _clipBufCtx=ctx; }
+  Object.keys(_clipBytes).forEach(f=>{ if(!_clipBufs[f]){ try{ctx.decodeAudioData(_clipBytes[f].slice(0),b=>{_clipBufs[f]=b;},()=>{});}catch(e){} } });
+}
+function playClip(txt){
+  try{
+    if(CL!=='ko') return false;              // 한국어 클립만 보유 — 그 외 언어는 폴백
+    const ctx=_clipCtx(); if(!ctx) return false;
+    const file=_VOICE_MAP[_normClip(txt)]; if(!file) return false;
+    if(_clipBufCtx!==ctx){ _clipBufs={}; _clipBufCtx=ctx; }
+    const buf=_clipBufs[file];
+    if(!buf){ if(_clipBytes[file]){ try{ctx.decodeAudioData(_clipBytes[file].slice(0),b=>{_clipBufs[file]=b;},()=>{});}catch(e){} } return false; }
+    if(ctx.state==='suspended') ctx.resume().catch(()=>{});
+    try{ if(_curClipSrc) _curClipSrc.stop(); }catch(e){}
+    const src=ctx.createBufferSource(); src.buffer=buf;
+    if(ctx===_recAudioCtx&&_recAudioDest){ try{src.connect(_recAudioDest);}catch(e){} } // 녹화 스트림에 믹스
+    src.connect(ctx.destination);                                                      // 스피커/양쪽 이어폰
+    _curClipSrc=src; S.speak=true;
+    src.onended=()=>{ S.speak=false; if(_curClipSrc===src)_curClipSrc=null; };
+    src.start();
+    return true;
+  }catch(e){ return false; }
+}
 function speak(txt){
-  if(!window.speechSynthesis) return;
   _dbgSpeak++;
   // ① Chime + subtitle overlay always fire — independent of TTS lock
   //    This ensures coaching is heard/seen even if TTS is stuck on iOS
@@ -1335,8 +1428,11 @@ function speak(txt){
   if(_compDrawing) _coachOverlay={text:txt,until:Date.now()+3500};
   $('fb-txt').textContent=txt;
   setTimeout(()=>{if($('fb-txt').textContent===txt)$('fb-txt').textContent='';},4500);
-  // ② TTS voice — skip if already speaking to avoid overlap
   if(S.speak) return;
+  // ① [VoiceClip v116] 사전 렌더 클립 우선 — 양쪽 이어폰 + 녹화 포함
+  if(playClip(txt)) return;
+  // ② 폴백: iOS 음성합성(speechSynthesis)
+  if(!window.speechSynthesis) return;
   S.speak=true;
   speechSynthesis.cancel();
   const u=new SpeechSynthesisUtterance(txt);
@@ -1557,7 +1653,7 @@ const MP_WASM="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/wasm
 const MP_MODEL="https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task";
 // 코칭은 녹화+합성+TTS로 GPU 부하가 커서 추론은 CPU 기본 → GPU 컨텍스트 경쟁/유실 원천 차단(뜨거우면 멈춤 대신 fps만 완만 저하).
 // ?gpu=1 로 GPU 델리게이트 강제 테스트 가능.
-let MP_DELEGATE=(()=>{try{return new URLSearchParams(location.search).get('gpu')==='1'?'GPU':'CPU';}catch(e){return 'CPU';}})();
+let MP_DELEGATE=(()=>{try{return new URLSearchParams(location.search).get('cpu')==='1'?'CPU':'GPU';}catch(e){return 'GPU';}})(); // [v116] 기본 GPU(전체 완주 검증됨), ?cpu=1로 CPU 테스트
 const _MP_MAP=[0,2,5,7,8,11,12,13,14,15,16,23,24,25,26,27,28]; // MoveNet idx → MediaPipe idx
 let _mpVideo=null,_mpImage=null,_mpTs=0,_mpFS=null;
 // 진단/자가치유 카운터
@@ -3780,6 +3876,7 @@ async function startLive(){
       _recAudioDest=_recAudioCtx.createMediaStreamDestination();
     }
     _recAudioCtx.resume().catch(()=>{});
+    try{decodeClips();}catch(e){} // [VoiceClip v116] 세션 컨텍스트로 클립 디코드
   }catch(e){_recAudioCtx=null;_recAudioDest=null;}
 
   // ② TTS 사전 활성화 — 제스처 컨텍스트 내(await 전)에서 호출해야 iOS에서 동작
@@ -4952,6 +5049,7 @@ function drawPosOverlay(kps, pos){
 async function init(){
   setAppHeight();
   _initDbgHUD(); // [EngineSwap v115] ?debug=1 이면 진단 HUD 표시
+  preloadClips(); // [VoiceClip v116] 음성 클립 백그라운드 프리로드
   for(const ex of EXERCISES){
     try{const n=localStorage.getItem('apl_exname_'+ex.id);if(n)ex.name=n;}catch(e){}
     try{
@@ -5185,7 +5283,7 @@ async function init(){
 }
 
 window.addEventListener('load',init);
-/* trajix — build v115 [EngineSwap] 코칭 추론 MoveNet/TF.js(WebGL) → MediaPipe tasks-vision(동기 detectForVideo, CPU) 교체 + 자가치유 워치독 + TTS 언락 + 진단 HUD/요약 */
+/* trajix — build v116 [VoiceClip] 피드백 음성을 사전렌더 클립(스테레오+녹화포함)으로, GPU 기본값 / v115 [EngineSwap] 코칭 추론 MoveNet/TF.js(WebGL) → MediaPipe tasks-vision(동기 detectForVideo, CPU) 교체 + 자가치유 워치독 + TTS 언락 + 진단 HUD/요약 */
 </script>
 </body>
 </html>
