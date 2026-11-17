@@ -505,7 +505,7 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
     <div class="h-brand">
       <div class="h-brand-txt" style="flex-direction:row;align-items:center;gap:8px">
         <a href="#" title="홈(런처로)" onclick="goHome();return false" style="text-decoration:none;cursor:pointer;display:block"><svg viewBox="-32 0 2368 1185.5" role="img" aria-label="trajix" style="display:block;height:32px;width:auto" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,883.5) scale(1,-1)"><path d="M208 458V153Q208 122 222.5 108.5Q237 95 272 95H342V0H252Q175 0 134.0 36.0Q93 72 93 153V458H28V551H93V688H208V551H342V458Z" transform="translate(0,0)" fill="#f3f2ee"/><path d="M354 560V442H325Q258 442 223.5 408.0Q189 374 189 290V0H75V551H189V471Q214 513 255.5 536.5Q297 560 354 560Z" transform="translate(337,0)" fill="#f3f2ee"/><path d="M297 560Q362 560 410.5 534.5Q459 509 488 471V551H603V0H488V82Q459 43 409.0 17.0Q359 -9 295 -9Q224 -9 165.0 27.5Q106 64 71.5 129.5Q37 195 37 278Q37 361 71.5 425.0Q106 489 165.5 524.5Q225 560 297 560ZM321 461Q277 461 239.0 439.5Q201 418 177.5 376.5Q154 335 154 278Q154 221 177.5 178.0Q201 135 239.5 112.5Q278 90 321 90Q365 90 403.0 112.0Q441 134 464.5 176.5Q488 219 488 276Q488 333 464.5 375.0Q441 417 403.0 439.0Q365 461 321 461Z" transform="translate(686,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 -108Q189 -189 148.5 -225.5Q108 -262 31 -262H-28V-166H11Q46 -166 60.5 -152.5Q75 -139 75 -108V551H189Z" transform="translate(1329,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 551V0H75V551Z" transform="translate(1558,0)" fill="#f3f2ee"/><path d="M311 279 489 0H360L241 187L129 0H10L188 271L10 551H139L258 364L370 551H489Z" transform="translate(1787,0)" fill="#f3f2ee"/><path d="M 1461.5 685.0 Q 1576.0 980 1690.5 685.0" fill="none" stroke="#c9a449" stroke-width="22" stroke-linecap="round"/><circle cx="1461.5" cy="685.0" r="86.0" fill="#c9a449"/><circle cx="1690.5" cy="685.0" r="86.0" fill="#c9a449"/></g></svg></a>
-        <div class="h-mc" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;letter-spacing:0;gap:3px"><span id="mode-badge" style="font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap">코칭 2D</span><span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v121</span></div>
+        <div class="h-mc" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;letter-spacing:0;gap:3px"><span id="mode-badge" style="font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap">코칭 2D</span><span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v123</span></div>
       </div>
     </div>
     <div id="hdr-right">
@@ -571,6 +571,12 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
         <span class="pm-lbl" id="pm-lbl-trk">몸통 기울기</span>
         <div class="pm-dot" id="pd-trk"></div>
         <span class="pm-deg" id="pv-trk">--</span>
+      </div>
+      <!-- [v122] 골반 좌우 이동(hipShift) — 코칭 핵심 지표 -->
+      <div class="pm-row">
+        <span class="pm-lbl" id="pm-lbl-hsh">골반 좌우</span>
+        <div class="pm-dot" id="pd-hsh"></div>
+        <span class="pm-deg" id="pv-hsh">--</span>
       </div>
       <!-- [Work45] 골반 위치 슬라이더 → 골반 L/R 정렬 (무릎과 동일 형식) -->
       <div class="pm-row">
@@ -3093,6 +3099,7 @@ function drawFrameComp(ctx2,compW,compH,kps,cmp){
         {lbl:_Lr.pbar_sh||'어깨기울기', key:'shoulderTilt', type:'tilt'},
         {lbl:_Lr.pbar_hip||'골반기울기', key:'hipTilt',     type:'tilt'},
         {lbl:_Lr.pbar_trk||'몸통기울기', key:'trunkLean',  type:'lean'},
+        {lbl:_hlrLabel(),                 key:'hipShift',  type:'hlr'},
         {lbl:(_Lr.pbar_hal||'골반')+' L', key:'lHipOff',   type:'knee'},
         {lbl:(_Lr.pbar_hal||'골반')+' R', key:'rHipOff',   type:'knee'},
         {lbl:(_Lr.pbar_kn||'무릎')+' L',  key:'lKneeOff',  type:'knee'},
@@ -3106,6 +3113,7 @@ function drawFrameComp(ctx2,compW,compH,kps,cmp){
       ctx2.fillRect(px,py,pw,totalH);
       function fmtFront(v,type){
         if(v==null) return '--';
+        if(type==='hlr'){ return _hlrSide(v)+Math.abs(Math.round(v))+'%'; }
         if(type==='tilt'||type==='lean'){
           const _Lf=TX[CL]; // [Work50] 다국어 좌/우
           const side=type==='tilt'
@@ -4794,6 +4802,9 @@ function _fmtTilt(v, unit){
   return unit==='lean'?lean+' '+abs+'°':`${side} ${abs}°`;
 }
 
+// [v123] 골반 좌우(hipShift) 라벨/방향 다국어 헬퍼 — 라이브·녹화 패널 공유 (v>0 = 신체 우측)
+function _hlrLabel(){ return CL==='ko'?'골반 좌우':CL==='ja'?'骨盤 左右':CL==='zh'?'骨盆 左右':CL==='es'?'Cadera I/D':CL==='fr'?'Bassin G/D':'Hip L/R'; }
+function _hlrSide(v){ return v>0 ? (CL==='ko'?'신체우':CL==='ja'?'体右':CL==='zh'?'身右':CL==='es'?'D':CL==='fr'?'D':'R') : (CL==='ko'?'신체좌':CL==='ja'?'体左':CL==='zh'?'身左':CL==='es'?'I':CL==='fr'?'G':'L'); }
 function updatePosBar(pos, cmp){
   // ① 각도 지표 (어깨/골반/몸통 기울기)
   function setDeg(dotId, valId, val, metricKey, type){
@@ -4806,6 +4817,25 @@ function updatePosBar(pos, cmp){
   setDeg('pd-sh','pv-sh', pos?pos.shoulderTilt:null, 'shoulderTilt','tilt');
   setDeg('pd-hip','pv-hip', pos?pos.hipTilt:null, 'hipTilt','tilt');
   setDeg('pd-trk','pv-trk', pos?pos.trunkLean:null, 'trunkLean','lean');
+  // [v122] 골반 좌우 이동(hipShift) — 신체 기준 좌/우 + 기준자세 대비 편차
+  {
+    const _le=$('pm-lbl-hsh'); if(_le)_le.textContent=_hlrLabel();
+    const dot=$('pd-hsh'), valEl=$('pv-hsh');
+    const hv=pos?pos.hipShift:null;
+    const st=cmp&&cmp.hipShift?cmp.hipShift.st:'unk';
+    const col=ST_COL_POS[st]||'#555';
+    if(dot) dot.style.background=col;
+    if(valEl){
+      if(hv==null){ valEl.textContent='--'; valEl.style.color='#fff'; }
+      else{
+        const side=_hlrSide(hv);
+        let txt=side+' '+Math.abs(Math.round(hv))+'%';
+        if(cmp&&cmp.hipShift&&cmp.hipShift.dev!=null){ const d=Math.round(cmp.hipShift.dev); txt+=' ('+(d>0?'+':'')+d+')'; }
+        valEl.textContent=txt;
+        valEl.style.color=col==='#555'?'#fff':col;
+      }
+    }
+  }
 
   // ② 골반 정렬 L/R [Work45: 슬라이더 → L/R 수치 표시]
   const L45=TX[CL];
@@ -5302,7 +5332,7 @@ async function init(){
 }
 
 window.addEventListener('load',init);
-/* trajix — build v121 [DbgReadout] HUD에 hip값/dev/마지막피드백 표시 / v120 [TurnPoint] 전환점(최대도달)으로 피드백 판정 — 오버슈트 올바르게 / v119 [HipDir-Revert] / v117 [VoiceClip+StereoFix] 피드백 음성을 사전렌더 클립(스테레오+녹화포함)으로, GPU 기본값 / v115 [EngineSwap] 코칭 추론 MoveNet/TF.js(WebGL) → MediaPipe tasks-vision(동기 detectForVideo, CPU) 교체 + 자가치유 워치독 + TTS 언락 + 진단 HUD/요약 */
+/* trajix — build v123 [HipLR-Rec+i18n] 녹화패널 골반좌우 추가 + 다국어 / v122 [HipLR-Panel] 라이브 하단패널에 골반좌우 행 추가 / v121 [DbgReadout] HUD에 hip값/dev/마지막피드백 표시 / v120 [TurnPoint] 전환점(최대도달)으로 피드백 판정 — 오버슈트 올바르게 / v119 [HipDir-Revert] / v117 [VoiceClip+StereoFix] 피드백 음성을 사전렌더 클립(스테레오+녹화포함)으로, GPU 기본값 / v115 [EngineSwap] 코칭 추론 MoveNet/TF.js(WebGL) → MediaPipe tasks-vision(동기 detectForVideo, CPU) 교체 + 자가치유 워치독 + TTS 언락 + 진단 HUD/요약 */
 </script>
 </body>
 </html>
