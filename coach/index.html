@@ -505,7 +505,7 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
     <div class="h-brand">
       <div class="h-brand-txt" style="flex-direction:row;align-items:center;gap:8px">
         <a href="#" title="홈(런처로)" onclick="goHome();return false" style="text-decoration:none;cursor:pointer;display:block"><svg viewBox="-32 0 2368 1185.5" role="img" aria-label="trajix" style="display:block;height:32px;width:auto" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,883.5) scale(1,-1)"><path d="M208 458V153Q208 122 222.5 108.5Q237 95 272 95H342V0H252Q175 0 134.0 36.0Q93 72 93 153V458H28V551H93V688H208V551H342V458Z" transform="translate(0,0)" fill="#f3f2ee"/><path d="M354 560V442H325Q258 442 223.5 408.0Q189 374 189 290V0H75V551H189V471Q214 513 255.5 536.5Q297 560 354 560Z" transform="translate(337,0)" fill="#f3f2ee"/><path d="M297 560Q362 560 410.5 534.5Q459 509 488 471V551H603V0H488V82Q459 43 409.0 17.0Q359 -9 295 -9Q224 -9 165.0 27.5Q106 64 71.5 129.5Q37 195 37 278Q37 361 71.5 425.0Q106 489 165.5 524.5Q225 560 297 560ZM321 461Q277 461 239.0 439.5Q201 418 177.5 376.5Q154 335 154 278Q154 221 177.5 178.0Q201 135 239.5 112.5Q278 90 321 90Q365 90 403.0 112.0Q441 134 464.5 176.5Q488 219 488 276Q488 333 464.5 375.0Q441 417 403.0 439.0Q365 461 321 461Z" transform="translate(686,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 -108Q189 -189 148.5 -225.5Q108 -262 31 -262H-28V-166H11Q46 -166 60.5 -152.5Q75 -139 75 -108V551H189Z" transform="translate(1329,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 551V0H75V551Z" transform="translate(1558,0)" fill="#f3f2ee"/><path d="M311 279 489 0H360L241 187L129 0H10L188 271L10 551H139L258 364L370 551H489Z" transform="translate(1787,0)" fill="#f3f2ee"/><path d="M 1461.5 685.0 Q 1576.0 980 1690.5 685.0" fill="none" stroke="#c9a449" stroke-width="22" stroke-linecap="round"/><circle cx="1461.5" cy="685.0" r="86.0" fill="#c9a449"/><circle cx="1690.5" cy="685.0" r="86.0" fill="#c9a449"/></g></svg></a>
-        <div class="h-mc" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;letter-spacing:0;gap:3px"><span id="mode-badge" style="font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap">코칭 2D</span><span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v118</span></div>
+        <div class="h-mc" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;letter-spacing:0;gap:3px"><span id="mode-badge" style="font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap">코칭 2D</span><span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v120</span></div>
       </div>
     </div>
     <div id="hdr-right">
@@ -1766,6 +1766,15 @@ async function _runDetection(){
             _bestTimingCmp=_lastPosCmp?{..._lastPosCmp}:null;
           }
         }
+        // [v120] 전환점(최대 도달) 추적 — _peakActive 동안(타이밍+피드백 지연창)까지 계속 → 오버슈트 포함.
+        // 시작자세로부터 편차(POS_THR로 정규화)가 최대인 프레임 = 전환점.
+        if(_peakActive&&pos&&_peakStartRef){
+          let _exc=0,_n=0;
+          for(const _pk of ['shoulderTilt','hipTilt','trunkLean','hipShift','lKneeOff','rKneeOff']){
+            if(pos[_pk]!=null&&_peakStartRef[_pk]!=null){_exc+=Math.abs(pos[_pk]-_peakStartRef[_pk])/(POS_THR[_pk]||1);_n++;}
+          }
+          if(_n>0&&_exc>_peakExc){_peakExc=_exc;_peakPos={...pos};_peakCmp=_lastPosCmp?{..._lastPosCmp}:null;}
+        }
         // 정면/후면 자세 지표 통계 누적 (전체 timing 프레임: fallback용)
         // [BUG2-FIX] 기준자세 범위(timing) 안에서만 누적 — 시작자세 대기 구간 제외
         const _fGref2=_gateEntryRef[S.ex.id];
@@ -1891,7 +1900,7 @@ async function _runDetection(){
                   const _gRet2=_lastCmp;
                   S.lastFB=now2;S.speak=false;try{speechSynthesis.cancel();}catch(e){} // [BUG4-FIX] 이중발화 방지
                   // [Work18-FBFix] 정면 피드백 허용: !isFrontal() 가드 제거, 칭찬 경로 추가
-                  setTimeout(()=>{if(S.speak)return;let _ft=null;if(_lastPosCmp&&!posAllGood(_lastPosCmp)){_ft=posFeedbackStr(_lastPosCmp);}else if(_lastPosCmp&&posAllGood(_lastPosCmp)){const _pr=TX[CL].PRAISE;if(_pr)_ft=_pr[Math.floor(Math.random()*_pr.length)];}else if(!_lastPosCmp&&_lastPos){_ft=posAbsFeedback(_lastPos);}else if(_gRet2){const _fo=overall(_gRet2);if(_fo==='good'){const _pr2=TX[CL].PRAISE;if(_pr2)_ft=_pr2[Math.floor(Math.random()*_pr2.length)];}else{const _ffb=primaryFB(_gRet2);if(_ffb){const _fm=getFBMsg(_ffb);if(_fm)_ft=_fm;}}}if(_ft){speak(_ft);}S.lastFB=Date.now();},_GATE_FB_DELAY);
+                  setTimeout(()=>{if(S.speak)return;const _pc=_peakCmp||_bestTimingCmp||_lastPosCmp,_pp=_peakPos||_bestTimingPos||_lastPos;let _ft=null;if(_pc&&!posAllGood(_pc)){_ft=posFeedbackStr(_pc);}else if(_pc&&posAllGood(_pc)){const _pr=TX[CL].PRAISE;if(_pr)_ft=_pr[Math.floor(Math.random()*_pr.length)];}else if(!_pc&&_pp){_ft=posAbsFeedback(_pp);}else if(_gRet2){const _fo=overall(_gRet2);if(_fo==='good'){const _pr2=TX[CL].PRAISE;if(_pr2)_ft=_pr2[Math.floor(Math.random()*_pr2.length)];}else{const _ffb=primaryFB(_gRet2);if(_ffb){const _fm=getFBMsg(_ffb);if(_fm)_ft=_fm;}}}if(_ft){speak(_ft);}_peakActive=false;S.lastFB=Date.now();},_GATE_FB_DELAY); // [v120] 전환점 프레임으로 판정
                 }else{
                   _gateArmed=false;_gateEndDetected=false;_gateState='entry';}
               }
@@ -1907,6 +1916,7 @@ async function _runDetection(){
               _gateExitStartT=0;
               _gateState='timing';_gateLastPrimeT=now2;_gateEndDetected=false;
               _gateEntryPosLive=_lastPos?{..._lastPos}:null;
+              _peakActive=true;_peakExc=-1;_peakPos=null;_peakCmp=null;_peakStartRef=_gateEntryPosLive||(_gateEntryPos?_gateEntryPos[S.ex.id]:null); // [v120] 전환점 추적 시작(시작자세 기준)
               _gateArmed=isFrontal()?true:(now2-_lastRepT>=_MIN_REP_MS);
               if(_gateArmed){clearTimeout(_pendingGateFBTimer);_pendingGateFBTimer=null;}
             } else if(_gateState==='timing'){
@@ -1955,7 +1965,7 @@ async function _runDetection(){
                     addRep(); // [DoubleCountFix] 단일 가드 경유
                     const _gRet3=_lastCmp;
                     S.lastFB=now2;S.speak=false;try{speechSynthesis.cancel();}catch(e){}
-                    setTimeout(()=>{if(S.speak)return;let _ft=null;if(_lastPosCmp&&!posAllGood(_lastPosCmp)){_ft=posFeedbackStr(_lastPosCmp);}else if(_lastPosCmp&&posAllGood(_lastPosCmp)){const _pr=TX[CL].PRAISE;if(_pr)_ft=_pr[Math.floor(Math.random()*_pr.length)];}else if(!_lastPosCmp&&_lastPos){_ft=posAbsFeedback(_lastPos);}else if(_gRet3){const _fo=overall(_gRet3);if(_fo==='good'){const _pr2=TX[CL].PRAISE;if(_pr2)_ft=_pr2[Math.floor(Math.random()*_pr2.length)];}else{const _ffb=primaryFB(_gRet3);if(_ffb){const _fm=getFBMsg(_ffb);if(_fm)_ft=_fm;}}}if(_ft){speak(_ft);}S.lastFB=Date.now();},_GATE_FB_DELAY);
+                    setTimeout(()=>{if(S.speak)return;const _pc=_peakCmp||_bestTimingCmp||_lastPosCmp,_pp=_peakPos||_bestTimingPos||_lastPos;let _ft=null;if(_pc&&!posAllGood(_pc)){_ft=posFeedbackStr(_pc);}else if(_pc&&posAllGood(_pc)){const _pr=TX[CL].PRAISE;if(_pr)_ft=_pr[Math.floor(Math.random()*_pr.length)];}else if(!_pc&&_pp){_ft=posAbsFeedback(_pp);}else if(_gRet3){const _fo=overall(_gRet3);if(_fo==='good'){const _pr2=TX[CL].PRAISE;if(_pr2)_ft=_pr2[Math.floor(Math.random()*_pr2.length)];}else{const _ffb=primaryFB(_gRet3);if(_ffb){const _fm=getFBMsg(_ffb);if(_fm)_ft=_fm;}}}if(_ft){speak(_ft);}_peakActive=false;S.lastFB=Date.now();},_GATE_FB_DELAY); // [v120] 전환점 프레임으로 판정
                   }
                 }
               }
@@ -2673,6 +2683,7 @@ let _repPosSnapshots = [];
 let _bestTimingPos = null;
 let _bestTimingCmp = null;
 let _bestTimingPosDevSoFar = Infinity;
+let _peakPos=null,_peakCmp=null,_peakExc=-1,_peakActive=false,_peakStartRef=null; // [v120] 전환점(최대도달) 평가 — 오버슈트 올바르게 판정
 const _GATE_END_THR = 30; // 끝 자세 인식 임계값 (평균 편차 °)
 
 function getAvgDev(angles,ref){
@@ -3950,7 +3961,7 @@ async function startLive(){
   _gateArmed=false; _gateEndDetected=false; _gateInGateStartT=0; _gateExitStartT=0; // [Issue2 FIX] [Work36-RepFix]
   _gateEntryPosLive=null; // [Work30-RepFix] 세션 시작 시 실시간 진입 위치 초기화
   if(_pendingGateFBTimer){clearTimeout(_pendingGateFBTimer);_pendingGateFBTimer=null;}
-  _repPosSnapshots=[];_bestTimingPos=null;_bestTimingCmp=null;_bestTimingPosDevSoFar=Infinity; // [BUG5-FIX]
+  _repPosSnapshots=[];_bestTimingPos=null;_bestTimingCmp=null;_bestTimingPosDevSoFar=Infinity;_peakActive=false;_peakPos=null;_peakCmp=null;_peakExc=-1;_peakStartRef=null; // [BUG5-FIX][v120]
   _posCmpBuf=[]; // [Work35-CmpSmooth] 매 분析 시작 시 cmp 버퍼 초기화
   resetRepOsc();
   // ── detection 상태 완전 초기화: _detPending이 이전 세션에서 stuck true로 남는 버그 방지
@@ -4606,7 +4617,7 @@ function hipShiftLbl(rawVal){
   if(Math.abs(v)<1) return '±0%';
   const absV=Math.abs(Math.round(v));
   const isBack=(S.dir==='back');
-  return (v>0?'우':'좌')+absV+'%'; // [v118] 선수 몸 기준 통일(양수=신체 우측) — 정면 라벨도 몸 기준
+  return (v>0?(isBack?'우':'좌'):(isBack?'좌':'우'))+absV+'%';
 }
 function extractPositions(kps){
   const ok = p => p && p.score >= CONF;
@@ -4718,7 +4729,7 @@ function posAbsFeedback(pos){
   const sel=k=>S.jointSel[POS_JOINT_MAP[k]!==undefined?POS_JOINT_MAP[k]:k]!==false;
   // ① 골반 좌우 위치(hipShift) 최우선
   if(sel('hipShift')&&pos.hipShift!=null&&Math.abs(pos.hipShift)>ABS.hipShift){
-    return pos.hipShift>0?(P.pos_hip_r||'골반 오른쪽으로!'):(P.pos_hip_l||'골반 왼쪽으로!'); // [v118] 선수 몸 기준(pos.hipShift 양수=신체 우측)
+    return pos.hipShift>0?(P.pos_hip_l||'골반 왼쪽으로!'):(P.pos_hip_r||'골반 오른쪽으로!'); // [v119] 교정형 원복: 골반이 신체 우측이면 '왼쪽으로'(되돌리기)
   }
   // ② 나머지 지표
   const msgs=[];
@@ -4749,7 +4760,7 @@ function posFeedbackStr(cmp){
   const {shoulderTilt,hipTilt,trunkLean,hipShift,lKneeOff,rKneeOff}=cmp;
   // ① 골반 좌우 위치(hipShift) 최우선
   if(sel('hipShift')&&hipShift&&hipShift.dev!=null&&hipShift.st!=='good'){
-    return hipShift.dev>0?(P.pos_hip_r||'골반 오른쪽으로!'):(P.pos_hip_l||'골반 왼쪽으로!'); // [v118] 선수 몸 기준
+    return hipShift.dev>0?(P.pos_hip_l||'골반 왼쪽으로!'):(P.pos_hip_r||'골반 오른쪽으로!'); // [v119] 교정형 원복
   }
   // ② 나머지 지표
   const msgs=[];
@@ -5285,7 +5296,7 @@ async function init(){
 }
 
 window.addEventListener('load',init);
-/* trajix — build v118 [HipDir-Anat] 골반좌우 선수몸기준 / v117 [VoiceClip+StereoFix] 피드백 음성을 사전렌더 클립(스테레오+녹화포함)으로, GPU 기본값 / v115 [EngineSwap] 코칭 추론 MoveNet/TF.js(WebGL) → MediaPipe tasks-vision(동기 detectForVideo, CPU) 교체 + 자가치유 워치독 + TTS 언락 + 진단 HUD/요약 */
+/* trajix — build v120 [TurnPoint] 전환점(최대도달)으로 피드백 판정 — 오버슈트 올바르게 / v119 [HipDir-Revert] / v117 [VoiceClip+StereoFix] 피드백 음성을 사전렌더 클립(스테레오+녹화포함)으로, GPU 기본값 / v115 [EngineSwap] 코칭 추론 MoveNet/TF.js(WebGL) → MediaPipe tasks-vision(동기 detectForVideo, CPU) 교체 + 자가치유 워치독 + TTS 언락 + 진단 HUD/요약 */
 </script>
 </body>
 </html>
