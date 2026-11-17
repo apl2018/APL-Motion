@@ -505,7 +505,7 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
     <div class="h-brand">
       <div class="h-brand-txt" style="flex-direction:row;align-items:center;gap:8px">
         <a href="#" title="홈(런처로)" onclick="goHome();return false" style="text-decoration:none;cursor:pointer;display:block"><svg viewBox="-32 0 2368 1185.5" role="img" aria-label="trajix" style="display:block;height:32px;width:auto" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,883.5) scale(1,-1)"><path d="M208 458V153Q208 122 222.5 108.5Q237 95 272 95H342V0H252Q175 0 134.0 36.0Q93 72 93 153V458H28V551H93V688H208V551H342V458Z" transform="translate(0,0)" fill="#f3f2ee"/><path d="M354 560V442H325Q258 442 223.5 408.0Q189 374 189 290V0H75V551H189V471Q214 513 255.5 536.5Q297 560 354 560Z" transform="translate(337,0)" fill="#f3f2ee"/><path d="M297 560Q362 560 410.5 534.5Q459 509 488 471V551H603V0H488V82Q459 43 409.0 17.0Q359 -9 295 -9Q224 -9 165.0 27.5Q106 64 71.5 129.5Q37 195 37 278Q37 361 71.5 425.0Q106 489 165.5 524.5Q225 560 297 560ZM321 461Q277 461 239.0 439.5Q201 418 177.5 376.5Q154 335 154 278Q154 221 177.5 178.0Q201 135 239.5 112.5Q278 90 321 90Q365 90 403.0 112.0Q441 134 464.5 176.5Q488 219 488 276Q488 333 464.5 375.0Q441 417 403.0 439.0Q365 461 321 461Z" transform="translate(686,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 -108Q189 -189 148.5 -225.5Q108 -262 31 -262H-28V-166H11Q46 -166 60.5 -152.5Q75 -139 75 -108V551H189Z" transform="translate(1329,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 551V0H75V551Z" transform="translate(1558,0)" fill="#f3f2ee"/><path d="M311 279 489 0H360L241 187L129 0H10L188 271L10 551H139L258 364L370 551H489Z" transform="translate(1787,0)" fill="#f3f2ee"/><path d="M 1461.5 685.0 Q 1576.0 980 1690.5 685.0" fill="none" stroke="#c9a449" stroke-width="22" stroke-linecap="round"/><circle cx="1461.5" cy="685.0" r="86.0" fill="#c9a449"/><circle cx="1690.5" cy="685.0" r="86.0" fill="#c9a449"/></g></svg></a>
-        <div class="h-mc" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;letter-spacing:0;gap:3px"><span id="mode-badge" style="font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap">코칭 2D</span><span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v124</span></div>
+        <div class="h-mc" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;letter-spacing:0;gap:3px"><span id="mode-badge" style="font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap">코칭 2D</span><span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v125</span></div>
       </div>
     </div>
     <div id="hdr-right">
@@ -663,6 +663,13 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
         <label class="jsel active" id="jsel-spine"><input type="checkbox" checked><div class="jdot"></div><span id="jlbl-spine">경추</span></label>
         <label class="jsel active" id="jsel-shoulder"><input type="checkbox" checked><div class="jdot"></div><span id="jlbl-shoulder">어깨</span></label>
         <label class="jsel active" id="jsel-elbow"><input type="checkbox" checked><div class="jdot"></div><span id="jlbl-elbow">팔꿈치</span></label>
+      </div>
+    </div>
+    <div id="hip-anchor-wrap">
+      <div class="sec-lbl" id="lbl-hipanch">골반 좌우 측정 기준점</div>
+      <div style="display:flex;gap:6px">
+        <div class="srctgl on" id="hipanch-right" style="flex:1">오른쪽 골반</div>
+        <div class="srctgl" id="hipanch-left" style="flex:1">왼쪽 골반</div>
       </div>
     </div>
     <!-- Trajectory graph (frontal mode) -->
@@ -2378,6 +2385,16 @@ async function saveRefFrame(){
         if(_pNormRef<0){
           if(pRef.hipShift!=null) pRef.hipShift=-pRef.hipShift;
         }
+        // [v125] 골반 좌우 A안: 선택 골반점 기준 캡처(그 점의 기준위치 + 기준자세 고정 scale) + 기준 편차 0
+        try{
+          const _side=_hipAnchorSide||'right';
+          const _refX=(_side==='left')?pRef._lHipX:pRef._rHipX;
+          if(_refX!=null && pRef.hipW>0){
+            _hipAnchor[S.ex.id]={side:_side, refX:_refX, scale:pRef.hipW};
+            localStorage.setItem('apl_hipanch_'+S.ex.id,JSON.stringify(_hipAnchor[S.ex.id]));
+            pRef.hipShift=0;
+          }
+        }catch(e){}
         _posRef[S.ex.id]=pRef;
         try{localStorage.setItem('apl_posref_'+S.ex.id,JSON.stringify({pos:pRef,dir:S.dir,at:new Date().toISOString()}));}catch(e){}}}
     }
@@ -4559,6 +4576,8 @@ async function _tryUnlock(){
 // ── FRONTAL POSITION ANALYSIS ─────────────────────────────────────────────────
 const isFrontal = () => S.dir === 'front' || S.dir === 'back';
 let _posRef = {};
+let _hipAnchor = {}; // [v125] {[exId]:{side,refX,scale}} 골반좌우 A안(선택 골반점 기준)
+let _hipAnchorSide = (()=>{try{return localStorage.getItem('apl_hipanch_side')==='left'?'left':'right';}catch(e){return 'right';}})();
 let _posHistory = [];
 let _lastPos = null;
 let _lastPosCmp = null;
@@ -4686,10 +4705,18 @@ function extractPositions(kps){
       trunkLean=_deg1(Math.atan2(dx,dy)*R2D-baseline);
     }
   }
-  // ④ 골반 수평 이동 (% of hipW): 골반 중점 vs 발목 중점 편차. 양수=우측 이동
-  const mHX=(lHip.x+rHip.x)/2;
-  const mAX=hasAnk?(lAnk.x+rAnk.x)/2:mHX;
-  const hipShift=Math.round(((mHX-mAX)/hipW)*100);
+  // ④ 골반 수평 이동 — [v125] A안: 기준자세에서 선택한 골반점의 좌우 위치 변화(기준자세 고정 scale로 정규화).
+  //    기준 미설정 시 기존 방식(골반중점 vs 발목중점) 폴백. 양수=화면 우측(이후 _pNorm으로 신체기준 변환)
+  let hipShift;
+  const _ha=_hipAnchor[S.ex.id];
+  if(_ha && _ha.refX!=null && _ha.scale>0){
+    const _cx=(_ha.side==='left')?lHip.x:rHip.x;
+    hipShift=Math.round(((_cx-_ha.refX)/_ha.scale)*100);
+  } else {
+    const mHX=(lHip.x+rHip.x)/2;
+    const mAX=hasAnk?(lAnk.x+rAnk.x)/2:mHX;
+    hipShift=Math.round(((mHX-mAX)/hipW)*100);
+  }
   // ⑤ 무릎 정렬 (% of hipW): 무릎이 힙-발목 직선 대비 편차.
   // [Issue3 FIX] 양쪽 무릎 모두 positive=바깥(outward) 통일
   // 전면 촬영: lHip.x > rHip.x → lKnee outward=우측(+x)이 맞지만, rKnee outward=좌측(-x)
@@ -4719,7 +4746,7 @@ function extractPositions(kps){
   const lHipOff=lHipRaw!=null?lHipRaw*_lrSign:null;
   const rHipOff=rHipRaw!=null?-rHipRaw*_lrSign:null;
   // 센서 정보 포함해서 반환 (디버그 및 UI 표시용)
-  return {shoulderTilt, hipTilt, trunkLean, hipShift, lKneeOff, rKneeOff, lHipOff, rHipOff, hipW,
+  return {shoulderTilt, hipTilt, trunkLean, hipShift, lKneeOff, rKneeOff, lHipOff, rHipOff, hipW, _lHipX:lHip.x, _rHipX:rHip.x,
           baseline, sensorUsed:_sensorReady};
 }
 
@@ -5112,6 +5139,7 @@ async function init(){
     try{
       const praw=localStorage.getItem('apl_posref_'+ex.id);
       if(praw){const pd=JSON.parse(praw);_posRef[ex.id]=pd.pos;}
+      try{const _har=localStorage.getItem('apl_hipanch_'+ex.id); if(_har)_hipAnchor[ex.id]=JSON.parse(_har);}catch(e){}
     }catch(e){}
     try{
       // [FIX-FrontalRep] 정면 게이트 위치 기준 로드
@@ -5217,6 +5245,15 @@ async function init(){
     el.addEventListener('click',()=>{CL=el.dataset.lang;try{localStorage.setItem('apl_lang',CL);}catch(e){}$('lang-picker').classList.remove('on');applyLang();});
   });
   document.addEventListener('click',()=>$('lang-picker').classList.remove('on'));
+  // [v125] 골반 좌우 측정 기준점(오른/왼) 토글
+  (function(){
+    const _rb=document.getElementById('hipanch-right'), _lb=document.getElementById('hipanch-left');
+    function _setSide(s){ _hipAnchorSide=s; try{localStorage.setItem('apl_hipanch_side',s);}catch(e){}
+      if(_rb)_rb.classList.toggle('on',s==='right'); if(_lb)_lb.classList.toggle('on',s==='left'); }
+    _setSide(_hipAnchorSide);
+    if(_rb)_rb.addEventListener('click',()=>_setSide('right'));
+    if(_lb)_lb.addEventListener('click',()=>_setSide('left'));
+  })();
   $('btn-main').addEventListener('click',()=>{
     if(!S.ready) return;
     _unlockTTS(); // [EngineSwap v115] iOS 음성 제스처 언락(동기)
@@ -5328,7 +5365,7 @@ async function init(){
 }
 
 window.addEventListener('load',init);
-/* trajix — build v124 [HipLR-DevMain+UI] 골반좌우를 기준대비 편차로 + 패널 compact/센서줄 / v123 [HipLR-Rec+i18n] 녹화패널 골반좌우 추가 + 다국어 / v122 [HipLR-Panel] 라이브 하단패널에 골반좌우 행 추가 / v121 [DbgReadout] HUD에 hip값/dev/마지막피드백 표시 / v120 [TurnPoint] 전환점(최대도달)으로 피드백 판정 — 오버슈트 올바르게 / v119 [HipDir-Revert] / v117 [VoiceClip+StereoFix] 피드백 음성을 사전렌더 클립(스테레오+녹화포함)으로, GPU 기본값 / v115 [EngineSwap] 코칭 추론 MoveNet/TF.js(WebGL) → MediaPipe tasks-vision(동기 detectForVideo, CPU) 교체 + 자가치유 워치독 + TTS 언락 + 진단 HUD/요약 */
+/* trajix — build v125 [HipAnchor] 골반좌우=선택 골반점 기준(A안)+기준자세 고정scale / v124 [HipLR-DevMain+UI] 골반좌우를 기준대비 편차로 + 패널 compact/센서줄 / v123 [HipLR-Rec+i18n] 녹화패널 골반좌우 추가 + 다국어 / v122 [HipLR-Panel] 라이브 하단패널에 골반좌우 행 추가 / v121 [DbgReadout] HUD에 hip값/dev/마지막피드백 표시 / v120 [TurnPoint] 전환점(최대도달)으로 피드백 판정 — 오버슈트 올바르게 / v119 [HipDir-Revert] / v117 [VoiceClip+StereoFix] 피드백 음성을 사전렌더 클립(스테레오+녹화포함)으로, GPU 기본값 / v115 [EngineSwap] 코칭 추론 MoveNet/TF.js(WebGL) → MediaPipe tasks-vision(동기 detectForVideo, CPU) 교체 + 자가치유 워치독 + TTS 언락 + 진단 HUD/요약 */
 </script>
 </body>
 </html>
