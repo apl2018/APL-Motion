@@ -15,8 +15,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script>window.goHome=function(){var b=location.pathname.replace(/\/(coach|measure)(\/[^?#]*)?$/,'/');location.href=(b&&b!==location.pathname)?b:'../';};</script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection@2.1.3/dist/pose-detection.min.js"></script>
+<!-- [EngineSwap v115] 포즈추론 엔진을 TF.js/MoveNet(WebGL) → MediaPipe tasks-vision 으로 교체.
+     사유: TF.js의 await estimatePoses() 가 iOS WebGL 컨텍스트 유실 시 "에러 없이 영영 안 끝나는" 상태가
+     되어 _detPending 고정 → 추론 정지 → 음성/자막/녹화 동시 사망(반복 재발의 뿌리). MediaPipe의
+     detectForVideo()는 동기 API라 이 멈춤 패턴이 원천적으로 불가능하고, 정밀측정(measure)에서 이미 안정 입증.
+     버전은 정밀측정과 동일하게 0.10.18 고정(의존성 드리프트 차단). 모듈 클래스를 전역으로 노출해 기존 클래식 스크립트에서 사용. -->
+<script type="module">
+  import{PoseLandmarker,FilesetResolver}from"https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/+esm";
+  window.PoseLandmarker=PoseLandmarker;
+  window.FilesetResolver=FilesetResolver;
+  window.__mpReady=true;
+  try{window.dispatchEvent(new Event('__mpready'));}catch(e){}
+</script>
 <script src="../shared/iap.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -495,7 +505,7 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
     <div class="h-brand">
       <div class="h-brand-txt" style="flex-direction:row;align-items:center;gap:8px">
         <a href="#" title="홈(런처로)" onclick="goHome();return false" style="text-decoration:none;cursor:pointer;display:block"><svg viewBox="-32 0 2368 1185.5" role="img" aria-label="trajix" style="display:block;height:32px;width:auto" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,883.5) scale(1,-1)"><path d="M208 458V153Q208 122 222.5 108.5Q237 95 272 95H342V0H252Q175 0 134.0 36.0Q93 72 93 153V458H28V551H93V688H208V551H342V458Z" transform="translate(0,0)" fill="#f3f2ee"/><path d="M354 560V442H325Q258 442 223.5 408.0Q189 374 189 290V0H75V551H189V471Q214 513 255.5 536.5Q297 560 354 560Z" transform="translate(337,0)" fill="#f3f2ee"/><path d="M297 560Q362 560 410.5 534.5Q459 509 488 471V551H603V0H488V82Q459 43 409.0 17.0Q359 -9 295 -9Q224 -9 165.0 27.5Q106 64 71.5 129.5Q37 195 37 278Q37 361 71.5 425.0Q106 489 165.5 524.5Q225 560 297 560ZM321 461Q277 461 239.0 439.5Q201 418 177.5 376.5Q154 335 154 278Q154 221 177.5 178.0Q201 135 239.5 112.5Q278 90 321 90Q365 90 403.0 112.0Q441 134 464.5 176.5Q488 219 488 276Q488 333 464.5 375.0Q441 417 403.0 439.0Q365 461 321 461Z" transform="translate(686,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 -108Q189 -189 148.5 -225.5Q108 -262 31 -262H-28V-166H11Q46 -166 60.5 -152.5Q75 -139 75 -108V551H189Z" transform="translate(1329,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 551V0H75V551Z" transform="translate(1558,0)" fill="#f3f2ee"/><path d="M311 279 489 0H360L241 187L129 0H10L188 271L10 551H139L258 364L370 551H489Z" transform="translate(1787,0)" fill="#f3f2ee"/><path d="M 1461.5 685.0 Q 1576.0 980 1690.5 685.0" fill="none" stroke="#c9a449" stroke-width="22" stroke-linecap="round"/><circle cx="1461.5" cy="685.0" r="86.0" fill="#c9a449"/><circle cx="1690.5" cy="685.0" r="86.0" fill="#c9a449"/></g></svg></a>
-        <div class="h-mc" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;letter-spacing:0;gap:3px"><span id="mode-badge" style="font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap">코칭 2D</span><span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v59</span></div>
+        <div class="h-mc" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;letter-spacing:0;gap:3px"><span id="mode-badge" style="font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap">코칭 2D</span><span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v115</span></div>
       </div>
     </div>
     <div id="hdr-right">
@@ -1306,8 +1316,19 @@ function isPoseInZone(angles,ref){
 let _voices=[];
 window.speechSynthesis.onvoiceschanged=()=>{_voices=speechSynthesis.getVoices();};
 setTimeout(()=>{_voices=speechSynthesis.getVoices();},500);
+// [EngineSwap v115] iOS TTS 제스처 언락 — 최초 사용자 탭(동기 컨텍스트)에서 무음 발화로 큐를 깨워 이후 피드백 음성이 나오게 함.
+let _ttsUnlocked=false;
+function _unlockTTS(){
+  if(_ttsUnlocked||!window.speechSynthesis) return;
+  try{
+    speechSynthesis.cancel();speechSynthesis.resume();
+    const u=new SpeechSynthesisUtterance(' ');u.volume=0;u.rate=2;
+    speechSynthesis.speak(u);_ttsUnlocked=true;
+  }catch(e){}
+}
 function speak(txt){
   if(!window.speechSynthesis) return;
+  _dbgSpeak++;
   // ① Chime + subtitle overlay always fire — independent of TTS lock
   //    This ensures coaching is heard/seen even if TTS is stuck on iOS
   // (chime removed per user request)
@@ -1529,6 +1550,78 @@ const DET_MS=60; // target ~16fps detection (was 40/25fps) — heat mitigation [
 //   노이즈성 게이트 개폐로 인한 과다/중복 카운트를 억제. CONF(0.3)와 동일값이라
 //   정상 정면(피겨/골프, 통상 0.5~0.8)에는 영향 없음.
 let _poseConf=1; const GATE_CONF=0.3;
+// ===== [EngineSwap v115] MediaPipe 포즈추론 어댑터 (MoveNet 17점 호환 인터페이스) =====
+// 다운스트림(drawFrame/extractPositions/게이트/피드백)은 전부 MoveNet 17점 kps[]만 사용 →
+// MediaPipe(33점)를 17점 포맷으로 변환해 "S.det.estimatePoses()→[{keypoints:[...]}]" 계약을 그대로 유지.
+const MP_WASM="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/wasm";
+const MP_MODEL="https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task";
+// 코칭은 녹화+합성+TTS로 GPU 부하가 커서 추론은 CPU 기본 → GPU 컨텍스트 경쟁/유실 원천 차단(뜨거우면 멈춤 대신 fps만 완만 저하).
+// ?gpu=1 로 GPU 델리게이트 강제 테스트 가능.
+let MP_DELEGATE=(()=>{try{return new URLSearchParams(location.search).get('gpu')==='1'?'GPU':'CPU';}catch(e){return 'CPU';}})();
+const _MP_MAP=[0,2,5,7,8,11,12,13,14,15,16,23,24,25,26,27,28]; // MoveNet idx → MediaPipe idx
+let _mpVideo=null,_mpImage=null,_mpTs=0,_mpFS=null;
+// 진단/자가치유 카운터
+let _dbgPose=0,_dbgSpeak=0,_dbgDetErr=0,_dbgLastErr='',_lastPoseTs=0,_dbgRebuild=0,_detErrSinceOk=0,_mpRebuilding=false;
+function _coachErr(m){_dbgDetErr++;_dbgLastErr=String(m).slice(0,80);try{console.warn('[coach]',m);}catch(e){}}
+function _mpAdapt(r,elem,flip){
+  if(!r||!r.landmarks||!r.landmarks.length) return [];
+  const lm=r.landmarks[0];
+  const W=elem.videoWidth||elem.naturalWidth||elem.width||1;
+  const H=elem.videoHeight||elem.naturalHeight||elem.height||1;
+  const kps=_MP_MAP.map(mi=>{
+    const p=lm[mi]||{x:0,y:0,visibility:0};
+    let nx=p.x; if(flip) nx=1-nx; // 셀카(user)=디스플레이 미러 맞춤 — MoveNet flipHorizontal와 동등
+    return {x:nx*W, y:p.y*H, z:(p.z||0), score:(p.visibility!=null?p.visibility:1)};
+  });
+  return [{keypoints:kps, _world:(r.worldLandmarks&&r.worldLandmarks[0])||null}];
+}
+function _waitMP(){return new Promise(res=>{
+  if(window.__mpReady&&window.PoseLandmarker) return res();
+  const t=setInterval(()=>{if(window.__mpReady&&window.PoseLandmarker){clearInterval(t);res();}},80);
+  setTimeout(()=>{clearInterval(t);res();},12000);
+});}
+async function _mpBuildVideo(){
+  await _waitMP();
+  if(!window.PoseLandmarker) throw new Error('MediaPipe 모듈 로드 실패');
+  if(!_mpFS) _mpFS=await window.FilesetResolver.forVisionTasks(MP_WASM);
+  const d=await window.PoseLandmarker.createFromOptions(_mpFS,{
+    baseOptions:{modelAssetPath:MP_MODEL,delegate:MP_DELEGATE},
+    runningMode:'VIDEO',numPoses:1,
+    minPoseDetectionConfidence:0.3,minPosePresenceConfidence:0.3,minTrackingConfidence:0.3
+  });
+  try{if(_mpVideo&&_mpVideo.close)_mpVideo.close();}catch(e){}
+  _mpVideo=d; return d;
+}
+async function _mpBuildImage(){
+  await _waitMP();
+  if(!_mpFS) _mpFS=await window.FilesetResolver.forVisionTasks(MP_WASM);
+  _mpImage=await window.PoseLandmarker.createFromOptions(_mpFS,{
+    baseOptions:{modelAssetPath:MP_MODEL,delegate:MP_DELEGATE},
+    runningMode:'IMAGE',numPoses:1,
+    minPoseDetectionConfidence:0.3,minPosePresenceConfidence:0.3,minTrackingConfidence:0.3
+  });
+  return _mpImage;
+}
+async function _makeCoachDetector(){
+  await _mpBuildVideo();
+  return {
+    estimatePoses: async (elem,opts)=>{
+      const flip=!!(opts&&opts.flipHorizontal);
+      const isImg=elem.tagName==='IMG'||elem.tagName==='CANVAS';
+      try{
+        if(isImg){
+          if(!_mpImage) await _mpBuildImage();
+          return _mpAdapt(_mpImage.detect(elem),elem,flip);
+        }
+        if(!_mpVideo) await _mpBuildVideo();
+        let ts=performance.now(); if(ts<=_mpTs) ts=_mpTs+1; _mpTs=ts; // 타임스탬프 단조증가 보장
+        return _mpAdapt(_mpVideo.detectForVideo(elem,ts),elem,flip);
+      }catch(e){ _coachErr(e&&e.message||e); _detErrSinceOk++; return []; } // 어떤 추론 오류도 루프를 깨지 않음 → 빈 결과로 흡수
+    },
+    rebuildVideo: async ()=>{ _dbgRebuild++; try{await _mpBuildVideo();}catch(e){_coachErr('rebuild:'+(e&&e.message||e));} }
+  };
+}
+
 async function _runDetection(){
   if(!S.live||!S.det){_detPending=false;return;} // 반드시 _detPending 리셋 후 종료
   try{
@@ -1549,6 +1642,7 @@ async function _runDetection(){
       {let _cs=0,_cn=0;for(const _ki of [5,6,11,12,13,14]){const _k=kps[_ki];if(_k&&typeof _k.score==='number'){_cs+=_k.score;_cn++;}}_poseConf=_cn?_cs/_cn:0;}
       _prevKps=_lastKps;_prevKpsTs=_kpsTs;
       _lastKps=kps;_kpsTs=Date.now();
+      _lastPoseTs=_kpsTs;_dbgPose++;_detErrSinceOk=0; // [EngineSwap v115] 추론 정상 신호(자가치유 워치독 기준)
       if(isFrontal()){
         const pos=extractPositions(kps);
         // [Work17] 방향 고정: 셀카(user)=반전없음 / 후면카메라+정면뷰=반전 / 후면뷰=반전없음
@@ -1943,10 +2037,18 @@ function loop(){
   // ② TF.js 감지: DET_MS(40ms ≈ 25fps) — 녹화 중에도 throttle 없음
   // 녹화 canvas는 setInterval(33ms) 독립 루프 → TF.js rAF 지연에 영향 안받음
   const now=Date.now();
+  // [EngineSwap v115] 자가치유 ① 추론 플래그가 3초 이상 걸려있으면(=호출이 안 돌아옴) 강제 해제 — 어떤 원인이든 세션 동결 방지.
+  if(_detPending&&now-_lastDet>3000){_detPending=false;_coachErr('detPending 3s timeout → reset');}
+  // [EngineSwap v115] 자가치유 ② 연속 추론 오류 8회 → 감지기 재생성(GPU 유실 등 대비). CPU 델리게이트에선 거의 발생 안 함.
+  if(S.live&&!_mpRebuilding&&_detErrSinceOk>=8&&S.det&&S.det.rebuildVideo){
+    _mpRebuilding=true;_detErrSinceOk=0;_detPending=false;
+    S.det.rebuildVideo().finally(()=>{_mpRebuilding=false;_lastPoseTs=Date.now();});
+  }
   if(!_detPending&&now-_lastDet>=DET_MS&&vid.readyState>=2){
     _lastDet=now;_detPending=true;
     _runDetection();
   }
+  _updateDbgHUD(); // [EngineSwap v115] 진단 HUD(?debug=1)
   if(S.live){
     if(_srcMode==='file'&&(vid.ended||(vid.duration>0&&vid.currentTime>=vid.duration-0.1))){stopLive();return;}
     S.raf=requestAnimationFrame(loop);
@@ -3758,6 +3860,7 @@ async function startLive(){
   _prevKps=null; _kpsTs=0; _prevKpsTs=0;
   $('rep-num').textContent='0';
   S.live=true;S.lastFB=0;S.lastPr=0;S.goodN=0;S.speak=false;
+  _dbgPose=0;_dbgSpeak=0;_dbgDetErr=0;_dbgRebuild=0;_dbgLastErr='';_detErrSinceOk=0;_lastPoseTs=Date.now(); // [EngineSwap v115] 분석 1회 진단 카운터 리셋
   $('btn-main').className='stop';$('btn-main').textContent=TX[CL].btn_stop;
   $('btn-main').disabled=false;
   // [Work34-DirFix] ★버그수정★: S.dir 동기화를 if(isFrontal()) 블록 밖으로 이동
@@ -3842,6 +3945,34 @@ async function startLive(){
   startRecording(); // audioStream already set, so skips getUserMedia inside
   loop();
 }
+// ===== [EngineSwap v115] 진단 HUD + 분석 1회 요약 =====
+let _hudEl=null,_hudLastN=0,_hudLastT=0,_hudFps=0;
+function _initDbgHUD(){
+  let on=false;try{on=new URLSearchParams(location.search).get('debug')==='1';}catch(e){}
+  if(!on||_hudEl) return;
+  _hudEl=document.createElement('div');_hudEl.id='dbg-hud';
+  _hudEl.style.cssText='position:fixed;left:6px;top:46px;z-index:100000;background:rgba(0,0,0,.72);color:#4f8;font:11px/1.4 monospace;padding:6px 8px;border-radius:8px;white-space:pre;pointer-events:none';
+  document.body.appendChild(_hudEl);
+}
+function _updateDbgHUD(){
+  if(!_hudEl) return;
+  const t=Date.now();
+  if(t-_hudLastT>=500){_hudFps=Math.round((_dbgPose-_hudLastN)*1000/Math.max(t-_hudLastT,1));_hudLastN=_dbgPose;_hudLastT=t;}
+  const age=_lastPoseTs?(t-_lastPoseTs):-1;
+  _hudEl.textContent='MP/'+MP_DELEGATE+'  fps '+_hudFps+'\npose# '+_dbgPose+'  age '+age+'ms\npend '+(_detPending?'Y':'N')+'  speak# '+_dbgSpeak+'\nerr '+_dbgDetErr+'  rebuild '+_dbgRebuild+(_dbgLastErr?('\n'+_dbgLastErr):'');
+}
+// 분석이 끝날 때마다 항상 표시(디버그 모드 아니어도) — 스크린샷 1장으로 "추론 살아있었나/피드백 나왔나/오류·재생성" 즉시 판별.
+function _showRunSummary(elapsed){
+  try{
+    const msg='⏱'+elapsed+'s · 포즈'+_dbgPose+' · 음성'+_dbgSpeak+' · 오류'+_dbgDetErr+' · 재생성'+_dbgRebuild+' · 엔진 MP/'+MP_DELEGATE;
+    let el=document.getElementById('run-sum');
+    if(!el){el=document.createElement('div');el.id='run-sum';
+      el.style.cssText='position:fixed;left:50%;bottom:84px;transform:translateX(-50%);z-index:100000;background:rgba(10,16,32,.92);color:#cfe3ff;font:12px/1.5 monospace;padding:8px 12px;border-radius:10px;white-space:nowrap;box-shadow:0 6px 24px rgba(0,0,0,.5)';
+      document.body.appendChild(el);}
+    el.textContent=msg;el.style.display='block';
+    clearTimeout(el._t);el._t=setTimeout(()=>{el.style.display='none';},9000);
+  }catch(e){}
+}
 function stopLive(){
   // 파일 모드 안전장치 클리어
   if(S._fileMaxTimer){clearTimeout(S._fileMaxTimer);S._fileMaxTimer=null;}
@@ -3872,6 +4003,7 @@ function stopLive(){
     },300);
   }
   const elapsed=Math.floor((Date.now()-S.startTime)/1000);
+  _showRunSummary(elapsed); // [EngineSwap v115] 분석 1회 진단 요약(스크린샷용)
   speak(TX[CL].voice_stop);
   setTimeout(()=>showSummary(elapsed),600);
 }
@@ -4819,6 +4951,7 @@ function drawPosOverlay(kps, pos){
 // ── INIT ──────────────────────────────────────────────────────────────────────
 async function init(){
   setAppHeight();
+  _initDbgHUD(); // [EngineSwap v115] ?debug=1 이면 진단 HUD 표시
   for(const ex of EXERCISES){
     try{const n=localStorage.getItem('apl_exname_'+ex.id);if(n)ex.name=n;}catch(e){}
     try{
@@ -4943,6 +5076,7 @@ async function init(){
   document.addEventListener('click',()=>$('lang-picker').classList.remove('on'));
   $('btn-main').addEventListener('click',()=>{
     if(!S.ready) return;
+    _unlockTTS(); // [EngineSwap v115] iOS 음성 제스처 언락(동기)
     if(S.live)stopLive();else startLive();
   });
   $('btn-flip-hdr').addEventListener('click',switchCamera);
@@ -5031,11 +5165,8 @@ async function init(){
 
   $('mdl-txt').textContent='AI';
   try{
-    S.det=await poseDetection.createDetector(
-      poseDetection.SupportedModels.MoveNet,
-            {modelType:poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING,enableSmoothing:true,minPoseScore:0.2}
-    );
-    if(vid.readyState>=2)await S.det.estimatePoses(vid,{maxPoses:1});
+    S.det=await _makeCoachDetector(); // [EngineSwap v115] MediaPipe 기반(동기 detectForVideo) — 기존 estimatePoses 계약 유지
+    if(vid.readyState>=2){try{await S.det.estimatePoses(vid,{maxPoses:1});}catch(e){}}
     S.ready=true;
     $('mdot').classList.add('ok');$('mdl-txt').textContent='AI';
     $('btn-main').disabled=false;
@@ -5054,7 +5185,7 @@ async function init(){
 }
 
 window.addEventListener('load',init);
-/* trajix — build v51 [Work51] */
+/* trajix — build v115 [EngineSwap] 코칭 추론 MoveNet/TF.js(WebGL) → MediaPipe tasks-vision(동기 detectForVideo, CPU) 교체 + 자가치유 워치독 + TTS 언락 + 진단 HUD/요약 */
 </script>
 </body>
 </html>
