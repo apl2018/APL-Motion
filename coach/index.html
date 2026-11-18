@@ -271,6 +271,8 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
 .srctgl{flex:1;padding:7px 4px;border-radius:10px;border:1px solid var(--border);color:var(--txt2);text-align:center;cursor:pointer;font-size:12px;font-weight:600;transition:all .2s;user-select:none;-webkit-user-select:none}
 .srctgl.on{background:var(--red);color:#fff;border-color:transparent}
 .srctgl:active{opacity:.7}
+/* [v126] 골반 기준점 토글은 관절선택처럼 파란색 활성 */
+#hipanch-right.on,#hipanch-left.on{background:rgba(33,150,243,.25);color:#fff;border-color:#2196F3}
 #ana-file-label{font-size:11px;color:var(--txt2);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-height:15px}
 #fb-txt{text-align:center;font-size:12px;color:var(--txt2);min-height:14px;transition:opacity .3s}
 
@@ -505,7 +507,7 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
     <div class="h-brand">
       <div class="h-brand-txt" style="flex-direction:row;align-items:center;gap:8px">
         <a href="#" title="홈(런처로)" onclick="goHome();return false" style="text-decoration:none;cursor:pointer;display:block"><svg viewBox="-32 0 2368 1185.5" role="img" aria-label="trajix" style="display:block;height:32px;width:auto" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,883.5) scale(1,-1)"><path d="M208 458V153Q208 122 222.5 108.5Q237 95 272 95H342V0H252Q175 0 134.0 36.0Q93 72 93 153V458H28V551H93V688H208V551H342V458Z" transform="translate(0,0)" fill="#f3f2ee"/><path d="M354 560V442H325Q258 442 223.5 408.0Q189 374 189 290V0H75V551H189V471Q214 513 255.5 536.5Q297 560 354 560Z" transform="translate(337,0)" fill="#f3f2ee"/><path d="M297 560Q362 560 410.5 534.5Q459 509 488 471V551H603V0H488V82Q459 43 409.0 17.0Q359 -9 295 -9Q224 -9 165.0 27.5Q106 64 71.5 129.5Q37 195 37 278Q37 361 71.5 425.0Q106 489 165.5 524.5Q225 560 297 560ZM321 461Q277 461 239.0 439.5Q201 418 177.5 376.5Q154 335 154 278Q154 221 177.5 178.0Q201 135 239.5 112.5Q278 90 321 90Q365 90 403.0 112.0Q441 134 464.5 176.5Q488 219 488 276Q488 333 464.5 375.0Q441 417 403.0 439.0Q365 461 321 461Z" transform="translate(686,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 -108Q189 -189 148.5 -225.5Q108 -262 31 -262H-28V-166H11Q46 -166 60.5 -152.5Q75 -139 75 -108V551H189Z" transform="translate(1329,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 551V0H75V551Z" transform="translate(1558,0)" fill="#f3f2ee"/><path d="M311 279 489 0H360L241 187L129 0H10L188 271L10 551H139L258 364L370 551H489Z" transform="translate(1787,0)" fill="#f3f2ee"/><path d="M 1461.5 685.0 Q 1576.0 980 1690.5 685.0" fill="none" stroke="#c9a449" stroke-width="22" stroke-linecap="round"/><circle cx="1461.5" cy="685.0" r="86.0" fill="#c9a449"/><circle cx="1690.5" cy="685.0" r="86.0" fill="#c9a449"/></g></svg></a>
-        <div class="h-mc" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;letter-spacing:0;gap:3px"><span id="mode-badge" style="font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap">코칭 2D</span><span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v125</span></div>
+        <div class="h-mc" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;letter-spacing:0;gap:3px"><span id="mode-badge" style="font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap">코칭 2D</span><span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v127</span></div>
       </div>
     </div>
     <div id="hdr-right">
@@ -1861,133 +1863,8 @@ async function _runDetection(){
         // → 기준자세만 저장해도 횟수 카운팅 가능 (시작 게이트 프레임 별도 설정 불필요)
         const _fPosGateRef=_gateEntryPos[S.ex.id]||_posRef[S.ex.id];
         // [Work51-B] 저신뢰 프레임에서는 게이트 동결 → 노이즈성 과다/중복 카운트 억제
-        if((_fGref||_fPosGateRef)&&_poseConf>=GATE_CONF){
-          // [Work21-GateFix] 정면분析: 각도 게이트 건너뜀 → 항상 위치 게이트 사용
-          // 정면에서 관절각도는 신체 정면 방향으로 겹쳐 계산 불신뢰 → 위치 기반만 신뢰
-          // 측면분析: 기존대로 각도 게이트 우선 사용
-          const _fDevGate=isFrontal()?null:getAvgDev(angles,_fGref);
-          let _fInGate;
-          if(_fDevGate!=null){
-            _fInGate=_fDevGate<=_GATE_ENTRY_THR;
-          } else {
-            // 정면 뷰: 골반/어깨 위치 편차로 시작자세 판단
-            // [FIX-FrontalRep] _gateEntryPos(시작 프레임 위치) 우선, 없으면 _posRef 폴백
-            const _pRef2Gt=_gateEntryPos[S.ex.id]||_posRef[S.ex.id];
-            if(_pRef2Gt&&_lastPos){
-              const _hsDev=Math.abs((_lastPos.hipShift||0)-(_pRef2Gt.hipShift||0));
-              const _shDev=Math.abs((_lastPos.shoulderTilt||0)-(_pRef2Gt.shoulderTilt||0));
-              // [Work24-GateFix] 발목 미감지 시: shoulderTilt+hipTilt 합산 편차로 게이트 민감도 향상
-              // shoulderTilt 단독 역치(15°)가 넓어 운동 중에도 게이트 항상 진입 → 횟수 미카운팅
-              // hipTilt 추가: 편측 운동 시 hip drop 감지로 게이트 개폐 정확도 개선
-              const _hsUsable=Math.abs(_lastPos.hipShift||0)>=1&&Math.abs(_pRef2Gt.hipShift||0)>=1;
-              const _htDev=Math.abs((_lastPos.hipTilt||0)-(_pRef2Gt.hipTilt||0));
-              if(_hsUsable){
-                _fInGate=_hsDev<=POS_THR.hipShift*2&&_shDev<=POS_THR.shoulderTilt*3;
-              }else{
-                // shoulderTilt+hipTilt 합산 ≤ (5+5)×2=20° → 시작자세 인정
-                // 어느 한 지표라도 ~10° 이상 변하면 게이트 이탈(운동 중) 감지
-                _fInGate=(_shDev+_htDev)<=(POS_THR.shoulderTilt+POS_THR.hipTilt)*2;
-              }
-            } else {
-              _fInGate=false; // 시작자세 미설정 시 게이트 판단 불가
-            }
-          }
-          if(_fInGate){
-            if(_gateState==='idle'){ _gateState='entry'; _gateInGateStartT=0; _gateExitStartT=0; }
-            else if(_gateState==='timing'){
-              // [Issue2 FIX] debounce: 200ms 이상 연속 감지돼야 시작자세 복귀로 인정 (노이즈 오감지 방지)
-              _gateExitStartT=0; // [Work36-RepFix] 게이트 안에 있으면 이탈 debounce 리셋
-              if(_gateInGateStartT===0) _gateInGateStartT=now2;
-              if(now2-_gateInGateStartT>=100){  // [Work23-RepFix] 정면: 100ms (기존 _GATE_CONFIRM_MS=200ms) 빠른 동작 허용
-                _gateInGateStartT=0;
-                clearTimeout(_pendingGateFBTimer);_pendingGateFBTimer=null;
-                // [BUG6] 정면: 시작자세 복귀 = 렙 완료 → MIN_REP_MS 이상이면 즉시 피드백
-                if(_gateArmed&&(now2-_gateLastPrimeT)>=_MIN_REP_MS){
-                  // [Work16-Fix3] best-frame 스냅샷 저장 (devToRef 제거 → 항상 저장)
-                  if(_bestTimingPos!=null){
-                    _repPosSnapshots.push({pos:{..._bestTimingPos},cmp:_bestTimingCmp?{..._bestTimingCmp}:null});
-                  }
-                  _bestTimingPos=null;_bestTimingCmp=null;_bestTimingPosDevSoFar=Infinity;
-                  _gateArmed=false;_gateEndDetected=false;_lastRepT=now2;_gateState='entry';
-                  addRep(); // [DoubleCountFix] 단일 가드 경유
-                  const _gRet2=_lastCmp;
-                  S.lastFB=now2;S.speak=false;try{speechSynthesis.cancel();}catch(e){} // [BUG4-FIX] 이중발화 방지
-                  // [Work18-FBFix] 정면 피드백 허용: !isFrontal() 가드 제거, 칭찬 경로 추가
-                  setTimeout(()=>{if(S.speak)return;const _pc=_peakCmp||_bestTimingCmp||_lastPosCmp,_pp=_peakPos||_bestTimingPos||_lastPos;let _ft=null;if(_pc&&!posAllGood(_pc)){_ft=posFeedbackStr(_pc);}else if(_pc&&posAllGood(_pc)){const _pr=TX[CL].PRAISE;if(_pr)_ft=_pr[Math.floor(Math.random()*_pr.length)];}else if(!_pc&&_pp){_ft=posAbsFeedback(_pp);}else if(_gRet2){const _fo=overall(_gRet2);if(_fo==='good'){const _pr2=TX[CL].PRAISE;if(_pr2)_ft=_pr2[Math.floor(Math.random()*_pr2.length)];}else{const _ffb=primaryFB(_gRet2);if(_ffb){const _fm=getFBMsg(_ffb);if(_fm)_ft=_fm;}}}if(_ft){speak(_ft);}_peakActive=false;S.lastFB=Date.now();},_GATE_FB_DELAY); // [v120] 전환점 프레임으로 판정
-                }else{
-                  _gateArmed=false;_gateEndDetected=false;_gateState='entry';}
-              }
-              // else: debounce 대기 중 — 아직 전환 안 함
-            }
-          } else {
-            _gateInGateStartT=0; // [Issue2 FIX] 게이트 이탈 시 debounce 리셋
-            if(_gateState==='entry'){
-              // [Work37-RepFix] entry→timing 즉시 전환 (Work36 100ms debounce 제거)
-              // debounce 문제: warm GPU(2번째 분析)에서 짧은 게이트 이탈이 100ms 미만
-              // → 실제 렙 timing 전환 차단 → 2번째 분析 1회 누락
-              // 대신 분析 시작 _START_DELAY(1.5s) gate 억제로 cold-start phantom 방지 (아래)
-              _gateExitStartT=0;
-              _gateState='timing';_gateLastPrimeT=now2;_gateEndDetected=false;
-              _gateEntryPosLive=_lastPos?{..._lastPos}:null;
-              _peakActive=true;_peakExc=-1;_peakPos=null;_peakCmp=null;_peakStartRef=_gateEntryPosLive||(_gateEntryPos?_gateEntryPos[S.ex.id]:null); // [v120] 전환점 추적 시작(시작자세 기준)
-              _gateArmed=isFrontal()?true:(now2-_lastRepT>=_MIN_REP_MS);
-              if(_gateArmed){clearTimeout(_pendingGateFBTimer);_pendingGateFBTimer=null;}
-            } else if(_gateState==='timing'){
-              if(now2-_gateLastPrimeT>_GATE_PRIME_TIMEOUT){
-                clearTimeout(_pendingGateFBTimer);_pendingGateFBTimer=null;
-                _gateArmed=false;_gateEndDetected=false;_gateState='idle';
-              }
-              // [Work28-EndPoseFix] 정면分析: timing 단계에서 끝자세(기준자세/_posRef) 도달 즉시 rep 카운팅
-              // 수정1: _MIN_REP_MS 800→300ms (끝자세 빠르게 반응)
-              // 수정2: hipShift 진행률 80% 도달로도 rep 발동 (끝자세 정확 매칭 불필요)
-              // 수정3: Fix A(_lastPos null→유효)로 인해 끝자세 감지 자체가 동작하게 됨
-              if(_gateArmed&&!_gateEndDetected&&isFrontal()){
-                const _pEndRef=_posRef[S.ex.id];
-                // [Work30-RepFix] _gateEntryPosLive 우선 사용 (현재 세션 실시간 캡처)
-                // fallback: localStorage 기반 _gateEntryPos (구버전 호환)
-                const _pStartRef=_gateEntryPosLive||(_gateEntryPos?_gateEntryPos[S.ex.id]:null);
-                // [Work29-RepFix] 최소 대기 500ms (300ms는 너무 짧아 과다 카운팅 유발)
-                if(_pEndRef&&_lastPos&&(now2-_gateLastPrimeT)>=500){
-                  const _ePosHsDev=Math.abs((_lastPos.hipShift||0)-(_pEndRef.hipShift||0));
-                  const _ePosShDev=Math.abs((_lastPos.shoulderTilt||0)-(_pEndRef.shoulderTilt||0));
-                  const _ePosHtDev=Math.abs((_lastPos.hipTilt||0)-(_pEndRef.hipTilt||0));
-                  // [Work30-RepFix] 시작 위치에서 최소 이동 확인 (stale hipShift=0 오발동 방지)
-                  // _pStartRef.hipShift가 유효할 때만: 현재 위치가 시작점에서 ≥5% 이상 이동해야 카운팅 허용
-                  const _movedFromStart=!_pStartRef||Math.abs((_lastPos.hipShift||0)-(_pStartRef.hipShift||0))>=5;
-                  // 방법1: 끝자세 직접 매칭
-                  const _inEndPose=_movedFromStart&&_ePosHsDev<=POS_THR.hipShift*1.5&&(_ePosShDev+_ePosHtDev)<=(POS_THR.shoulderTilt+POS_THR.hipTilt)*1.5;
-                  // 방법2: hipShift 진행률 기반 (시작→끝 이동량의 80% 도달 시 발동)
-                  let _inEndByProgress=false;
-                  if(_movedFromStart&&_pStartRef&&Math.abs((_pEndRef.hipShift||0)-(_pStartRef.hipShift||0))>=8){
-                    const _totalRange=(_pEndRef.hipShift||0)-(_pStartRef.hipShift||0);
-                    const _curProgress=((_lastPos.hipShift||0)-(_pStartRef.hipShift||0))/_totalRange;
-                    _inEndByProgress=_curProgress>=0.80;
-                  }
-                  if(_inEndPose||_inEndByProgress){
-                    _gateEndDetected=true;
-                    // rep 즉시 카운팅 + 피드백 발화
-                    if(_bestTimingPos!=null){
-                      _repPosSnapshots.push({pos:{..._bestTimingPos},cmp:_bestTimingCmp?{..._bestTimingCmp}:null});
-                    }
-                    _bestTimingPos=null;_bestTimingCmp=null;_bestTimingPosDevSoFar=Infinity;
-                    _gateArmed=false;_gateEndDetected=false;_lastRepT=now2;
-                    // [Work29-RepFix] 핵심: 'idle'로 복귀 (기존 'entry'→즉시 timing 재진입 → 연속 오발동)
-                    // idle → 선수가 시작자세로 돌아와야 entry → 이탈 시 timing → 다음 rep 가능
-                    // 이 변경으로 2번 스윙 = 정확히 2회 카운팅 (기존 Work28: 13~14회 오카운팅)
-                    _gateState='idle';
-                    addRep(); // [DoubleCountFix] 단일 가드 경유
-                    const _gRet3=_lastCmp;
-                    S.lastFB=now2;S.speak=false;try{speechSynthesis.cancel();}catch(e){}
-                    setTimeout(()=>{if(S.speak)return;const _pc=_peakCmp||_bestTimingCmp||_lastPosCmp,_pp=_peakPos||_bestTimingPos||_lastPos;let _ft=null;if(_pc&&!posAllGood(_pc)){_ft=posFeedbackStr(_pc);}else if(_pc&&posAllGood(_pc)){const _pr=TX[CL].PRAISE;if(_pr)_ft=_pr[Math.floor(Math.random()*_pr.length)];}else if(!_pc&&_pp){_ft=posAbsFeedback(_pp);}else if(_gRet3){const _fo=overall(_gRet3);if(_fo==='good'){const _pr2=TX[CL].PRAISE;if(_pr2)_ft=_pr2[Math.floor(Math.random()*_pr2.length)];}else{const _ffb=primaryFB(_gRet3);if(_ffb){const _fm=getFBMsg(_ffb);if(_fm)_ft=_fm;}}}if(_ft){speak(_ft);}_peakActive=false;S.lastFB=Date.now();},_GATE_FB_DELAY); // [v120] 전환점 프레임으로 판정
-                  }
-                }
-              }
-              // [Work16-Fix3] devToRef 제거 (Work15-Fix4b 롤백): 이중발화 방지 위해 삽입했으나
-              // threshold가 너무 느슨해 조기 감지 → 피드백/카운팅 모두 무력화되는 버그 유발
-            }
-          }
-                    // [Work25-FBFix] Time-based frontal feedback removed
-          // Feedback fires once per rep only (in timing->entry setTimeout)
+        if(_posRef[S.ex.id]&&_poseConf>=GATE_CONF&&(now2-S.startTime>=(_srcMode==='file'?300:_START_DELAY))){
+          _frontalEngine(now2); // [v127] 전환점/최근접 기반 코칭 엔진 (게이트 상태머신 대체)
         } else {
           // 게이트 없음: 시간 기반 피드백 (2500ms마다)
           if(now2-S.startTime>=_START_DELAY&&now2-S.lastFB>=_FB_INTERVAL&&!S.speak){
@@ -3996,6 +3873,7 @@ async function startLive(){
   $('rep-num').textContent='0';
   S.live=true;S.lastFB=0;S.lastPr=0;S.goodN=0;S.speak=false;
   _dbgPose=0;_dbgSpeak=0;_dbgDetErr=0;_dbgRebuild=0;_dbgLastErr='';_detErrSinceOk=0;_lastPoseTs=Date.now(); // [EngineSwap v115] 분석 1회 진단 카운터 리셋
+  try{_frontalEngineReset();}catch(e){} // [v127] 정면 엔진 리셋
   $('btn-main').className='stop';$('btn-main').textContent=TX[CL].btn_stop;
   $('btn-main').disabled=false;
   // [Work34-DirFix] ★버그수정★: S.dir 동기화를 if(isFrontal()) 블록 밖으로 이동
@@ -4100,7 +3978,7 @@ function _updateDbgHUD(){
     const _cur=(_lastPos&&_lastPos.hipShift!=null)?_lastPos.hipShift:null;
     if(_cur!=null){ const _sd=_cur>0?'신체우':'신체좌'; let _dv=''; if(_rp&&_rp.hipShift!=null){const _d=Math.round(_cur-_rp.hipShift);_dv=' dev '+(_d>0?'+':'')+_d;} _hipL='\nhip '+_sd+Math.abs(Math.round(_cur))+'%'+_dv; }
   }catch(e){}
-  _hudEl.textContent='MP/'+MP_DELEGATE+'  fps '+_hudFps+'\npose# '+_dbgPose+'  age '+age+'ms\npend '+(_detPending?'Y':'N')+'  speak# '+_dbgSpeak+'\nerr '+_dbgDetErr+'  rebuild '+_dbgRebuild+_hipL+'\nfb '+(_dbgLastFb||'-')+(_dbgLastErr?('\n'+_dbgLastErr):'');
+  _hudEl.textContent='MP/'+MP_DELEGATE+'  fps '+_hudFps+'\npose# '+_dbgPose+'  age '+age+'ms\npend '+(_detPending?'Y':'N')+'  speak# '+_dbgSpeak+'\nerr '+_dbgDetErr+'  rebuild '+_dbgRebuild+_hipL+'\nCE '+_ceDbg.st+' Dr'+_ceDbg.dref+' Ds'+_ceDbg.dstart+'\nfb '+(_dbgLastFb||'-')+(_dbgLastErr?('\n'+_dbgLastErr):'');
 }
 // 분석이 끝날 때마다 항상 표시(디버그 모드 아니어도) — 스크린샷 1장으로 "추론 살아있었나/피드백 나왔나/오류·재생성" 즉시 판별.
 function _showRunSummary(elapsed){
@@ -4584,7 +4462,7 @@ let _lastPosCmp = null;
 let _posCmpBuf = []; // [Work35-CmpSmooth] 최근 cmp 슬라이딩 윈도우 버퍼 (피드백 안정화용)
 const TRAJ_MS = 8000;
 // 정면/후면 지표 임계값: degree 단위(shoulderTilt/hipTilt/trunkLean), % 단위(hipShift/knee)
-const POS_THR = {shoulderTilt:5, hipTilt:5, trunkLean:5, hipShift:15, lKneeOff:12, rKneeOff:12, lHipOff:20, rHipOff:20}; // [Work45] // [Issue5 FIX] 3→5° (허용 오차 확대)
+const POS_THR = {shoulderTilt:5, hipTilt:5, trunkLean:5, hipShift:12, lKneeOff:12, rKneeOff:12, lHipOff:20, rHipOff:20}; // [Work45] // [Issue5 FIX] 3→5° (허용 오차 확대)
 const ST_COL_POS = {good:'#4CAF50', warn:'#FFC107', crit:'#F44336', unk:'#555'};
 // 정면 지표 → 관절 선택(S.jointSel) 키 매핑
 const POS_JOINT_MAP = {shoulderTilt:'shoulder', hipTilt:'hip', trunkLean:'trunk', hipShift:'hip', lKneeOff:'knee', rKneeOff:'knee', lHipOff:'hip', rHipOff:'hip'}; // [Work45]
@@ -4832,6 +4710,72 @@ function _fmtTilt(v, unit){
 // [v123] 골반 좌우(hipShift) 라벨/방향 다국어 헬퍼 — 라이브·녹화 패널 공유 (v>0 = 신체 우측)
 function _hlrLabel(){ return CL==='ko'?'골반 좌우':CL==='ja'?'骨盤 左右':CL==='zh'?'骨盆 左右':CL==='es'?'Cadera I/D':CL==='fr'?'Bassin G/D':'Hip L/R'; }
 function _hlrSide(v){ return v>0 ? (CL==='ko'?'신체우':CL==='ja'?'体右':CL==='zh'?'身右':CL==='es'?'D':CL==='fr'?'D':'R') : (CL==='ko'?'신체좌':CL==='ja'?'体左':CL==='zh'?'身左':CL==='es'?'I':CL==='fr'?'G':'L'); }
+// ===== [v127] 정면 코칭 엔진 — 기준자세 "최근접 순간" 기반 카운팅+피드백 (게이트 상태머신 대체) =====
+// 원리: 시작자세에서 떠나(away) → 기준자세에 "가장 가까워지는 순간"을 감지 → 그 프레임으로 즉시 피드백+카운트.
+//   기준이 전환점이든 중간프레임(골프 임팩트)이든 동작. 시작자세로 "의도한 방향(통과)" 구분.
+//   임계값으로 끝자세 도달을 더듬지 않으므로 0회 미카운팅/지연 문제 해소. 발화 지연 없음(즉시).
+const _DZ_PERFECT = 0.42; // worst(|dev|/thr) 이하면 "완벽해"(≈hipShift 5%). _CE 데드존.
+const _CE_NEAR_START = 0.9;  // 시작자세 근처(사이클 경계) 판정
+const _CE_AWAY_MIN   = 1.2;  // away 진입(시작자세에서 충분히 떠남)
+const _CE_METRICS = ['shoulderTilt','hipTilt','trunkLean','hipShift','lKneeOff','rKneeOff'];
+function _ceSel(k){ const jk=POS_JOINT_MAP[k]; return !(jk && S.jointSel[jk]===false); }
+function _distFromCmp(cmp){ // 기준자세 대비 정규화 평균편차(0=일치)
+  if(!cmp) return null; let s=0,n=0;
+  for(const k of _CE_METRICS){ const c=cmp[k]; if(!c||c.dev==null||!_ceSel(k)) continue; s+=Math.abs(c.dev)/(POS_THR[k]||1); n++; }
+  return n>0?s/n:null;
+}
+function _distPosTo(pos,ref){ // 임의 포즈 간 정규화 평균편차
+  if(!pos||!ref) return null; let s=0,n=0;
+  for(const k of _CE_METRICS){ if(pos[k]==null||ref[k]==null||!_ceSel(k)) continue; s+=Math.abs(pos[k]-ref[k])/(POS_THR[k]||1); n++; }
+  return n>0?s/n:null;
+}
+function _ceWorstRatio(cmp){ let w=0; if(cmp){ for(const k of _CE_METRICS){ const c=cmp[k]; if(!c||c.dev==null||!_ceSel(k)) continue; const r=Math.abs(c.dev)/(POS_THR[k]||1); if(r>w)w=r; } } return w; }
+function _ceFeedbackText(cmp,pos){
+  const w=_ceWorstRatio(cmp);
+  const PR=TX[CL].PRAISE||['완벽해!'];
+  if(w<=_DZ_PERFECT) return PR[0];                                   // 완벽
+  if(w<=1.0){ const g=PR.slice(1); return (g.length?g:PR)[Math.floor(Math.random()*(g.length?g.length:PR.length))]; } // 좋아/굿
+  return cmp?posFeedbackStr(cmp):(pos?posAbsFeedback(pos):null);     // 교정
+}
+let _ceState='atstart', _ceMinD=Infinity, _ceMinSnap=null, _cePeakExc=0, _cePrevD=Infinity, _ceRise=0, _ceCycleT=0, _ceFired=false;
+let _ceDbg={st:'-',dref:0,dstart:0,mind:0};
+function _frontalEngineReset(){ _ceState='atstart';_ceMinD=Infinity;_ceMinSnap=null;_cePeakExc=0;_cePrevD=Infinity;_ceRise=0;_ceFired=false; }
+function _ceFire(now){
+  _ceFired=true; addRep();
+  const snap=_ceMinSnap;
+  S.lastFB=now; S.speak=false; try{speechSynthesis.cancel();}catch(e){}
+  const ft=_ceFeedbackText(snap?snap.cmp:_lastPosCmp, snap?snap.pos:_lastPos);
+  if(ft) speak(ft);                 // 즉시 발화(지연 없음)
+  if(snap) _repPosSnapshots.push({pos:snap.pos, cmp:snap.cmp});
+}
+function _frontalEngine(now){
+  const pos=_lastPos, cmp=_lastPosCmp, ref=_posRef[S.ex.id];
+  if(!pos||!ref) return;
+  const start=_gateEntryPos[S.ex.id]||null;
+  const Dref=_distFromCmp(cmp); if(Dref==null) return;
+  const Dstart=start?_distPosTo(pos,start):Dref; // 시작자세 없으면 Dref로 대체(단순 왕복)
+  _ceDbg={st:_ceState,dref:Math.round(Dref*100)/100,dstart:Math.round((Dstart||0)*100)/100,mind:Math.round(_ceMinD*100)/100};
+  // 사이클 경계: 시작자세 근처면 다음 사이클 준비
+  if(_ceState==='atstart'||_ceState==='back'){
+    if(Dstart!=null && Dstart<=_CE_NEAR_START){ _ceState='atstart'; }
+    else if(Dstart!=null && Dstart>=_CE_AWAY_MIN){ _frontalEngineReset(); _ceState='away'; _ceCycleT=now; }
+    return;
+  }
+  if(_ceState==='away'){
+    if(Dstart!=null && Dstart>_cePeakExc) _cePeakExc=Dstart;         // 전환점(최대 이탈) 추적
+    if(Dref<_ceMinD){ _ceMinD=Dref; _ceMinSnap={cmp:cmp?{...cmp}:null,pos:{...pos}}; _ceRise=0; }
+    else if(Dref>_cePrevD){ _ceRise++; } else { _ceRise=0; }
+    _cePrevD=Dref;
+    const minMs = (now-_ceCycleT)>=_MIN_REP_MS;
+    // ① 최근접 지난 뒤 멀어지기 시작 → 즉시 발화
+    if(!_ceFired && minMs && _ceRise>=2 && _ceMinSnap){ _ceFire(now); }
+    // ② 전환점 지나 시작쪽으로 수축 → back 전환(미발화면 여기서라도 발화)
+    if(_cePeakExc>0 && Dstart!=null && Dstart<_cePeakExc*0.7 && minMs){
+      if(!_ceFired && _ceMinSnap) _ceFire(now);
+      _ceState='back';
+    }
+  }
+}
 function updatePosBar(pos, cmp){
   // ① 각도 지표 (어깨/골반/몸통 기울기)
   function setDeg(dotId, valId, val, metricKey, type){
@@ -5365,7 +5309,7 @@ async function init(){
 }
 
 window.addEventListener('load',init);
-/* trajix — build v125 [HipAnchor] 골반좌우=선택 골반점 기준(A안)+기준자세 고정scale / v124 [HipLR-DevMain+UI] 골반좌우를 기준대비 편차로 + 패널 compact/센서줄 / v123 [HipLR-Rec+i18n] 녹화패널 골반좌우 추가 + 다국어 / v122 [HipLR-Panel] 라이브 하단패널에 골반좌우 행 추가 / v121 [DbgReadout] HUD에 hip값/dev/마지막피드백 표시 / v120 [TurnPoint] 전환점(최대도달)으로 피드백 판정 — 오버슈트 올바르게 / v119 [HipDir-Revert] / v117 [VoiceClip+StereoFix] 피드백 음성을 사전렌더 클립(스테레오+녹화포함)으로, GPU 기본값 / v115 [EngineSwap] 코칭 추론 MoveNet/TF.js(WebGL) → MediaPipe tasks-vision(동기 detectForVideo, CPU) 교체 + 자가치유 워치독 + TTS 언락 + 진단 HUD/요약 */
+/* trajix — build v127 [CoachEngine] 정면 게이트→기준자세 최근접 엔진(카운팅/즉시피드백/데드존) / v126 [HipAnchorToggleColor] 골반기준점 토글 파란색 / v125 [HipAnchor] 골반좌우=선택 골반점 기준(A안)+기준자세 고정scale / v124 [HipLR-DevMain+UI] 골반좌우를 기준대비 편차로 + 패널 compact/센서줄 / v123 [HipLR-Rec+i18n] 녹화패널 골반좌우 추가 + 다국어 / v122 [HipLR-Panel] 라이브 하단패널에 골반좌우 행 추가 / v121 [DbgReadout] HUD에 hip값/dev/마지막피드백 표시 / v120 [TurnPoint] 전환점(최대도달)으로 피드백 판정 — 오버슈트 올바르게 / v119 [HipDir-Revert] / v117 [VoiceClip+StereoFix] 피드백 음성을 사전렌더 클립(스테레오+녹화포함)으로, GPU 기본값 / v115 [EngineSwap] 코칭 추론 MoveNet/TF.js(WebGL) → MediaPipe tasks-vision(동기 detectForVideo, CPU) 교체 + 자가치유 워치독 + TTS 언락 + 진단 HUD/요약 */
 </script>
 </body>
 </html>
