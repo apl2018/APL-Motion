@@ -9,3 +9,5 @@ apl motion logo/
 *.backup-*.html
 coach/make_voices.ps1
 coach/run_voices.bat
+coach/make_voices_en.ps1
+coach/run_voices_en.bat

@@ -507,7 +507,7 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
     <div class="h-brand">
       <div class="h-brand-txt" style="flex-direction:row;align-items:center;gap:8px">
         <a href="#" title="홈(런처로)" onclick="goHome();return false" style="text-decoration:none;cursor:pointer;display:block"><svg viewBox="-32 0 2368 1185.5" role="img" aria-label="trajix" style="display:block;height:32px;width:auto" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,883.5) scale(1,-1)"><path d="M208 458V153Q208 122 222.5 108.5Q237 95 272 95H342V0H252Q175 0 134.0 36.0Q93 72 93 153V458H28V551H93V688H208V551H342V458Z" transform="translate(0,0)" fill="#f3f2ee"/><path d="M354 560V442H325Q258 442 223.5 408.0Q189 374 189 290V0H75V551H189V471Q214 513 255.5 536.5Q297 560 354 560Z" transform="translate(337,0)" fill="#f3f2ee"/><path d="M297 560Q362 560 410.5 534.5Q459 509 488 471V551H603V0H488V82Q459 43 409.0 17.0Q359 -9 295 -9Q224 -9 165.0 27.5Q106 64 71.5 129.5Q37 195 37 278Q37 361 71.5 425.0Q106 489 165.5 524.5Q225 560 297 560ZM321 461Q277 461 239.0 439.5Q201 418 177.5 376.5Q154 335 154 278Q154 221 177.5 178.0Q201 135 239.5 112.5Q278 90 321 90Q365 90 403.0 112.0Q441 134 464.5 176.5Q488 219 488 276Q488 333 464.5 375.0Q441 417 403.0 439.0Q365 461 321 461Z" transform="translate(686,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 -108Q189 -189 148.5 -225.5Q108 -262 31 -262H-28V-166H11Q46 -166 60.5 -152.5Q75 -139 75 -108V551H189Z" transform="translate(1329,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 551V0H75V551Z" transform="translate(1558,0)" fill="#f3f2ee"/><path d="M311 279 489 0H360L241 187L129 0H10L188 271L10 551H139L258 364L370 551H489Z" transform="translate(1787,0)" fill="#f3f2ee"/><path d="M 1461.5 685.0 Q 1576.0 980 1690.5 685.0" fill="none" stroke="#c9a449" stroke-width="22" stroke-linecap="round"/><circle cx="1461.5" cy="685.0" r="86.0" fill="#c9a449"/><circle cx="1690.5" cy="685.0" r="86.0" fill="#c9a449"/></g></svg></a>
-        <div class="h-mc" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;letter-spacing:0;gap:3px"><span id="mode-badge" style="font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap">코칭 2D</span><span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v133</span></div>
+        <div class="h-mc" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;letter-spacing:0;gap:3px"><span id="mode-badge" style="font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap">코칭 2D</span><span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v135</span></div>
       </div>
     </div>
     <div id="hdr-right">
@@ -1295,6 +1295,14 @@ function primaryFB(cmp){
   const _sideKey=_sideJoints.includes(worst.k)?(S.dir!=='right'?'left':'right'):null;
   return{key:map[worst.k],st:worst.st,refAng:worst.ref,sideKey:_sideKey}; // [FB방향]
 }
+// [v135] 영어 좌/우 삽입: "your knee/shoulder/elbow"→"your left/right ...", 문두 joint는 "Left/Right ..."
+function _enSide(msg, side){
+  const cap=side.charAt(0).toUpperCase()+side.slice(1);
+  let r=msg.replace(/\b(your|Your)\s+(knee|shoulder|elbow)\b/g, (mm,g1,g2)=>g1+' '+side+' '+g2);
+  if(r!==msg) return r;
+  if(/^(Shoulder|Elbow|Knee)\b/.test(msg)) return cap+' '+msg.charAt(0).toLowerCase()+msg.slice(1);
+  return cap+'. '+msg;
+}
 // 피드백 메시지에서 하드코딩된 각도(90)를 실제 기준 각도로 교체
 function getFBMsg(fb){
   const msgs=TX[CL].FB[fb.key]; if(!msgs) return null;
@@ -1303,6 +1311,8 @@ function getFBMsg(fb){
   if(CL==='ko'&&fb.sideKey){
     const pfx=fb.sideKey==='left'?'왼':'오른';
     msg=pfx+msg; // "무릎 좀더 구부려." → "왼무릎 좀더 구부려."
+  } else if(CL==='en'&&fb.sideKey){
+    msg=_enSide(msg, fb.sideKey); // [v135] 영어 좌/우: "your knee"→"your left knee" 등
   }
   return msg;
 }
@@ -1403,13 +1413,76 @@ const _VOICE_MAP = {
   "자세 인식에 실패했습니다. 다시 시도해 주세요":"c056.wav",
   "전신이 보이도록 서 주세요":"c057.wav"
 };
+const _VOICE_MAP_EN = {
+  "Bend your left knee a bit more":"c001.wav",
+  "Bend your right knee a bit more":"c002.wav",
+  "Bend your left knee more":"c003.wav",
+  "Bend your right knee more":"c004.wav",
+  "Straighten your left knee slightly":"c005.wav",
+  "Straighten your right knee slightly":"c006.wav",
+  "Your left knee is bent too much":"c007.wav",
+  "Your right knee is bent too much":"c008.wav",
+  "Lower your hips a little":"c009.wav",
+  "Flex your hip more. Lower your seat":"c010.wav",
+  "Straighten your torso slightly":"c011.wav",
+  "Pelvis tilting forward. Stand taller":"c012.wav",
+  "Torso leaning too far forward. Straighten your back":"c013.wav",
+  "Lean your torso slightly forward":"c014.wav",
+  "Lean your torso further forward":"c015.wav",
+  "Straighten your back a bit":"c016.wav",
+  "Your back is rounded. Extend your spine":"c017.wav",
+  "Adjust your lower back to neutral":"c018.wav",
+  "Lower back over-extended. Keep a neutral spine":"c019.wav",
+  "Bring your left shoulder slightly forward":"c020.wav",
+  "Bring your right shoulder slightly forward":"c021.wav",
+  "Left shoulder too far back. Lower it forward":"c022.wav",
+  "Right shoulder too far back. Lower it forward":"c023.wav",
+  "Open your left shoulder back":"c024.wav",
+  "Open your right shoulder back":"c025.wav",
+  "Left shoulder rounding too far forward":"c026.wav",
+  "Right shoulder rounding too far forward":"c027.wav",
+  "Bend your left elbow a little more":"c028.wav",
+  "Bend your right elbow a little more":"c029.wav",
+  "Bend your left elbow more. Aim for 90 degrees":"c030.wav",
+  "Bend your right elbow more. Aim for 90 degrees":"c031.wav",
+  "Straighten your left elbow slightly":"c032.wav",
+  "Straighten your right elbow slightly":"c033.wav",
+  "Left elbow is bent too much. Extend it":"c034.wav",
+  "Right elbow is bent too much. Extend it":"c035.wav",
+  "Hip left":"c036.wav",
+  "Hip right":"c037.wav",
+  "Raise left shoulder":"c038.wav",
+  "Raise right shoulder":"c039.wav",
+  "Level left hip":"c040.wav",
+  "Level right hip":"c041.wav",
+  "Lean left":"c042.wav",
+  "Lean right":"c043.wav",
+  "Left knee out":"c044.wav",
+  "Left knee in":"c045.wav",
+  "Right knee out":"c046.wav",
+  "Right knee in":"c047.wav",
+  "Perfect":"c048.wav",
+  "Great form":"c049.wav",
+  "Excellent":"c050.wav",
+  "Looking good":"c051.wav",
+  "Great":"c052.wav",
+  "Good":"c053.wav",
+  "analysis starting":"c054.wav",
+  "Session complete. Well done":"c055.wav",
+  "Reference pose saved":"c056.wav",
+  "Pose not detected. Please try again":"c057.wav",
+  "Please stand so your full body is visible":"c058.wav"
+};
+const _VOICE_MAPS = { ko:_VOICE_MAP, en:_VOICE_MAP_EN }; // [v134] 다국어 음성 클립
+function _voiceMap(cl){ return _VOICE_MAPS[cl]||null; }
+function _voiceDir(cl){ return cl==='ko'?'voice/':'voice/'+cl+'/'; }
 function _normClip(s){ return String(s).trim().replace(/[!.。\s]+$/,''); }
 let _clipBytes={}, _clipBufs={}, _clipBufCtx=null, _curClipSrc=null, _clipPreloaded=false;
 function _clipCtx(){ return (_recAudioCtx&&_recAudioCtx.state!=='closed')?_recAudioCtx:((typeof _audioCtxKeepAlive!=='undefined'&&_audioCtxKeepAlive&&_audioCtxKeepAlive.state!=='closed')?_audioCtxKeepAlive:null); }
 function preloadClips(){
   if(_clipPreloaded) return; _clipPreloaded=true;
-  const files=Array.from(new Set(Object.values(_VOICE_MAP)));
-  files.forEach(f=>{ fetch('voice/'+f).then(r=>r.ok?r.arrayBuffer():null).then(b=>{ if(b)_clipBytes[f]=b; }).catch(()=>{}); });
+  ['ko','en'].forEach(cl=>{ const m=_voiceMap(cl); if(!m) return; const dir=_voiceDir(cl);
+    Array.from(new Set(Object.values(m))).forEach(f=>{ fetch(dir+f).then(r=>r.ok?r.arrayBuffer():null).then(b=>{ if(b)_clipBytes[cl+'/'+f]=b; }).catch(()=>{}); }); });
 }
 function decodeClips(){
   const ctx=_clipCtx(); if(!ctx) return;
@@ -1418,12 +1491,13 @@ function decodeClips(){
 }
 function playClip(txt){
   try{
-    if(CL!=='ko') return false;              // 한국어 클립만 보유 — 그 외 언어는 폴백
+    const m=_voiceMap(CL); if(!m) return false;      // [v134] 해당 언어 클립 없으면 폴백(폰 TTS)
     const ctx=_clipCtx(); if(!ctx) return false;
-    const file=_VOICE_MAP[_normClip(txt)]; if(!file) return false;
+    const file=m[_normClip(txt)]; if(!file) return false;
+    const key=CL+'/'+file;
     if(_clipBufCtx!==ctx){ _clipBufs={}; _clipBufCtx=ctx; }
-    const buf=_clipBufs[file];
-    if(!buf){ if(_clipBytes[file]){ try{ctx.decodeAudioData(_clipBytes[file].slice(0),b=>{_clipBufs[file]=b;},()=>{});}catch(e){} } return false; }
+    const buf=_clipBufs[key];
+    if(!buf){ if(_clipBytes[key]){ try{ctx.decodeAudioData(_clipBytes[key].slice(0),b=>{_clipBufs[key]=b;},()=>{});}catch(e){} } return false; }
     if(ctx.state==='suspended') ctx.resume().catch(()=>{});
     try{ if(_curClipSrc) _curClipSrc.stop(); }catch(e){}
     const src=ctx.createBufferSource(); src.buffer=buf;
@@ -5317,7 +5391,7 @@ async function init(){
 }
 
 window.addEventListener('load',init);
-/* trajix — build v133 [CoachEngine-ReachGuard] 기준자세 도달해야 카운트(조기카운트 방지) / v132 [CoachEngine-v128+ReturnGuard+GyroAuto] v128 정확도 복원+복귀가드(멈칫방지)+자이로 자동 / v131 [UX] 자이로 자동권한 제거(마이크만)+골반기준점 측면 숨김 / v130 [CoachEngine-FireFix] _ceFire의 _ceFired 잔재 제거(카운트0 크래시 수정) / v129 [CoachEngine-ReArm] 재장전(끝자세 멈칫 중복 카운트 방지) / v128 [CoachEngine-Hyst] 상대 전환점+히스테리시스(과다카운팅 수정) / v127 [CoachEngine] 정면 게이트→기준자세 최근접 엔진(카운팅/즉시피드백/데드존) / v126 [HipAnchorToggleColor] 골반기준점 토글 파란색 / v125 [HipAnchor] 골반좌우=선택 골반점 기준(A안)+기준자세 고정scale / v124 [HipLR-DevMain+UI] 골반좌우를 기준대비 편차로 + 패널 compact/센서줄 / v123 [HipLR-Rec+i18n] 녹화패널 골반좌우 추가 + 다국어 / v122 [HipLR-Panel] 라이브 하단패널에 골반좌우 행 추가 / v121 [DbgReadout] HUD에 hip값/dev/마지막피드백 표시 / v120 [TurnPoint] 전환점(최대도달)으로 피드백 판정 — 오버슈트 올바르게 / v119 [HipDir-Revert] / v117 [VoiceClip+StereoFix] 피드백 음성을 사전렌더 클립(스테레오+녹화포함)으로, GPU 기본값 / v115 [EngineSwap] 코칭 추론 MoveNet/TF.js(WebGL) → MediaPipe tasks-vision(동기 detectForVideo, CPU) 교체 + 자가치유 워치독 + TTS 언락 + 진단 HUD/요약 */
+/* trajix — build v135 [VoiceClip-EN-LR] 영어 좌/우 피드백+클립(58) / v134 [VoiceClip-i18n] 영어 음성 클립(voice/en) 지원 / v133 [CoachEngine-ReachGuard] 기준자세 도달해야 카운트(조기카운트 방지) / v132 [CoachEngine-v128+ReturnGuard+GyroAuto] v128 정확도 복원+복귀가드(멈칫방지)+자이로 자동 / v131 [UX] 자이로 자동권한 제거(마이크만)+골반기준점 측면 숨김 / v130 [CoachEngine-FireFix] _ceFire의 _ceFired 잔재 제거(카운트0 크래시 수정) / v129 [CoachEngine-ReArm] 재장전(끝자세 멈칫 중복 카운트 방지) / v128 [CoachEngine-Hyst] 상대 전환점+히스테리시스(과다카운팅 수정) / v127 [CoachEngine] 정면 게이트→기준자세 최근접 엔진(카운팅/즉시피드백/데드존) / v126 [HipAnchorToggleColor] 골반기준점 토글 파란색 / v125 [HipAnchor] 골반좌우=선택 골반점 기준(A안)+기준자세 고정scale / v124 [HipLR-DevMain+UI] 골반좌우를 기준대비 편차로 + 패널 compact/센서줄 / v123 [HipLR-Rec+i18n] 녹화패널 골반좌우 추가 + 다국어 / v122 [HipLR-Panel] 라이브 하단패널에 골반좌우 행 추가 / v121 [DbgReadout] HUD에 hip값/dev/마지막피드백 표시 / v120 [TurnPoint] 전환점(최대도달)으로 피드백 판정 — 오버슈트 올바르게 / v119 [HipDir-Revert] / v117 [VoiceClip+StereoFix] 피드백 음성을 사전렌더 클립(스테레오+녹화포함)으로, GPU 기본값 / v115 [EngineSwap] 코칭 추론 MoveNet/TF.js(WebGL) → MediaPipe tasks-vision(동기 detectForVideo, CPU) 교체 + 자가치유 워치독 + TTS 언락 + 진단 HUD/요약 */
 </script>
 </body>
 </html>
