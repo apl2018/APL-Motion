@@ -4,3 +4,8 @@ CLAUDE_WORK_LOG.md
 출시준비_업종코드_진행계획.md
 출시준비_업종코드_진행계획_인쇄용.html
 apl motion logo/
+
+# 로컬 백업·생성 스크립트 (배포 불필요)
+*.backup-*.html
+coach/make_voices.ps1
+coach/run_voices.bat
