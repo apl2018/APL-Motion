@@ -11,3 +11,7 @@ coach/make_voices.ps1
 coach/run_voices.bat
 coach/make_voices_en.ps1
 coach/run_voices_en.bat
+coach/make_voices_multi.ps1
+coach/run_voices_multi.bat
+coach/check_voices.ps1
+coach/run_check_voices.bat

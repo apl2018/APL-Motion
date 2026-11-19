@@ -507,7 +507,7 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
     <div class="h-brand">
       <div class="h-brand-txt" style="flex-direction:row;align-items:center;gap:8px">
         <a href="#" title="홈(런처로)" onclick="goHome();return false" style="text-decoration:none;cursor:pointer;display:block"><svg viewBox="-32 0 2368 1185.5" role="img" aria-label="trajix" style="display:block;height:32px;width:auto" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,883.5) scale(1,-1)"><path d="M208 458V153Q208 122 222.5 108.5Q237 95 272 95H342V0H252Q175 0 134.0 36.0Q93 72 93 153V458H28V551H93V688H208V551H342V458Z" transform="translate(0,0)" fill="#f3f2ee"/><path d="M354 560V442H325Q258 442 223.5 408.0Q189 374 189 290V0H75V551H189V471Q214 513 255.5 536.5Q297 560 354 560Z" transform="translate(337,0)" fill="#f3f2ee"/><path d="M297 560Q362 560 410.5 534.5Q459 509 488 471V551H603V0H488V82Q459 43 409.0 17.0Q359 -9 295 -9Q224 -9 165.0 27.5Q106 64 71.5 129.5Q37 195 37 278Q37 361 71.5 425.0Q106 489 165.5 524.5Q225 560 297 560ZM321 461Q277 461 239.0 439.5Q201 418 177.5 376.5Q154 335 154 278Q154 221 177.5 178.0Q201 135 239.5 112.5Q278 90 321 90Q365 90 403.0 112.0Q441 134 464.5 176.5Q488 219 488 276Q488 333 464.5 375.0Q441 417 403.0 439.0Q365 461 321 461Z" transform="translate(686,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 -108Q189 -189 148.5 -225.5Q108 -262 31 -262H-28V-166H11Q46 -166 60.5 -152.5Q75 -139 75 -108V551H189Z" transform="translate(1329,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 551V0H75V551Z" transform="translate(1558,0)" fill="#f3f2ee"/><path d="M311 279 489 0H360L241 187L129 0H10L188 271L10 551H139L258 364L370 551H489Z" transform="translate(1787,0)" fill="#f3f2ee"/><path d="M 1461.5 685.0 Q 1576.0 980 1690.5 685.0" fill="none" stroke="#c9a449" stroke-width="22" stroke-linecap="round"/><circle cx="1461.5" cy="685.0" r="86.0" fill="#c9a449"/><circle cx="1690.5" cy="685.0" r="86.0" fill="#c9a449"/></g></svg></a>
-        <div class="h-mc" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;letter-spacing:0;gap:3px"><span id="mode-badge" style="font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap">코칭 2D</span><span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v136</span></div>
+        <div class="h-mc" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;letter-spacing:0;gap:3px"><span id="mode-badge" style="font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap">코칭 2D</span><span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v138</span></div>
       </div>
     </div>
     <div id="hdr-right">
@@ -834,6 +834,7 @@ ko:{flag:'🇰🇷',label:'KO',voice_lang:'ko-KR',
   pbar_l:'좌',pbar_r:'우',tilt_r:'우↓',tilt_l:'좌↓',
   btn_save_video:'📥 영상 저장',btn_save_orig:'📥 원본 영상 저장',
   sensor_tap:'📱 탭 → 자이로 활성화',traj_lbl:'골반 이동 궤적 (8초)',
+  sec_hipanch:'골반 좌우 측정 기준점',hipanch_right:'오른쪽 골반',hipanch_left:'왼쪽 골반',
   sum_stability:'자세 안정성',sum_stable:'안정적',sum_fair:'보통',sum_improve:'교정 필요',
   sum_reps_done:'회 수행',sum_score_detail:'분석 점수',sum_total_frames:'프레임 분析',
   score_unit:'점',lean_r:'우',lean_l:'좌',
@@ -902,6 +903,7 @@ en:{flag:'🇺🇸',label:'EN',voice_lang:'en-US',
   pbar_l:'L',pbar_r:'R',tilt_r:'R↓',tilt_l:'L↓',
   btn_save_video:'📥 Save Video',btn_save_orig:'📥 Save Original',
   sensor_tap:'📱 Tap → Enable Gyro',traj_lbl:'Hip Trajectory (8s)',
+  sec_hipanch:'Hip reference point (L/R)',hipanch_right:'Right hip',hipanch_left:'Left hip',
   sum_stability:'Posture Stability',sum_stable:'Stable',sum_fair:'Fair',sum_improve:'Needs Work',
   sum_reps_done:' reps done',sum_score_detail:'Score',sum_total_frames:' frames',
   score_unit:'pts',lean_r:'R',lean_l:'L',
@@ -970,6 +972,7 @@ ja:{flag:'🇯🇵',label:'JA',voice_lang:'ja-JP',
   pbar_l:'左',pbar_r:'右',tilt_r:'右↓',tilt_l:'左↓',
   btn_save_video:'📥 動画保存',btn_save_orig:'📥 原本保存',
   sensor_tap:'📱 タップ → ジャイロ有効化',traj_lbl:'骨盤軌跡 (8秒)',
+  sec_hipanch:'骨盤 左右の測定基準点',hipanch_right:'右の骨盤',hipanch_left:'左の骨盤',
   sum_stability:'姿勢安定性',sum_stable:'安定',sum_fair:'普通',sum_improve:'要改善',
   sum_reps_done:'回実施',sum_score_detail:'分析スコア',sum_total_frames:'フレーム分析',
   score_unit:'点',lean_r:'右',lean_l:'左',
@@ -1034,6 +1037,7 @@ zh:{flag:'🇨🇳',label:'ZH',voice_lang:'zh-CN',
   pbar_l:'左',pbar_r:'右',tilt_r:'右↓',tilt_l:'左↓',
   btn_save_video:'📥 保存视频',btn_save_orig:'📥 保存原始',
   sensor_tap:'📱 点击 → 启用陀螺仪',traj_lbl:'骨盆轨迹 (8秒)',
+  sec_hipanch:'骨盆左右测量基准点',hipanch_right:'右侧骨盆',hipanch_left:'左侧骨盆',
   sum_stability:'姿势稳定性',sum_stable:'稳定',sum_fair:'一般',sum_improve:'需改进',
   sum_reps_done:'次完成',sum_score_detail:'分析评分',sum_total_frames:'帧分析',
   score_unit:'分',lean_r:'右',lean_l:'左',
@@ -1098,6 +1102,7 @@ es:{flag:'🇪🇸',label:'ES',voice_lang:'es-ES',
   pbar_l:'I',pbar_r:'D',tilt_r:'D↓',tilt_l:'I↓',
   btn_save_video:'📥 Guardar video',btn_save_orig:'📥 Guardar original',
   sensor_tap:'📱 Toca → Activar giroscopio',traj_lbl:'Trayectoria cadera (8s)',
+  sec_hipanch:'Punto de referencia de cadera (I/D)',hipanch_right:'Cadera derecha',hipanch_left:'Cadera izquierda',
   sum_stability:'Estabilidad postural',sum_stable:'Estable',sum_fair:'Regular',sum_improve:'Mejorar',
   sum_reps_done:' reps',sum_score_detail:'Puntuación',sum_total_frames:' frames',
   score_unit:'pts',lean_r:'D',lean_l:'I',
@@ -1162,6 +1167,7 @@ fr:{flag:'🇫🇷',label:'FR',voice_lang:'fr-FR',
   pbar_l:'G',pbar_r:'D',tilt_r:'D↓',tilt_l:'G↓',
   btn_save_video:'📥 Sauvegarder',btn_save_orig:'📥 Sauvegarder original',
   sensor_tap:'📱 Appuyer → Activer gyro',traj_lbl:'Trajectoire bassin (8s)',
+  sec_hipanch:'Point de référence du bassin (G/D)',hipanch_right:'Bassin droit',hipanch_left:'Bassin gauche',
   sum_stability:'Stabilité posturale',sum_stable:'Stable',sum_fair:'Correct',sum_improve:'À améliorer',
   sum_reps_done:' rép',sum_score_detail:'Score',sum_total_frames:' frames',
   score_unit:'pts',lean_r:'D',lean_l:'G',
@@ -1473,7 +1479,155 @@ const _VOICE_MAP_EN = {
   "Pose not detected. Please try again":"c057.wav",
   "Please stand so your full body is visible":"c058.wav"
 };
-const _VOICE_MAPS = { ko:_VOICE_MAP, en:_VOICE_MAP_EN }; // [v134] 다국어 음성 클립
+const _VOICE_MAP_JA = {
+  "膝をもう少し曲げましょう":"c001.wav",
+  "膝をもっと曲げてください。90度を目指しましょう":"c002.wav",
+  "膝を少し伸ばしましょう":"c003.wav",
+  "膝を曲げすぎています":"c004.wav",
+  "腰をもう少し下ろしましょう":"c005.wav",
+  "股関節をさらに屈曲させてください":"c006.wav",
+  "上体を少し起こしましょう":"c007.wav",
+  "骨盤が前傾しています。上体を起こしてください":"c008.wav",
+  "上体が前に傾きすぎています。背筋を伸ばしてください":"c009.wav",
+  "上体を少し前傾させましょう":"c010.wav",
+  "上体をもっと前に傾けてください":"c011.wav",
+  "背中を少し伸ばしましょう":"c012.wav",
+  "背中が丸まっています。背骨を伸ばしてください":"c013.wav",
+  "腰をニュートラルに調整しましょう":"c014.wav",
+  "腰が反りすぎています。脊椎ニュートラルを保ってください":"c015.wav",
+  "骨盤を左へ！":"c016.wav",
+  "骨盤を右へ！":"c017.wav",
+  "左肩を上げて！":"c018.wav",
+  "右肩を上げて！":"c019.wav",
+  "左骨盤を上げて！":"c020.wav",
+  "右骨盤を上げて！":"c021.wav",
+  "上体を左へ！":"c022.wav",
+  "上体を右へ！":"c023.wav",
+  "左膝を外へ！":"c024.wav",
+  "左膝を内へ！":"c025.wav",
+  "右膝を外へ！":"c026.wav",
+  "右膝を内へ！":"c027.wav",
+  "完璧です！":"c028.wav",
+  "とても良い！":"c029.wav",
+  "素晴らしい！":"c030.wav",
+  "姿勢が良いです！":"c031.wav",
+  "お疲れ様でした！":"c032.wav",
+  "基準姿勢を保存しました":"c033.wav",
+  "姿勢を検出できませんでした。再試行してください":"c034.wav",
+  "全身がカメラに映るようにしてください":"c035.wav"
+};
+const _VOICE_MAP_ZH = {
+  "请稍微弯曲膝盖":"c001.wav",
+  "请多弯曲膝盖，目标90度":"c002.wav",
+  "请稍微伸直膝盖":"c003.wav",
+  "膝盖弯曲过多":"c004.wav",
+  "请稍微降低臀部":"c005.wav",
+  "请增加髋关节屈曲，臀部向下":"c006.wav",
+  "请稍微挺直上身":"c007.wav",
+  "骨盆前倾，请挺直上身":"c008.wav",
+  "上身前倾过多，请伸直背部":"c009.wav",
+  "请稍微向前倾斜上身":"c010.wav",
+  "请进一步向前倾斜上身":"c011.wav",
+  "请稍微伸展背部":"c012.wav",
+  "背部弯曲，请伸直脊柱":"c013.wav",
+  "请将腰部调整到中立位置":"c014.wav",
+  "腰部过度后仰，请保持脊柱中立":"c015.wav",
+  "骨盆向左！":"c016.wav",
+  "骨盆向右！":"c017.wav",
+  "抬起左肩！":"c018.wav",
+  "抬起右肩！":"c019.wav",
+  "抬起左侧骨盆！":"c020.wav",
+  "抬起右侧骨盆！":"c021.wav",
+  "上身向左！":"c022.wav",
+  "上身向右！":"c023.wav",
+  "左膝外展！":"c024.wav",
+  "左膝内收！":"c025.wav",
+  "右膝外展！":"c026.wav",
+  "右膝内收！":"c027.wav",
+  "太棒了！":"c028.wav",
+  "非常好！":"c029.wav",
+  "姿势完美！":"c030.wav",
+  "继续保持！":"c031.wav",
+  "运动结束，辛苦了！":"c032.wav",
+  "基准姿势已保存":"c033.wav",
+  "未能识别姿势，请重试":"c034.wav",
+  "请站立使全身在镜头内可见":"c035.wav"
+};
+const _VOICE_MAP_ES = {
+  "Dobla un poco más la rodilla":"c001.wav",
+  "Dobla más la rodilla. Apunta a 90 grados":"c002.wav",
+  "Extiende un poco la rodilla":"c003.wav",
+  "La rodilla está doblada demasiado":"c004.wav",
+  "Baja un poco las caderas":"c005.wav",
+  "Flexiona más la cadera. Baja el asiento":"c006.wav",
+  "Endereza un poco el torso":"c007.wav",
+  "La pelvis se inclina hacia adelante":"c008.wav",
+  "El torso está muy inclinado. Endereza la espalda":"c009.wav",
+  "Inclina un poco el torso hacia adelante":"c010.wav",
+  "Inclina más el torso hacia adelante":"c011.wav",
+  "Estira un poco la espalda":"c012.wav",
+  "La espalda está curvada. Extiende la columna":"c013.wav",
+  "Ajusta la zona lumbar a neutro":"c014.wav",
+  "Hiperlordosis lumbar. Mantén columna neutral":"c015.wav",
+  "¡Cadera izquierda":"c016.wav",
+  "¡Cadera derecha":"c017.wav",
+  "¡Sube hombro izq":"c018.wav",
+  "¡Sube hombro der":"c019.wav",
+  "¡Nivela cadera izq":"c020.wav",
+  "¡Nivela cadera der":"c021.wav",
+  "¡Inclínate izquierda":"c022.wav",
+  "¡Inclínate derecha":"c023.wav",
+  "¡Rodilla izq. afuera":"c024.wav",
+  "¡Rodilla izq. adentro":"c025.wav",
+  "¡Rodilla der. afuera":"c026.wav",
+  "¡Rodilla der. adentro":"c027.wav",
+  "Perfecto":"c028.wav",
+  "Excelente forma":"c029.wav",
+  "Brillante":"c030.wav",
+  "Muy bien":"c031.wav",
+  "Sesión completa. Bien hecho":"c032.wav",
+  "Pose de referencia guardada":"c033.wav",
+  "Pose no detectada. Inténtalo de nuevo":"c034.wav",
+  "Por favor, colócate para que todo el cuerpo sea visible":"c035.wav"
+};
+const _VOICE_MAP_FR = {
+  "Fléchissez un peu plus le genou":"c001.wav",
+  "Fléchissez davantage le genou. Visez 90 degrés":"c002.wav",
+  "Étendez légèrement le genou":"c003.wav",
+  "Le genou est trop fléchi":"c004.wav",
+  "Descendez un peu les hanches":"c005.wav",
+  "Fléchissez davantage la hanche":"c006.wav",
+  "Redressez légèrement le torse":"c007.wav",
+  "Le bassin bascule en avant":"c008.wav",
+  "Le torse est trop incliné":"c009.wav",
+  "Penchez légèrement le torse en avant":"c010.wav",
+  "Penchez davantage le torse en avant":"c011.wav",
+  "Étendez légèrement le dos":"c012.wav",
+  "Le dos est arrondi. Étendez la colonne":"c013.wav",
+  "Ajustez le bas du dos en neutre":"c014.wav",
+  "Hyperlordose lombaire. Maintenez colonne neutre":"c015.wav",
+  "Bassin à gauche":"c016.wav",
+  "Bassin à droite":"c017.wav",
+  "Haussez épaule gauche":"c018.wav",
+  "Haussez épaule droite":"c019.wav",
+  "Relevez hanche gauche":"c020.wav",
+  "Relevez hanche droite":"c021.wav",
+  "Penchez à gauche":"c022.wav",
+  "Penchez à droite":"c023.wav",
+  "Genou gauche ext":"c024.wav",
+  "Genou gauche int":"c025.wav",
+  "Genou droit ext":"c026.wav",
+  "Genou droit int":"c027.wav",
+  "Parfait":"c028.wav",
+  "Très bien":"c029.wav",
+  "Excellent":"c030.wav",
+  "Belle forme":"c031.wav",
+  "Séance terminée. Bravo":"c032.wav",
+  "Pose de référence sauvegardée":"c033.wav",
+  "Pose non détectée. Veuillez réessayer":"c034.wav",
+  "Placez-vous pour que tout le corps soit visible":"c035.wav"
+};
+const _VOICE_MAPS = { ko:_VOICE_MAP, en:_VOICE_MAP_EN, ja:_VOICE_MAP_JA, zh:_VOICE_MAP_ZH, es:_VOICE_MAP_ES, fr:_VOICE_MAP_FR }; // [v138] 다국어 음성 클립(6개 언어)
 function _voiceMap(cl){ return _VOICE_MAPS[cl]||null; }
 function _voiceDir(cl){ return cl==='ko'?'voice/':'voice/'+cl+'/'; }
 function _normClip(s){ return String(s).trim().replace(/[!.。\s]+$/,''); }
@@ -1481,7 +1635,7 @@ let _clipBytes={}, _clipBufs={}, _clipBufCtx=null, _curClipSrc=null, _clipPreloa
 function _clipCtx(){ return (_recAudioCtx&&_recAudioCtx.state!=='closed')?_recAudioCtx:((typeof _audioCtxKeepAlive!=='undefined'&&_audioCtxKeepAlive&&_audioCtxKeepAlive.state!=='closed')?_audioCtxKeepAlive:null); }
 function preloadClips(){
   if(_clipPreloaded) return; _clipPreloaded=true;
-  ['ko','en'].forEach(cl=>{ const m=_voiceMap(cl); if(!m) return; const dir=_voiceDir(cl);
+  ['ko','en','ja','zh','es','fr'].forEach(cl=>{ const m=_voiceMap(cl); if(!m) return; const dir=_voiceDir(cl);
     Array.from(new Set(Object.values(m))).forEach(f=>{ fetch(dir+f).then(r=>r.ok?r.arrayBuffer():null).then(b=>{ if(b)_clipBytes[cl+'/'+f]=b; }).catch(()=>{}); }); });
 }
 function decodeClips(){
@@ -4459,6 +4613,9 @@ function applyLang(){
   const sensorEl=$('pm-sensor-lbl');
   if(sensorEl&&!_sensorReady)sensorEl.textContent=L.sensor_tap||'📱 탭 → 자이로 활성화';
   const trajEl=$('traj-lbl');if(trajEl)trajEl.textContent=L.traj_lbl||'골반 이동 궤적 (8초)';
+  const lhan=$('lbl-hipanch');if(lhan)lhan.textContent=L.sec_hipanch||'골반 좌우 측정 기준점'; // [v137] 골반기준점 라벨 다국어
+  const hanR=$('hipanch-right');if(hanR)hanR.textContent=L.hipanch_right||'오른쪽 골반';
+  const hanL=$('hipanch-left');if(hanL)hanL.textContent=L.hipanch_left||'왼쪽 골반';
   const sbtn=$('btn-sum-save');
   if(sbtn)sbtn.textContent=L.btn_save_video||'📥 영상 저장'; // [Work46] always update
 }
@@ -4528,6 +4685,9 @@ async function _tryUnlock(){
 
 // ── FRONTAL POSITION ANALYSIS ─────────────────────────────────────────────────
 const isFrontal = () => S.dir === 'front' || S.dir === 'back';
+// [v137] 정면/후면 촬영: 선택한 골반 기준점(오른/왼) 쪽 무릎만 피드백 — 트레이너가 한쪽 측면만 육안 분석하는 흐름에 맞춤
+function _selKneeKey(){ const s=(_hipAnchor[S.ex.id]&&_hipAnchor[S.ex.id].side)||_hipAnchorSide||'right'; return s==='left'?'lKneeOff':'rKneeOff'; }
+function _kneeAllowed(k){ return isFrontal() ? (k===_selKneeKey()) : true; }
 let _posRef = {};
 let _hipAnchor = {}; // [v125] {[exId]:{side,refX,scale}} 골반좌우 A안(선택 골반점 기준)
 let _hipAnchorSide = (()=>{try{return localStorage.getItem('apl_hipanch_side')==='left'?'left':'right';}catch(e){return 'right';}})();
@@ -4734,9 +4894,9 @@ function posAbsFeedback(pos){
     msgs.push({text:pos.hipTilt>0?(P.pos_htilt_r||'오른쪽 골반 올려!'):(P.pos_htilt_l||'왼쪽 골반 올려!'),v:Math.abs(pos.hipTilt)});
   if(sel('trunkLean')&&pos.trunkLean!=null&&Math.abs(pos.trunkLean)>ABS.trunkLean)
     msgs.push({text:pos.trunkLean>0?(P.pos_trunk_l||'상체 왼쪽으로!'):(P.pos_trunk_r||'상체 오른쪽으로!'),v:Math.abs(pos.trunkLean)});
-  if(sel('lKneeOff')&&pos.lKneeOff!=null&&Math.abs(pos.lKneeOff)>ABS.lKneeOff)
+  if(sel('lKneeOff')&&_kneeAllowed('lKneeOff')&&pos.lKneeOff!=null&&Math.abs(pos.lKneeOff)>ABS.lKneeOff)
     msgs.push({text:pos.lKneeOff<0?(P.pos_lk_out||'왼 무릎 바깥으로!'):(P.pos_lk_in||'왼 무릎 안으로!'),v:Math.abs(pos.lKneeOff)});
-  if(sel('rKneeOff')&&pos.rKneeOff!=null&&Math.abs(pos.rKneeOff)>ABS.rKneeOff)
+  if(sel('rKneeOff')&&_kneeAllowed('rKneeOff')&&pos.rKneeOff!=null&&Math.abs(pos.rKneeOff)>ABS.rKneeOff)
     msgs.push({text:pos.rKneeOff<0?(P.pos_rk_out||'오른 무릎 바깥으로!'):(P.pos_rk_in||'오른 무릎 안으로!'),v:Math.abs(pos.rKneeOff)});
   if(!msgs.length) return null;
   return msgs.sort((a,b)=>b.v-a.v)[0].text;
@@ -4765,9 +4925,9 @@ function posFeedbackStr(cmp){
     msgs.push({text:hipTilt.dev>0?(P.pos_htilt_r||'오른쪽 골반 올려!'):(P.pos_htilt_l||'왼쪽 골반 올려!'),st:hipTilt.st});
   if(sel('trunkLean')&&trunkLean&&trunkLean.dev!=null&&trunkLean.st!=='good')
     msgs.push({text:trunkLean.dev>0?(P.pos_trunk_l||'상체 왼쪽으로!'):(P.pos_trunk_r||'상체 오른쪽으로!'),st:trunkLean.st});
-  if(sel('lKneeOff')&&lKneeOff&&lKneeOff.dev!=null&&lKneeOff.st!=='good')
+  if(sel('lKneeOff')&&_kneeAllowed('lKneeOff')&&lKneeOff&&lKneeOff.dev!=null&&lKneeOff.st!=='good')
     msgs.push({text:lKneeOff.dev<0?(P.pos_lk_out||'왼 무릎 바깥으로!'):(P.pos_lk_in||'왼 무릎 안으로!'),st:lKneeOff.st});
-  if(sel('rKneeOff')&&rKneeOff&&rKneeOff.dev!=null&&rKneeOff.st!=='good')
+  if(sel('rKneeOff')&&_kneeAllowed('rKneeOff')&&rKneeOff&&rKneeOff.dev!=null&&rKneeOff.st!=='good')
     msgs.push({text:rKneeOff.dev<0?(P.pos_rk_out||'오른 무릎 바깥으로!'):(P.pos_rk_in||'오른 무릎 안으로!'),st:rKneeOff.st});
   if(!msgs.length) return null;
   const worst=msgs.find(m=>m.st==='crit')||msgs.find(m=>m.st==='warn')||msgs[0];
@@ -5392,7 +5552,7 @@ async function init(){
 }
 
 window.addEventListener('load',init);
-/* trajix — build v136 [CoachEngine-ValleyFix] 상승 중에도 Ds 실시간 저점 추적 → 분석 시작이 저점이 아닐 때 진폭 교착(0카운트) 수정 / v135 [VoiceClip-EN-LR] 영어 좌/우 피드백+클립(58) / v134 [VoiceClip-i18n] 영어 음성 클립(voice/en) 지원 / v133 [CoachEngine-ReachGuard] 기준자세 도달해야 카운트(조기카운트 방지) / v132 [CoachEngine-v128+ReturnGuard+GyroAuto] v128 정확도 복원+복귀가드(멈칫방지)+자이로 자동 / v131 [UX] 자이로 자동권한 제거(마이크만)+골반기준점 측면 숨김 / v130 [CoachEngine-FireFix] _ceFire의 _ceFired 잔재 제거(카운트0 크래시 수정) / v129 [CoachEngine-ReArm] 재장전(끝자세 멈칫 중복 카운트 방지) / v128 [CoachEngine-Hyst] 상대 전환점+히스테리시스(과다카운팅 수정) / v127 [CoachEngine] 정면 게이트→기준자세 최근접 엔진(카운팅/즉시피드백/데드존) / v126 [HipAnchorToggleColor] 골반기준점 토글 파란색 / v125 [HipAnchor] 골반좌우=선택 골반점 기준(A안)+기준자세 고정scale / v124 [HipLR-DevMain+UI] 골반좌우를 기준대비 편차로 + 패널 compact/센서줄 / v123 [HipLR-Rec+i18n] 녹화패널 골반좌우 추가 + 다국어 / v122 [HipLR-Panel] 라이브 하단패널에 골반좌우 행 추가 / v121 [DbgReadout] HUD에 hip값/dev/마지막피드백 표시 / v120 [TurnPoint] 전환점(최대도달)으로 피드백 판정 — 오버슈트 올바르게 / v119 [HipDir-Revert] / v117 [VoiceClip+StereoFix] 피드백 음성을 사전렌더 클립(스테레오+녹화포함)으로, GPU 기본값 / v115 [EngineSwap] 코칭 추론 MoveNet/TF.js(WebGL) → MediaPipe tasks-vision(동기 detectForVideo, CPU) 교체 + 자가치유 워치독 + TTS 언락 + 진단 HUD/요약 */
+/* trajix — build v138 [VoiceClip-6lang] 일/중/스페인/프랑스 음성맵 추가(각 35개)+프리로드 6개언어 / v137 [KneePriority+i18n] 정면/후면 무릎 피드백을 선택 골반기준점 쪽으로 한정 + 골반기준점 UI 라벨 다국어(6개) / v136 [CoachEngine-ValleyFix] 상승 중에도 Ds 실시간 저점 추적 → 분석 시작이 저점이 아닐 때 진폭 교착(0카운트) 수정 / v135 [VoiceClip-EN-LR] 영어 좌/우 피드백+클립(58) / v134 [VoiceClip-i18n] 영어 음성 클립(voice/en) 지원 / v133 [CoachEngine-ReachGuard] 기준자세 도달해야 카운트(조기카운트 방지) / v132 [CoachEngine-v128+ReturnGuard+GyroAuto] v128 정확도 복원+복귀가드(멈칫방지)+자이로 자동 / v131 [UX] 자이로 자동권한 제거(마이크만)+골반기준점 측면 숨김 / v130 [CoachEngine-FireFix] _ceFire의 _ceFired 잔재 제거(카운트0 크래시 수정) / v129 [CoachEngine-ReArm] 재장전(끝자세 멈칫 중복 카운트 방지) / v128 [CoachEngine-Hyst] 상대 전환점+히스테리시스(과다카운팅 수정) / v127 [CoachEngine] 정면 게이트→기준자세 최근접 엔진(카운팅/즉시피드백/데드존) / v126 [HipAnchorToggleColor] 골반기준점 토글 파란색 / v125 [HipAnchor] 골반좌우=선택 골반점 기준(A안)+기준자세 고정scale / v124 [HipLR-DevMain+UI] 골반좌우를 기준대비 편차로 + 패널 compact/센서줄 / v123 [HipLR-Rec+i18n] 녹화패널 골반좌우 추가 + 다국어 / v122 [HipLR-Panel] 라이브 하단패널에 골반좌우 행 추가 / v121 [DbgReadout] HUD에 hip값/dev/마지막피드백 표시 / v120 [TurnPoint] 전환점(최대도달)으로 피드백 판정 — 오버슈트 올바르게 / v119 [HipDir-Revert] / v117 [VoiceClip+StereoFix] 피드백 음성을 사전렌더 클립(스테레오+녹화포함)으로, GPU 기본값 / v115 [EngineSwap] 코칭 추론 MoveNet/TF.js(WebGL) → MediaPipe tasks-vision(동기 detectForVideo, CPU) 교체 + 자가치유 워치독 + TTS 언락 + 진단 HUD/요약 */
 </script>
 </body>
 </html>
