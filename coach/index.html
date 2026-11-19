@@ -507,7 +507,7 @@ body{width:100%;height:100%;height:-webkit-fill-available;overflow:hidden;backgr
     <div class="h-brand">
       <div class="h-brand-txt" style="flex-direction:row;align-items:center;gap:8px">
         <a href="#" title="홈(런처로)" onclick="goHome();return false" style="text-decoration:none;cursor:pointer;display:block"><svg viewBox="-32 0 2368 1185.5" role="img" aria-label="trajix" style="display:block;height:32px;width:auto" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,883.5) scale(1,-1)"><path d="M208 458V153Q208 122 222.5 108.5Q237 95 272 95H342V0H252Q175 0 134.0 36.0Q93 72 93 153V458H28V551H93V688H208V551H342V458Z" transform="translate(0,0)" fill="#f3f2ee"/><path d="M354 560V442H325Q258 442 223.5 408.0Q189 374 189 290V0H75V551H189V471Q214 513 255.5 536.5Q297 560 354 560Z" transform="translate(337,0)" fill="#f3f2ee"/><path d="M297 560Q362 560 410.5 534.5Q459 509 488 471V551H603V0H488V82Q459 43 409.0 17.0Q359 -9 295 -9Q224 -9 165.0 27.5Q106 64 71.5 129.5Q37 195 37 278Q37 361 71.5 425.0Q106 489 165.5 524.5Q225 560 297 560ZM321 461Q277 461 239.0 439.5Q201 418 177.5 376.5Q154 335 154 278Q154 221 177.5 178.0Q201 135 239.5 112.5Q278 90 321 90Q365 90 403.0 112.0Q441 134 464.5 176.5Q488 219 488 276Q488 333 464.5 375.0Q441 417 403.0 439.0Q365 461 321 461Z" transform="translate(686,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 -108Q189 -189 148.5 -225.5Q108 -262 31 -262H-28V-166H11Q46 -166 60.5 -152.5Q75 -139 75 -108V551H189Z" transform="translate(1329,0)" fill="#f3f2ee"/><path d="M60 697Q60 728 81.0 749.0Q102 770 133 770Q163 770 184.0 749.0Q205 728 205 697Q205 666 184.0 645.0Q163 624 133 624Q102 624 81.0 645.0Q60 666 60 697ZM189 551V0H75V551Z" transform="translate(1558,0)" fill="#f3f2ee"/><path d="M311 279 489 0H360L241 187L129 0H10L188 271L10 551H139L258 364L370 551H489Z" transform="translate(1787,0)" fill="#f3f2ee"/><path d="M 1461.5 685.0 Q 1576.0 980 1690.5 685.0" fill="none" stroke="#c9a449" stroke-width="22" stroke-linecap="round"/><circle cx="1461.5" cy="685.0" r="86.0" fill="#c9a449"/><circle cx="1690.5" cy="685.0" r="86.0" fill="#c9a449"/></g></svg></a>
-        <div class="h-mc" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;letter-spacing:0;gap:3px"><span id="mode-badge" style="font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap">코칭 2D</span><span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v138</span></div>
+        <div class="h-mc" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;letter-spacing:0;gap:3px"><span id="mode-badge" style="font-size:10px;font-weight:600;color:var(--txt2);white-space:nowrap">코칭 2D</span><span id="ver-badge" style="font-size:9px;opacity:.5;letter-spacing:0">v139</span></div>
       </div>
     </div>
     <div id="hdr-right">
@@ -808,7 +808,7 @@ ko:{flag:'🇰🇷',label:'KO',voice_lang:'ko-KR',
   btn_start:'▶  분석 시작',btn_stop:'■  분석 중지',
   dir_left:'왼쪽 측면',dir_right:'오른쪽 측면',dir_front:'정면',dir_back:'후면',
   ref_none_ttl:'기준 자세 없음',ref_none_dsc:'기준 자세를 먼저 촬영하면 더 정확한 피드백',
-  ref_saved_ttl:'기준 자세 저장됨 ✓',
+  ref_saved_ttl:'기준 자세 저장됨 ✓',ref_saved_suf:' 저장',
   no_ref_warn:'⚠ 기준 자세 없음 — 먼저 기준 자세를 촬영하면 코칭이 시작됩니다',
   no_det_warn:'📷 전신이 카메라에 보이도록 서 주세요',
   zone_in:'기준 자세 범위',zone_out:'범위 밖',
@@ -877,7 +877,7 @@ en:{flag:'🇺🇸',label:'EN',voice_lang:'en-US',
   btn_start:'▶  Start Analysis',btn_stop:'■  Stop Analysis',
   dir_left:'Left Side',dir_right:'Right Side',dir_front:'Front',dir_back:'Rear',
   ref_none_ttl:'No Reference Pose',ref_none_dsc:'Capture a reference pose for accurate coaching',
-  ref_saved_ttl:'Reference Saved ✓',
+  ref_saved_ttl:'Reference Saved ✓',ref_saved_suf:' saved',
   no_ref_warn:'⚠ No reference — capture one first to enable coaching',
   no_det_warn:'📷 Stand so your full body is visible',
   zone_in:'In Zone',zone_out:'Out of Zone',
@@ -946,7 +946,7 @@ ja:{flag:'🇯🇵',label:'JA',voice_lang:'ja-JP',
   btn_start:'▶  分析開始',btn_stop:'■  分析停止',
   dir_left:'左側面',dir_right:'右側面',dir_front:'正面',dir_back:'後面',
   ref_none_ttl:'基準姿勢なし',ref_none_dsc:'基準姿勢を撮影するとコーチングが始まります',
-  ref_saved_ttl:'基準姿勢保存済 ✓',
+  ref_saved_ttl:'基準姿勢保存済 ✓',ref_saved_suf:' 保存',
   no_ref_warn:'⚠ 基準姿勢なし — 先に撮影してください',
   no_det_warn:'📷 全身がカメラに映るように立ってください',
   zone_in:'基準範囲内',zone_out:'範囲外',
@@ -1011,7 +1011,7 @@ zh:{flag:'🇨🇳',label:'ZH',voice_lang:'zh-CN',
   btn_start:'▶  开始分析',btn_stop:'■  停止分析',
   dir_left:'左侧面',dir_right:'右侧面',dir_front:'正面',dir_back:'后面',
   ref_none_ttl:'无基准姿势',ref_none_dsc:'请先拍摄基准姿势以获得精准反馈',
-  ref_saved_ttl:'基准姿势已保存 ✓',
+  ref_saved_ttl:'基准姿势已保存 ✓',ref_saved_suf:' 保存',
   no_ref_warn:'⚠ 无基准姿势 — 请先拍摄基准姿势',
   no_det_warn:'📷 请站立使全身可见',
   zone_in:'在基准范围内',zone_out:'范围外',
@@ -1076,7 +1076,7 @@ es:{flag:'🇪🇸',label:'ES',voice_lang:'es-ES',
   btn_start:'▶  Iniciar análisis',btn_stop:'■  Detener análisis',
   dir_left:'Lado izq.',dir_right:'Lado der.',dir_front:'Frontal',dir_back:'Trasero',
   ref_none_ttl:'Sin pose de referencia',ref_none_dsc:'Captura una pose de referencia para el coaching',
-  ref_saved_ttl:'Referencia guardada ✓',
+  ref_saved_ttl:'Referencia guardada ✓',ref_saved_suf:' guardado',
   no_ref_warn:'⚠ Sin referencia — captura una primero',
   no_det_warn:'📷 Colócate para que todo el cuerpo sea visible',
   zone_in:'En zona',zone_out:'Fuera de zona',
@@ -1141,7 +1141,7 @@ fr:{flag:'🇫🇷',label:'FR',voice_lang:'fr-FR',
   btn_start:'▶  Démarrer analyse',btn_stop:'■  Arrêter analyse',
   dir_left:'Côté gauche',dir_right:'Côté droit',dir_front:'Face',dir_back:'Dos',
   ref_none_ttl:'Pas de référence',ref_none_dsc:'Capturez une référence pour le coaching',
-  ref_saved_ttl:'Référence sauvegardée ✓',
+  ref_saved_ttl:'Référence sauvegardée ✓',ref_saved_suf:' enreg.',
   no_ref_warn:'⚠ Pas de référence — capturez-en une',
   no_det_warn:'📷 Placez-vous pour que tout le corps soit visible',
   zone_in:'Dans la zone',zone_out:'Hors zone',
@@ -4205,14 +4205,14 @@ function _updateDbgHUD(){
   try{
     const _rp=_posRef[S.ex.id];
     const _cur=(_lastPos&&_lastPos.hipShift!=null)?_lastPos.hipShift:null;
-    if(_cur!=null){ const _sd=_cur>0?'신체우':'신체좌'; let _dv=''; if(_rp&&_rp.hipShift!=null){const _d=Math.round(_cur-_rp.hipShift);_dv=' dev '+(_d>0?'+':'')+_d;} _hipL='\nhip '+_sd+Math.abs(Math.round(_cur))+'%'+_dv; }
+    if(_cur!=null){ const _sd=_hlrSide(_cur); let _dv=''; if(_rp&&_rp.hipShift!=null){const _d=Math.round(_cur-_rp.hipShift);_dv=' dev '+(_d>0?'+':'')+_d;} _hipL='\nhip '+_sd+Math.abs(Math.round(_cur))+'%'+_dv; }
   }catch(e){}
   _hudEl.textContent='MP/'+MP_DELEGATE+'  fps '+_hudFps+'\npose# '+_dbgPose+'  age '+age+'ms\npend '+(_detPending?'Y':'N')+'  speak# '+_dbgSpeak+'\nerr '+_dbgDetErr+'  rebuild '+_dbgRebuild+_hipL+'\nCE '+_ceDbg.st+' Dr'+_ceDbg.dref+' Ds'+_ceDbg.dstart+'\nfb '+(_dbgLastFb||'-')+(_dbgLastErr?('\n'+_dbgLastErr):'');
 }
 // 분석이 끝날 때마다 항상 표시(디버그 모드 아니어도) — 스크린샷 1장으로 "추론 살아있었나/피드백 나왔나/오류·재생성" 즉시 판별.
 function _showRunSummary(elapsed){
   try{
-    const msg='⏱'+elapsed+'s · 포즈'+_dbgPose+' · 음성'+_dbgSpeak+' · 오류'+_dbgDetErr+' · 재생성'+_dbgRebuild+' · 엔진 MP/'+MP_DELEGATE;
+    const msg='⏱'+elapsed+'s · pose'+_dbgPose+' · spk'+_dbgSpeak+' · err'+_dbgDetErr+' · rbld'+_dbgRebuild+' · eng MP/'+MP_DELEGATE;
     let el=document.getElementById('run-sum');
     if(!el){el=document.createElement('div');el.id='run-sum';
       el.style.cssText='position:fixed;left:50%;bottom:84px;transform:translateX(-50%);z-index:100000;background:rgba(10,16,32,.92);color:#cfe3ff;font:12px/1.5 monospace;padding:8px 12px;border-radius:10px;white-space:nowrap;box-shadow:0 6px 24px rgba(0,0,0,.5)';
@@ -4418,7 +4418,7 @@ function updateRefUI(){
   let dt='';
   try{
     const raw=localStorage.getItem('apl_ref_'+S.ex.id);
-    if(raw){const d=JSON.parse(raw);if(d.at){const x=new Date(d.at);dt=`${x.getMonth()+1}/${x.getDate()} ${x.getHours()}:${String(x.getMinutes()).padStart(2,'0')} 저장`;}}
+    if(raw){const d=JSON.parse(raw);if(d.at){const x=new Date(d.at);dt=`${x.getMonth()+1}/${x.getDate()} ${x.getHours()}:${String(x.getMinutes()).padStart(2,'0')}${L.ref_saved_suf||' 저장'}`;}}
   }catch(e){}
   $('ref-ttl').textContent=r?L.ref_saved_ttl:L.ref_none_ttl;
   $('ref-ttl').style.color=r?'#4CAF50':'white';
@@ -4977,11 +4977,12 @@ function _ceFeedbackText(cmp,pos){
   if(w<=1.0){ const g=PR.slice(1); return (g.length?g:PR)[Math.floor(Math.random()*(g.length?g.length:PR.length))]; } // 좋아/굿
   return cmp?posFeedbackStr(cmp):(pos?posAbsFeedback(pos):null);     // 교정
 }
-let _ceState='rising', _ceMinD=Infinity, _ceMinSnap=null, _cePeakExc=0, _ceValley=1e9, _ceHome=1e9, _ceCycleT=0;
+let _ceState='rising', _ceMinD=Infinity, _ceMinSnap=null, _cePeakExc=0, _ceValley=1e9, _ceHome=1e9, _ceCycleT=0, _ceFiredOnce=false;
 let _ceDbg={st:'-',dref:0,dstart:0,mind:0};
-function _frontalEngineReset(){ _ceState='rising';_ceMinD=Infinity;_ceMinSnap=null;_cePeakExc=0;_ceValley=1e9;_ceHome=1e9;_ceCycleT=Date.now(); }
+function _frontalEngineReset(){ _ceState='rising';_ceMinD=Infinity;_ceMinSnap=null;_cePeakExc=0;_ceValley=1e9;_ceHome=1e9;_ceCycleT=Date.now();_ceFiredOnce=false; }
 function _ceFire(now){
   addRep(); // [v130] _ceFired 잔재 제거(strict ReferenceError로 카운트0 되던 버그)
+  _ceFiredOnce=true; // [v139] 첫 카운트 이후 상승중 저점추적 비활성화(v133 정확도 복원)
   const snap=_ceMinSnap;
   S.lastFB=now; S.speak=false; try{speechSynthesis.cancel();}catch(e){}
   const ft=_ceFeedbackText(snap?snap.cmp:_lastPosCmp, snap?snap.pos:_lastPos);
@@ -5001,7 +5002,7 @@ function _frontalEngine(now){
   _ceDbg={st:_ceState,dref:Math.round(Dref*100)/100,dstart:Math.round(Ds*100)/100,mind:Math.round((_ceMinD>1e8?0:_ceMinD)*100)/100};
   if(_ceState==='rising'){
     if(Ds>_cePeakExc) _cePeakExc=Ds;             // 현 사이클 피크
-    if(Ds<_ceValley) _ceValley=Ds;               // [v136] 상승 중에도 실시간 저점 추적 → 분석 시작 프레임이 저점이 아니어도 진폭 정상 계산(교착 방지)
+    if(!_ceFiredOnce && Ds<_ceValley) _ceValley=Ds; // [v139] 상승 중 저점 추적은 '첫 카운트 전'에만(교착 방지). 첫 카운트 후엔 v133 동작 복원 → 과다카운팅 방지
     if(Dref<_ceMinD){ _ceMinD=Dref; _ceMinSnap={cmp:cmp?{...cmp}:null,pos:{...pos}}; } // 기준 최근접
     // 전환점: 피크에서 hyst 하락 + 충분 진폭 + 최소시간 → 즉시 발화+카운트
     if(Ds < _cePeakExc-hyst && amp>=_CE_MIN_AMP && (now-_ceCycleT)>=_MIN_REP_MS && _ceMinD<=_CE_REACH_THR){
@@ -5552,7 +5553,7 @@ async function init(){
 }
 
 window.addEventListener('load',init);
-/* trajix — build v138 [VoiceClip-6lang] 일/중/스페인/프랑스 음성맵 추가(각 35개)+프리로드 6개언어 / v137 [KneePriority+i18n] 정면/후면 무릎 피드백을 선택 골반기준점 쪽으로 한정 + 골반기준점 UI 라벨 다국어(6개) / v136 [CoachEngine-ValleyFix] 상승 중에도 Ds 실시간 저점 추적 → 분석 시작이 저점이 아닐 때 진폭 교착(0카운트) 수정 / v135 [VoiceClip-EN-LR] 영어 좌/우 피드백+클립(58) / v134 [VoiceClip-i18n] 영어 음성 클립(voice/en) 지원 / v133 [CoachEngine-ReachGuard] 기준자세 도달해야 카운트(조기카운트 방지) / v132 [CoachEngine-v128+ReturnGuard+GyroAuto] v128 정확도 복원+복귀가드(멈칫방지)+자이로 자동 / v131 [UX] 자이로 자동권한 제거(마이크만)+골반기준점 측면 숨김 / v130 [CoachEngine-FireFix] _ceFire의 _ceFired 잔재 제거(카운트0 크래시 수정) / v129 [CoachEngine-ReArm] 재장전(끝자세 멈칫 중복 카운트 방지) / v128 [CoachEngine-Hyst] 상대 전환점+히스테리시스(과다카운팅 수정) / v127 [CoachEngine] 정면 게이트→기준자세 최근접 엔진(카운팅/즉시피드백/데드존) / v126 [HipAnchorToggleColor] 골반기준점 토글 파란색 / v125 [HipAnchor] 골반좌우=선택 골반점 기준(A안)+기준자세 고정scale / v124 [HipLR-DevMain+UI] 골반좌우를 기준대비 편차로 + 패널 compact/센서줄 / v123 [HipLR-Rec+i18n] 녹화패널 골반좌우 추가 + 다국어 / v122 [HipLR-Panel] 라이브 하단패널에 골반좌우 행 추가 / v121 [DbgReadout] HUD에 hip값/dev/마지막피드백 표시 / v120 [TurnPoint] 전환점(최대도달)으로 피드백 판정 — 오버슈트 올바르게 / v119 [HipDir-Revert] / v117 [VoiceClip+StereoFix] 피드백 음성을 사전렌더 클립(스테레오+녹화포함)으로, GPU 기본값 / v115 [EngineSwap] 코칭 추론 MoveNet/TF.js(WebGL) → MediaPipe tasks-vision(동기 detectForVideo, CPU) 교체 + 자가치유 워치독 + TTS 언락 + 진단 HUD/요약 */
+/* trajix — build v139 [CountFix+i18n] 과다카운팅 수정(v136 저점추적을 첫카운트 전으로 제한) + 디버그HUD·기준저장시각 다국어 / v138 [VoiceClip-6lang] 일/중/스페인/프랑스 음성맵 추가(각 35개)+프리로드 6개언어 / v137 [KneePriority+i18n] 정면/후면 무릎 피드백을 선택 골반기준점 쪽으로 한정 + 골반기준점 UI 라벨 다국어(6개) / v136 [CoachEngine-ValleyFix] 상승 중에도 Ds 실시간 저점 추적 → 분석 시작이 저점이 아닐 때 진폭 교착(0카운트) 수정 / v135 [VoiceClip-EN-LR] 영어 좌/우 피드백+클립(58) / v134 [VoiceClip-i18n] 영어 음성 클립(voice/en) 지원 / v133 [CoachEngine-ReachGuard] 기준자세 도달해야 카운트(조기카운트 방지) / v132 [CoachEngine-v128+ReturnGuard+GyroAuto] v128 정확도 복원+복귀가드(멈칫방지)+자이로 자동 / v131 [UX] 자이로 자동권한 제거(마이크만)+골반기준점 측면 숨김 / v130 [CoachEngine-FireFix] _ceFire의 _ceFired 잔재 제거(카운트0 크래시 수정) / v129 [CoachEngine-ReArm] 재장전(끝자세 멈칫 중복 카운트 방지) / v128 [CoachEngine-Hyst] 상대 전환점+히스테리시스(과다카운팅 수정) / v127 [CoachEngine] 정면 게이트→기준자세 최근접 엔진(카운팅/즉시피드백/데드존) / v126 [HipAnchorToggleColor] 골반기준점 토글 파란색 / v125 [HipAnchor] 골반좌우=선택 골반점 기준(A안)+기준자세 고정scale / v124 [HipLR-DevMain+UI] 골반좌우를 기준대비 편차로 + 패널 compact/센서줄 / v123 [HipLR-Rec+i18n] 녹화패널 골반좌우 추가 + 다국어 / v122 [HipLR-Panel] 라이브 하단패널에 골반좌우 행 추가 / v121 [DbgReadout] HUD에 hip값/dev/마지막피드백 표시 / v120 [TurnPoint] 전환점(최대도달)으로 피드백 판정 — 오버슈트 올바르게 / v119 [HipDir-Revert] / v117 [VoiceClip+StereoFix] 피드백 음성을 사전렌더 클립(스테레오+녹화포함)으로, GPU 기본값 / v115 [EngineSwap] 코칭 추론 MoveNet/TF.js(WebGL) → MediaPipe tasks-vision(동기 detectForVideo, CPU) 교체 + 자가치유 워치독 + TTS 언락 + 진단 HUD/요약 */
 </script>
 </body>
 </html>
