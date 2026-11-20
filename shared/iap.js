@@ -48,6 +48,7 @@
     var store = CdvPurchase.store;
     var Platform = CdvPurchase.Platform;
     var ProductType = CdvPurchase.ProductType;
+    var _userBuying = false; // [FIX] 사용자가 '구매/복원'을 누른 경우에만 true → 토스트+리로드. 시작 시 자동복원은 조용히.
 
     store.register([{
       id: PRODUCT_ID,
@@ -59,9 +60,13 @@
       .approved(function (t) { t.verify(); })
       .verified(function (r) {
         grantPremium(); API.owned = true;
-        toast('프리미엄이 활성화되었습니다 ✓');
         r.finish();
-        setTimeout(function () { location.reload(); }, 1200);
+        // [FIX] 예전엔 매 로드마다 verified→토스트+reload→재검증 무한루프. 이제 '구매/복원' 직후에만 알림+새로고침.
+        if (_userBuying) {
+          _userBuying = false;
+          toast('프리미엄이 활성화되었습니다 ✓');
+          setTimeout(function () { location.reload(); }, 1000);
+        }
       })
       .receiptUpdated(function () {
         var p = store.get(PRODUCT_ID, Platform.APPLE_APPSTORE);
@@ -89,11 +94,12 @@
     API.buy = function () {
       var p = store.get(PRODUCT_ID, Platform.APPLE_APPSTORE);
       var offer = p && p.getOffer && p.getOffer();
-      if (offer) offer.order().then(function (e) { if (e) toast('구매를 완료할 수 없습니다.'); });
+      if (offer) { _userBuying = true; offer.order().then(function (e) { if (e) { _userBuying = false; toast('구매를 완료할 수 없습니다.'); } }); }
       else toast('상품 정보를 불러오는 중입니다. 잠시 후 다시 시도해 주세요.');
     };
     API.restore = function () {
       toast('구매 내역을 복원하는 중…');
+      _userBuying = true;
       store.restorePurchases();
     };
   }

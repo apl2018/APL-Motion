@@ -15,3 +15,6 @@ coach/make_voices_multi.ps1
 coach/run_voices_multi.bat
 coach/check_voices.ps1
 coach/run_check_voices.bat
+_앱동기화_trajix-ios.bat
+sync_app.bat
+bump_version.bat
